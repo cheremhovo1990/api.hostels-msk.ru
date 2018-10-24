@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Attribute;
-use App\Pagination;
+use App\Models\Pagination\Attribute;
+use App\Models\Pagination\Pagination;
 use App\Services\DomService;
 use Illuminate\Console\Command;
 
@@ -52,7 +52,10 @@ class ParserPagination extends Command
      */
     public function handle()
     {
-        $this->create(1);
+        for ($i = 1; $i <= 68; $i++) {
+            $this->create($i);
+        }
+
     }
 
     public function create(int $i)
@@ -62,8 +65,14 @@ class ParserPagination extends Command
         $list = $xpath->query('//div[@class="searchResults__list"]/article[@data-module="miniCard"]');
         for ($i=0;$i < $list->length; $i++) {
             $href = $xpath->query('.//h3/a', $list->item($i))->item(0)->getAttribute('href');
+            echo $href . PHP_EOL;
             $title = $xpath->query('.//h3/a', $list->item($i))->item(0)->textContent;
-            $adv = $xpath->query('.//div[@data-adv=" – реклама"]', $list->item($i))->item(0)->textContent;
+            $advNode = $xpath->query('.//div[@data-adv=" – реклама"]', $list->item($i))->item(0);
+            if (is_null($advNode)) {
+                $adv = null;
+            } else {
+                $adv = $advNode->textContent;
+            }
             $address = $xpath->query('.//span[@class="miniCard__address"]', $list->item($i))->item(0)->textContent;
             $branchNode = $xpath->query('.//div[@class="miniCard__filialsWrapper"]/a', $list->item($i))->item(0);
             if (!is_null($branchNode)) {

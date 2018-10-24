@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAttributeTable extends Migration
+class CreateDetailPhonesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateAttributeTable extends Migration
      */
     public function up()
     {
-        Schema::create('attributes', function (Blueprint $table) {
+        Schema::create('detail_phones', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('pagination_id')->unsigned();
-            $table->string('attribute', 255);
-            $table->integer('parsed')->default(0);
+            $table->integer('detail_id')->unsigned();
+            $table->string('phone', 255);
             $table->timestamps();
-            $table->foreign('pagination_id')
-                ->references('id')
-                ->on('pagination');
+            $table->foreign('detail_id')->references('id')->on('details');
         });
     }
 
@@ -32,6 +29,6 @@ class CreateAttributeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('detail_phones');
     }
 }

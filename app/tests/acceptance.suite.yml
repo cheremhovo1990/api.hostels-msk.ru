@@ -11,3 +11,5 @@ modules:
               url: https://2gis.ru
               browser: firefox
               host: 172.73.254.4
+        -   Laravel5:
+                part: ORM

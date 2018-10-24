@@ -17,11 +17,11 @@ class CreatePagenationPage extends Migration
             $table->increments('id');
             $table->string('href', 255)->unique();
             $table->string('title', 255);
-            $table->string('adv', 255);
+            $table->string('adv', 255)->nullable();
             $table->string('address', 255);
-            $table->string('branch_href', 255)->nullable()->unique();
+            $table->string('branch_href', 255)->nullable();
             $table->integer('rating');
-            $table->string('brand_img_href', 255)->nullable()->unique();
+            $table->string('brand_img_href', 255)->nullable();
             $table->integer('parsed')->default(0);
             $table->timestamps();
         });

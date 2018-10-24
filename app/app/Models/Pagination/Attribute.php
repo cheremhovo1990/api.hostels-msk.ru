@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 
-namespace App;
+namespace App\Models\Pagination;
 
 
 use Illuminate\Database\Eloquent\Model;
