@@ -13,7 +13,7 @@ class CreateDetailPhonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_phones', function (Blueprint $table) {
+        Schema::connection('parse')->create('detail_phones', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('detail_id')->unsigned();
             $table->string('phone', 255);

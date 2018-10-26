@@ -13,7 +13,7 @@ class CreateAttributeTable extends Migration
      */
     public function up()
     {
-        Schema::create('attributes', function (Blueprint $table) {
+        Schema::connection('parse')->create('attributes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('pagination_id')->unsigned();
             $table->string('attribute', 255);

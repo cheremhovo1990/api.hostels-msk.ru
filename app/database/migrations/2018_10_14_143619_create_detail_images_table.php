@@ -13,7 +13,7 @@ class CreateDetailImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_images', function (Blueprint $table) {
+        Schema::connection('parse')->create('detail_images', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('detail_id')->unsigned();
             $table->string('href');

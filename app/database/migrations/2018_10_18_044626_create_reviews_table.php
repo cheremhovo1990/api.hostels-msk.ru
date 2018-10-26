@@ -13,7 +13,7 @@ class CreateReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_reviews', function (Blueprint $table) {
+        Schema::connection('parse')->create('detail_reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('detail_id')->unsigned();
             $table->string('name', 255);

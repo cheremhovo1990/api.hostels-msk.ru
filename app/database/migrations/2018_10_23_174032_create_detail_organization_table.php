@@ -13,7 +13,7 @@ class CreateDetailOrganizationTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_organization', function (Blueprint $table) {
+        Schema::connection('parse')->create('detail_organization', function (Blueprint $table) {
             $table->integer('detail_id')->unsigned();
             $table->integer('organization_id')->unsigned();
             $table->primary(['detail_id', 'organization_id']);

@@ -13,7 +13,7 @@ class CreateOrganizationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('detail_organizations', function (Blueprint $table) {
+        Schema::connection('parse')->create('detail_organizations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 255);
             $table->timestamps();
