@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\gis;
 
 use App\Models\Pagination\Attribute;
 use App\Models\Pagination\Pagination;
