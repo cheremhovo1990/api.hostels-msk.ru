@@ -16,8 +16,8 @@ services:
         expose:
             - 80
         links:
-          - mysql
-          - firefox
+        - mysql
+        - firefox
         networks:
             self:
                 ipv4_address: ${APP_URL}

@@ -15,10 +15,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Organization extends Model
 {
+    protected $connection = 'parse';
     protected $table = 'detail_organizations';
-
     protected $guarded = [];
-
     public function details()
     {
         return $this->belongsToMany(Detail::class);

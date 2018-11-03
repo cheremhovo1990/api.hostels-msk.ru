@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class GisCreateOrganizationsTable extends Migration
+class AddColumnLodgeIdDetailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class GisCreateOrganizationsTable extends Migration
      */
     public function up()
     {
-        Schema::connection('parse')->create('detail_organizations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 255);
-            $table->timestamps();
+        Schema::connection('parse')->table('details', function (Blueprint $table) {
+            $table->integer('lodge_id')->after('pagination_id')->nullable();
         });
     }
 
@@ -27,6 +25,8 @@ class GisCreateOrganizationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organizations');
+        Schema::connection('parse')->table('details', function (Blueprint $table) {
+            $table->dropColumn('lodge_id');
+        });
     }
 }

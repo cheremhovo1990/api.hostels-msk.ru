@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Models\Pagination\Detail;
 
 
+use App\Models\Organization\Lodge;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,14 +19,26 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models\Pagination\Detail
  *
  * @property $id
+ * @property string $title
  * @property $description_href
  * @property $img_href
  * @property $comment_href
  * @property $number_review
  * @property $branch_href
  * @property $number_branch
+ *
+ * @property Lodge $lodge
  */
 class Detail extends Model
 {
+    protected $connection = 'parse';
     protected $guarded = [];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function lodge()
+    {
+        return $this->belongsTo(Lodge::class);
+    }
 }
