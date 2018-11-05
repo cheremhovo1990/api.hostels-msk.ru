@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y nginx
 
 
 # php
-RUN apt-get install -y php7.2-cli php7.2-curl php7.2-intl php7.2-fpm php7.2-mysql php7.2-gd php7.2-mbstring php7.2-xml php7.2-zip
+RUN apt-get install -y php7.2-cli php7.2-curl php7.2-intl php7.2-fpm php7.2-mysql php7.2-gd php7.2-mbstring \
+ php7.2-xml php7.2-zip php-xdebug
 RUN mkdir /run/php
 
 # supervisor

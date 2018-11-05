@@ -7,6 +7,7 @@ services:
             - ./docker/config/nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./docker/config/php-fpm/www.conf:/etc/php/7.2/fpm/pool.d/www.conf
             - ./docker/config/php-fpm/php.ini:/etc/php/7.2/fpm/conf.d/php.ini
+            - ./docker/config/php-fpm/xdebug.ini:/etc/php/7.2/fpm/conf.d/xdebug.ini
             - ./docker/config/supervisor/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
             - ./docker/config/nginx/conf.d:/etc/nginx/conf.d
             - ./docker/config/home/www/.bashrc:/home/www/.bashrc
@@ -21,6 +22,8 @@ services:
         - firefox
         env_file:
         - ./docker/config/env/app.env
+        environment:
+            CLIENT_HOST: ${CLIENT_HOST}
         networks:
             self:
                 ipv4_address: ${APP_URL}
