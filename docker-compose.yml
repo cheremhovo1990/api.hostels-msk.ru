@@ -19,6 +19,8 @@ services:
         links:
         - mysql
         - firefox
+        env_file:
+        - ./docker/config/env/app.env
         networks:
             self:
                 ipv4_address: ${APP_URL}
