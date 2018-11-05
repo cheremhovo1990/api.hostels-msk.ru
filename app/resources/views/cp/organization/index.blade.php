@@ -1,7 +1,8 @@
 <?php
 
-/** @var $organizations \App\Models\Organization\Organization[] */
+/** @var $organizations \App\Models\Organization\Organization[]|\Illuminate\Pagination\LengthAwarePaginator */
 $title = 'Organizations';
+
 ?>
 @extends('cp')
 
@@ -15,6 +16,13 @@ $title = 'Organizations';
             <thead>
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">
+                    @if (request('id') != 'asc')
+                        <a href="{{request()->fullUrlWithQuery(['id' => 'asc'])}}">ID desc</a>
+                    @else
+                        <a href="{{request()->fullUrlWithQuery(['id' => 'desc'])}}">ID asc</a>
+                    @endif
+                </th>
                 <th scope="col">Name</th>
                 <th scope="col"></th>
             </tr>
@@ -24,6 +32,7 @@ $title = 'Organizations';
                 <tbody>
                 <tr>
                     <th scope="row">{{ $loop->index }}</th>
+                    <td>{{$organization->id}}</td>
                     <td>{{$organization->name}}</td>
                     <td>
                         <form action="{{route('cp.organizations.destroy', $organization)}}" method="post">

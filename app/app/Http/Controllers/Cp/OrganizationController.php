@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cp\OrganizationRequest;
 use App\Models\Organization\Organization;
 use App\Models\Pagination\Detail\Detail;
+use Illuminate\Http\Request;
 
 /**
  * Class OrganizationController
@@ -24,11 +25,18 @@ use App\Models\Pagination\Detail\Detail;
 class OrganizationController extends Controller
 {
     /**
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $organizations = Organization::orderBy('id', 'desc')->paginate();
+        if ($request->get('id')) {
+            $organizations = Organization::orderBy('id', $request->get('id'))->paginate();
+            $organizations->appends(['id' => $request->get('id')]);
+        } else {
+            $organizations = Organization::orderBy('id', 'desc')->paginate();
+        }
+
 
         return view('cp/organization/index', ['organizations' => $organizations]);
     }

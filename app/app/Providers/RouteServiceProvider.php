@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Organization\Organization;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -25,8 +24,6 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-        $this->model('organizations', Organization::class);
-
     }
 
     /**

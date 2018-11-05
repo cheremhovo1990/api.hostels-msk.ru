@@ -47,7 +47,7 @@ $title = $model->name;
                                 <th scope="row">{{ $loop->index }}</th>
                                 <td>{{$detail->title}}</td>
                                 <td>
-
+                                    <a href="{{route('cp.details.create', [$detail])}}">create</a>
                                 </td>
                             </tr>
                             </tbody>

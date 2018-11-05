@@ -11,7 +11,7 @@ $title = 'Edit ' . $model->name;
 @section('content')
     <div class="col-md-12">
         <h1>{{$title}}</h1>
-        @include('cp/organization/error')
+        @include('cp.parts.error')
         <form action="{{route('cp.organizations.update', $model)}}" method="post">
             @method('PUT')
             @csrf

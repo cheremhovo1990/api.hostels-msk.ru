@@ -9,3 +9,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::resource('organizations', 'OrganizationController');
+
+Route::get('organizations/details/{detail}/create', 'DetailController@create')->name('details.create');
