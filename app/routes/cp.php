@@ -11,3 +11,5 @@ use Illuminate\Support\Facades\Route;
 Route::resource('organizations', 'OrganizationController');
 
 Route::get('organizations/details/{detail}/create', 'DetailController@create')->name('details.create');
+Route::get('cities', 'CityController@index')->name('cities.index');
+Route::get('metro', 'StationController@index')->name('stations.index');

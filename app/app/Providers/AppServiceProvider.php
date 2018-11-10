@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->afterResolving('migrator', function ($migrator) {
+            $migrator->path(database_path('migrations/parse_hostel'));
+        });
     }
 }
