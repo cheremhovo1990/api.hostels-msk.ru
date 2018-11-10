@@ -1,0 +1,1 @@
+docker exec parser-hostel_mysql_1 mysqldump --user=hostel --password=hostel hostel > ./dump/hostel.sql
