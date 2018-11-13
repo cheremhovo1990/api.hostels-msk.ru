@@ -58,18 +58,28 @@ $title = $detail->name . " " . $detail->title;
                         </select>
                     </div>
                     <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="lodge-latitude">Latitude</label>
-                                <input type="number" name="latitude" class="form-control" id="lodge-latitude">
+                        <div class="col form-group">
+                            <label for="lodge-latitude">Latitude</label>
+                            <input type="number" name="latitude" class="form-control" id="lodge-latitude">
+                        </div>
+                        <div class="col form-group">
+                            <label for="lodge-longitude">Longitude</label>
+                            <input type="number" name="longitude" class="form-control" id="lodge-longitude">
+                        </div>
+                        <div class="col form-group">
+                            <label for="lodge-distance">Distance</label>
+                            <div class="input-group">
+                                <input type="number" value="1000" class="form-control" id="lodge-distance">
+                                <div class="input-group-append">
+                                    <button class="form-control btn-primary btn" id="js-lodge-station-distance">
+                                        Distance
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="lodge-longitude">Longitude</label>
-                                <input type="number" name="longitude" class="form-control" id="lodge-longitude">
-                            </div>
-                        </div>
+                    </div>
+                    <div id="js-show-station-distance">
+
                     </div>
                     <div id="lodge-map">
 
@@ -155,46 +165,61 @@ $title = $detail->name . " " . $detail->title;
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
     <script>
-        Map = function () {
-            this.mapDetail = null;
-            this.mapLodge = null;
-            this.lodge();
-            this.detail();
-        };
-        Map.prototype.detail = function () {
-            let id = 'detail-map';
-            let coordinates = $('#' + id).data('coordinates');
-            this.mapDetail = new ymaps.Map(id, {
-                'center': coordinates,
-                'zoom': 15,
-                'controls': [],
-            });
-            let placemark = new ymaps.Placemark(coordinates);
-            this.mapDetail.geoObjects.add(placemark);
-        };
-        Map.prototype.lodge = function () {
-            self = this;
-            $('.js-coordinates-copy').on('click', function () {
-                let coordinates = $('#detail-map').data('coordinates');
-                $('#lodge-latitude').val(coordinates[0]);
-                $('#lodge-longitude').val(coordinates[1]);
-                self.createMap('lodge-map', coordinates);
-            });
-        };
-        Map.prototype.createMap = function (id, coordinates) {
-            if (this.mapLodge != null) {
-                this.mapLodge.destroy();
-            }
-            $('#' + id).css({'height': '200px'});
-            this.mapLodge = new ymaps.Map(id, {
-                'center': coordinates,
-                'zoom': 15,
-                'controls': [],
-            });
-            let placemark = new ymaps.Placemark(coordinates);
-            this.mapLodge.geoObjects.add(placemark);
-        };
+        $(function () {
+            $('#js-lodge-station-distance').on('click', function (event) {
+                event.preventDefault();
+                let latitude = $('#lodge-latitude').val();
+                let longitude = $('#lodge-longitude').val();
+                let distance = $('#lodge-distance').val();
+                if (latitude != '' && longitude != '') {
+                    let url = '/cp/api/station-by-coordinates/lat/' + latitude + '/lon/' + longitude + '/dist/' + distance;
+                    $.get(url, function (html) {
+                        $('#js-show-station-distance').html(html);
+                    });
+                }
+            })
+        });
         ymaps.ready(function () {
+            function Map() {
+                this.mapDetail = null;
+                this.mapLodge = null;
+                this.lodge();
+                this.detail();
+            }
+
+            Map.prototype.detail = function () {
+                let id = 'detail-map';
+                let coordinates = $('#' + id).data('coordinates');
+                this.mapDetail = new ymaps.Map(id, {
+                    'center': coordinates,
+                    'zoom': 15,
+                    'controls': [],
+                });
+                let placemark = new ymaps.Placemark(coordinates);
+                this.mapDetail.geoObjects.add(placemark);
+            };
+            Map.prototype.lodge = function () {
+                self = this;
+                $('.js-coordinates-copy').on('click', function () {
+                    let coordinates = $('#detail-map').data('coordinates');
+                    $('#lodge-latitude').val(coordinates[0]);
+                    $('#lodge-longitude').val(coordinates[1]);
+                    self.createMap('lodge-map', coordinates);
+                });
+            };
+            Map.prototype.createMap = function (id, coordinates) {
+                if (this.mapLodge != null) {
+                    this.mapLodge.destroy();
+                }
+                $('#' + id).css({'height': '200px'});
+                this.mapLodge = new ymaps.Map(id, {
+                    'center': coordinates,
+                    'zoom': 15,
+                    'controls': [],
+                });
+                let placemark = new ymaps.Placemark(coordinates);
+                this.mapLodge.geoObjects.add(placemark);
+            };
             let map = new Map();
         });
         $('.js-phone-mask').inputmask("+7(999)999-99-99");
