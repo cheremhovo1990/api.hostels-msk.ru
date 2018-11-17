@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @method static byLatitudeLongitude($latitude, $longitude)
  *
+ * @property $name
  */
 class District extends Model
 {

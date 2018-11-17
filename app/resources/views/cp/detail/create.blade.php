@@ -87,7 +87,15 @@ $title = $detail->name . " " . $detail->title;
                         </div>
                     </div>
                     <div id="js-district-view"></div>
-                    <div id="lodge-map">
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <button id="js-button-municipality" class="btn btn-primary btn-lg btn-block">
+                                Municipality
+                            </button>
+                        </div>
+                    </div>
+                    <div id="js-municipality-view"></div>
+                    <div id="lodge-map" class="mt-3">
 
                     </div>
                 </form>
@@ -192,6 +200,17 @@ $title = $detail->name . " " . $detail->title;
                     let url = '/cp/api/administrative-district/lat/' + latitude + '/lon/' + longitude;
                     $.get(url, function (html) {
                         $('#js-district-view').html(html);
+                    });
+                }
+            });
+            $('#js-button-municipality').on('click', function (event) {
+                event.preventDefault();
+                let latitude = $('#lodge-latitude').val();
+                let longitude = $('#lodge-longitude').val();
+                if (latitude != '' && longitude != '') {
+                    let url = '/cp/api/municipality/lat/' + latitude + '/lon/' + longitude;
+                    $.get(url, function (html) {
+                        $('#js-municipality-view').html(html);
                     });
                 }
             });
