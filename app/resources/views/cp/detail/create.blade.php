@@ -78,9 +78,15 @@ $title = $detail->name . " " . $detail->title;
                             </div>
                         </div>
                     </div>
-                    <div id="js-show-station-distance">
-
+                    <div id="js-show-station-distance"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button id="js-button-district" class="btn btn-primary btn-lg btn-block">
+                                Administrative District
+                            </button>
+                        </div>
                     </div>
+                    <div id="js-district-view"></div>
                     <div id="lodge-map">
 
                     </div>
@@ -177,7 +183,18 @@ $title = $detail->name . " " . $detail->title;
                         $('#js-show-station-distance').html(html);
                     });
                 }
-            })
+            });
+            $('#js-button-district').on('click', function (event) {
+                event.preventDefault();
+                let latitude = $('#lodge-latitude').val();
+                let longitude = $('#lodge-longitude').val();
+                if (latitude != '' && longitude != '') {
+                    let url = '/cp/api/administrative-district/lat/' + latitude + '/lon/' + longitude;
+                    $.get(url, function (html) {
+                        $('#js-district-view').html(html);
+                    });
+                }
+            });
         });
         ymaps.ready(function () {
             function Map() {

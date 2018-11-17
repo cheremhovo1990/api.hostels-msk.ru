@@ -15,3 +15,11 @@ Route::get('station-by-coordinates/lat/{latitude}/lon/{longitude}/dist/{distance
         'longitude' => $longitude
     ]);
 })->name('station.distance');
+
+Route::get('administrative-district/lat/{latitude}/lon/{longitude}', function ($latitude, $longitude) {
+    $model = \App\Models\District::byLatitudeLongitude((float)$latitude, (float)$longitude)->first();
+    if (is_null($model)) {
+        return '<p>Not results</p>';
+    }
+    return view('cp/api/district/view', ['model' => $model]);
+})->name('administrative-district/view');
