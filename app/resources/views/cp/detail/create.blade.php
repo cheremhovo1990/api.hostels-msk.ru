@@ -11,6 +11,7 @@
 /** @var $cityDropDown \Illuminate\Support\Collection */
 
 $title = $detail->name . " " . $detail->title;
+$imageToken = uniqid('', true);
 
 ?>
 @extends('cp')
@@ -98,7 +99,33 @@ $title = $detail->name . " " . $detail->title;
                     <div id="lodge-map" class="mt-3">
 
                     </div>
+
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" id="js-image-button-modal" data-toggle="modal"
+                            data-target="#lodge-image-upload"
+                            data-url-images="{{route('cp.api.lodge.images', ['token' => $imageToken])}}">
+                        Upload image
+                    </button>
                 </form>
+                <!-- Modal -->
+                <div class="modal fade" id="lodge-image-upload" tabindex="-1" role="dialog"
+                     aria-labelledby="lodge-image-upload" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <form action="{{route('cp.api.lodge.images.store', ['token' => $imageToken])}}">
+                                    <input type="file" id="js-input-lodge-images" multiple>
+                                </form>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="lodge-preview-image">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col">
                 <div class="row">
@@ -180,6 +207,29 @@ $title = $detail->name . " " . $detail->title;
     <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
     <script>
         $(function () {
+            $('#js-input-lodge-images').on('change', function () {
+                let formData = new FormData();
+                for (let i = 0; i < this.files.length; i++) {
+                    formData.append('images[]', this.files.item(i))
+                }
+
+                axios({
+                    method: "post",
+                    url: this.form.action,
+                    data: formData,
+                }).then(function (response) {
+                    $.get($('#js-image-button-modal').data('url-images'), function (html) {
+                        $('#lodge-preview-image').html(html);
+                    });
+                });
+            });
+            $('#lodge-image-upload').on('show.bs.modal', function (event) {
+                let relatedTarget = $(event.relatedTarget);
+                $('#lodge-preview-image').html('');
+                $.get(relatedTarget.data('url-images'), function (html) {
+                    $('#lodge-preview-image').html(html);
+                });
+            });
             $('#js-lodge-station-distance').on('click', function (event) {
                 event.preventDefault();
                 let latitude = $('#lodge-latitude').val();
