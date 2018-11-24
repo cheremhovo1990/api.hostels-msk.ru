@@ -1,6 +1,7 @@
 {
   "/js/app.js": "/js/app.js",
   "/css/app.css": "/css/app.css",
+  "/js/axios.js": "/js/axios.js",
   "/js/jquery.inputmask.bundle.js": "/js/jquery.inputmask.bundle.js",
   "/js/jquery.js": "/js/jquery.js"
 }
