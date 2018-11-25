@@ -48,6 +48,17 @@ class LodgeController extends Controller
      * @param $token
      * @throws \Throwable
      */
+    public function storeImage(Request $request, $token)
+    {
+        $file = $request->file('image');
+        $this->store($file, $token);
+    }
+
+    /**
+     * @param Request $request
+     * @param $token
+     * @throws \Throwable
+     */
     public function storeImages(Request $request, $token)
     {
         /** @var UploadedFile[] $files */

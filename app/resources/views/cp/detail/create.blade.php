@@ -191,11 +191,23 @@ $imageToken = uniqid('', true);
                     <p>{{$attribute->attribute}}</p>
                 @endforeach
                 <h3>Images</h3>
-                @foreach($detail->images as $images)
-                    <figure class="figure">
-                        <img src="{{$images->src}}" alt="" style="max-width: 200px">
-                    </figure>
-                @endforeach
+                <div class="row" id="js-image-url"
+                     data-url="{{route('cp.api.lodge.image.store', ['token' => $imageToken])}}">
+                    @foreach($detail->images as $image)
+                        <div class="col">
+                            <div class="row">
+                                <figure class="figure">
+                                    <img src="{{$image->src}}" id="js-image-add-{{$image->id}}" alt=""
+                                         style="max-width: 200px">
+                                </figure>
+                            </div>
+
+                            <a href="#" data-target="#js-image-add-{{$image->id}}" class="js-add-image">add</a>
+                        </div>
+
+                    @endforeach
+                </div>
+
             </div>
         </div>
     </div>
@@ -207,6 +219,20 @@ $imageToken = uniqid('', true);
     <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
     <script>
         $(function () {
+            $('.js-add-image').on('click', function (e) {
+                e.preventDefault();
+                let img = document.querySelector($(this).data('target'));
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", img.src);
+                xhr.responseType = "blob";
+                xhr.onload = function () {
+                    blob = xhr.response;
+                    let formData = new FormData();
+                    formData.append('image', blob);
+                    axios.post($('#js-image-url').data('url'), formData);
+                };
+                xhr.send();
+            });
             $(this).on('click', '.js-image-destroy', function (e) {
                 e.preventDefault();
                 axios.delete(this.href).then(function () {
