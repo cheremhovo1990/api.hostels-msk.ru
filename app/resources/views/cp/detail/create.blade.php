@@ -191,6 +191,9 @@ $imageToken = uniqid('', true);
                     <p>{{$attribute->attribute}}</p>
                 @endforeach
                 <h3>Images</h3>
+                <p>
+                    <a href="#" class="btn btn-primary" id="js-image-add-all">Add all</a>
+                </p>
                 <div class="row" id="js-image-url"
                      data-url="{{route('cp.api.lodge.image.store', ['token' => $imageToken])}}">
                     @foreach($detail->images as $image)
@@ -219,6 +222,12 @@ $imageToken = uniqid('', true);
     <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
     <script>
         $(function () {
+            $('#js-image-add-all').click(function (e) {
+                e.preventDefault();
+                $('.js-add-image').each(function (index, element) {
+                    $(element).trigger('click');
+                });
+            });
             $('.js-add-image').on('click', function (e) {
                 e.preventDefault();
                 let img = document.querySelector($(this).data('target'));
