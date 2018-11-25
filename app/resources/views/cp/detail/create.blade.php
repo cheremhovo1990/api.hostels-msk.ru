@@ -114,7 +114,7 @@ $imageToken = uniqid('', true);
                         <div class="modal-content">
                             <div class="modal-header">
                                 <form action="{{route('cp.api.lodge.images.store', ['token' => $imageToken])}}">
-                                    <input type="file" id="js-input-lodge-images" multiple>
+                                    <input type="file" id="js-input-lodge-images" accept="image/*" multiple>
                                 </form>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
