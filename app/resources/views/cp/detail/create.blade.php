@@ -207,28 +207,25 @@ $imageToken = uniqid('', true);
     <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
     <script>
         $(function () {
+            $(this).on('click', '.js-image-destroy', function (e) {
+                e.preventDefault();
+                axios.delete(this.href).then(function () {
+                    renderModalBody();
+                });
+            });
             $('#js-input-lodge-images').on('change', function () {
                 let formData = new FormData();
                 for (let i = 0; i < this.files.length; i++) {
                     formData.append('images[]', this.files.item(i))
                 }
-
-                axios({
-                    method: "post",
-                    url: this.form.action,
-                    data: formData,
-                }).then(function (response) {
-                    $.get($('#js-image-button-modal').data('url-images'), function (html) {
-                        $('#lodge-preview-image').html(html);
+                axios.post(this.form.action, formData)
+                    .then(function () {
+                        renderModalBody();
                     });
-                });
             });
-            $('#lodge-image-upload').on('show.bs.modal', function (event) {
-                let relatedTarget = $(event.relatedTarget);
+            $('#lodge-image-upload').on('show.bs.modal', function () {
                 $('#lodge-preview-image').html('');
-                $.get(relatedTarget.data('url-images'), function (html) {
-                    $('#lodge-preview-image').html(html);
-                });
+                renderModalBody();
             });
             $('#js-lodge-station-distance').on('click', function (event) {
                 event.preventDefault();
@@ -264,6 +261,12 @@ $imageToken = uniqid('', true);
                     });
                 }
             });
+
+            function renderModalBody() {
+                $.get($('#js-image-button-modal').data('url-images'), function (html) {
+                    $('#lodge-preview-image').html(html);
+                });
+            }
         });
         ymaps.ready(function () {
             function Map() {

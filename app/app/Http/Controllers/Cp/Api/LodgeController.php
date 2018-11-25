@@ -16,8 +16,38 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Facades\Image;
 
+/**
+ * Class LodgeController
+ * @package App\Http\Controllers\Cp\Api
+ */
 class LodgeController extends Controller
 {
+
+    /**
+     * @param \App\Models\Image $image
+     * @throws \Exception
+     */
+    public function destroyImage(\App\Models\Image $image)
+    {
+        $image->delete();
+    }
+
+    /**
+     * @param $token
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function viewImages($token)
+    {
+        $images = \App\Models\Image::where('token', $token)->get();
+
+        return view('cp/api/lodge/view-images', ['images' => $images]);
+    }
+
+    /**
+     * @param Request $request
+     * @param $token
+     * @throws \Throwable
+     */
     public function storeImages(Request $request, $token)
     {
         /** @var UploadedFile[] $files */
@@ -27,25 +57,24 @@ class LodgeController extends Controller
         }
     }
 
-    public function viewImages($token)
-    {
-        $images = \App\Models\Image::where('token', $token)->get();
-
-        return view('cp/api/lodge/view-images', ['images' => $images]);
-    }
-
+    /**
+     * @param UploadedFile $file
+     * @param $token
+     * @throws \Throwable
+     */
     protected function store(UploadedFile $file, $token)
     {
         $model = new \App\Models\Image();
         $model->token = $token;
         $model->name = uniqid('', true);
         $model->extension = $file->extension();
+        $model->folder = 'lodge';
         $model->saveOrFail();
-        $pathFullOriginal = $file->storeAs('lodge/' . $model->getFolderOriginal(), $model->getFullName(), ['disk' => 'uploads']);
-        $image = Image::make(public_path('uploads/' . $pathFullOriginal));
+        $pathFullOriginal = $file->storeAs($model->getFolderOriginal(), $model->getFullName(), ['disk' => 'uploads']);
+        $image = Image::make(public_path(\App\Models\Image::ROOT_FOLDER . '/' . $pathFullOriginal));
         $ratio = $image->width() / $image->height();
-        $width = 160;
+        $width = \App\Models\Image::WIDTH;
         $image->fit($width, ceil($width / $ratio))
-            ->save(public_path('uploads/lodge/' . $model->getFolder($width)));
+            ->save(public_path(\App\Models\Image::ROOT_FOLDER . '/' . $model->getPath($width)));
     }
 }

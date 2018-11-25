@@ -11,18 +11,25 @@ declare(strict_types=1);
 namespace App\Models;
 
 
+use App\Events\ImageDeleted;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 
 /**
  * Class Image
  * @package App\Models
+ * @property $id
  * @property $name
  * @property $extension
  * @property $token
+ * @property $folder
  */
 class Image extends Model
 {
+    use Notifiable;
+    const ROOT_FOLDER = 'uploads';
+    const WIDTH = 160;
     /**
      * @var string
      */
@@ -44,18 +51,26 @@ class Image extends Model
     /**
      * @return string
      */
-    public function getFolderOriginal()
+    public function getFolderOriginal(): string
     {
-        return $this->token . '/original';
+        return $this->folder . '/' . $this->token . '/original';
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathOriginal(): string
+    {
+        return $this->folder . '/' . $this->token . '/original' . '/' . $this->getFullName();
     }
 
     /**
      * @param int $width
      * @return string
      */
-    public function getFolder(int $width)
+    public function getPath(int $width): string
     {
-        return $this->token . '/' . $this->getFullName($width);
+        return $this->folder . '/' . $this->token . '/' . $this->getFullName($width);
     }
 
     /**
@@ -64,6 +79,10 @@ class Image extends Model
      */
     public function getUrl(int $width): string
     {
-        return $this->token . '/' . $this->getFullName($width);
+        return $this->folder . '/' . $this->token . '/' . $this->getFullName($width);
     }
+
+    protected $dispatchesEvents = [
+        'deleted' => ImageDeleted::class,
+    ];
 }

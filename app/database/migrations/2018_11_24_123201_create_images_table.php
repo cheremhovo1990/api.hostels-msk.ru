@@ -18,6 +18,7 @@ class CreateImagesTable extends Migration
             $table->integer('model_id')->nullable();
             $table->string('model_token')->nullable();
             $table->string('token');
+            $table->string('folder');
             $table->string('name');
             $table->string('extension');
             $table->timestamps();
