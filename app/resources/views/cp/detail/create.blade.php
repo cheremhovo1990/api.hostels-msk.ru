@@ -58,6 +58,10 @@ $imageToken = uniqid('', true);
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="lodge-opening-hours">Opening Hours</label>
+                        <input type="text" name="opening-hours" id="lodge-opening-hours" class="form-control">
+                    </div>
                     <div class="row">
                         <div class="col form-group">
                             <label for="lodge-latitude">Latitude</label>
