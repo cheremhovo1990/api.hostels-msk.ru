@@ -12,6 +12,7 @@
 
 <div class="row">
     <div class="col-md-12">
+        <input type="hidden" name="administrative_district_id" value="{{$model->id}}">
         <table class="table">
             <thead>
             <tr>

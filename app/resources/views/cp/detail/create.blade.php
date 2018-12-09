@@ -16,28 +16,38 @@ $imageToken = uniqid('', true);
 ?>
 @extends('cp')
 
+@section('style')
+    @parent
+    div.required label:after {
+    content: " *";
+    color: red;
+    }
+@endsection
+
 @section('content')
     <div class="col-md-12">
         <h1>{{$title}}</h1>
         <div class="row">
             <div class="col">
                 @include('cp/parts/error')
-                <form action="" method="post">
+                <form action="{{route('cp.details.store', [$detail])}}" method="post">
                     @csrf
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label for="lodge-announce">Announce</label>
-                        <textarea name="announce" class="form-control ckeditor-editor" id="lodge-announce"></textarea>
+                        <textarea name="announce" class="form-control ckeditor-editor"
+                                  id="lodge-announce">{{old('announce')}}</textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label for="lodge-description">Description</label>
                         <textarea name="description" class="form-control ckeditor-editor"
-                                  id="lodge-description"></textarea>
+                                  id="lodge-description">{{old('description')}}</textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label for="lodge-phone">Phone</label>
-                        <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone">
+                        <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone"
+                               value="{{old('phone')}}">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label for="lodge-address">Address</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -47,11 +57,12 @@ $imageToken = uniqid('', true);
                                     @endforeach
                                 </select>
                             </div>
-                            <input type="text" name="address" class="form-control" id="lodge-address">
+                            <input type="text" name="address" class="form-control" id="lodge-address"
+                                   value="{{old('address')}}">
                         </div>
 
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label for="lodge-status">Status</label>
                         <select name="status" id="lodge-status" class="form-control">
                             @foreach($statusDropDown as $id => $status)
@@ -59,9 +70,10 @@ $imageToken = uniqid('', true);
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group required">
                         <label for="lodge-opening-hours">Opening Hours</label>
-                        <input type="text" name="opening-hours" id="lodge-opening-hours" class="form-control">
+                        <input type="text" name="opening_hours" id="lodge-opening-hours" class="form-control"
+                               value="{{old('opening_hours')}}">
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary" id="add-input-opening-hours-schema"
@@ -75,13 +87,15 @@ $imageToken = uniqid('', true);
 
                     </div>
                     <div class="row">
-                        <div class="col form-group">
+                        <div class="col form-group required">
                             <label for="lodge-latitude">Latitude</label>
-                            <input type="number" name="latitude" class="form-control" id="lodge-latitude">
+                            <input type="text" name="latitude" class="form-control" id="lodge-latitude"
+                                   value="{{old('latitude')}}">
                         </div>
-                        <div class="col form-group">
+                        <div class="col form-group required">
                             <label for="lodge-longitude">Longitude</label>
-                            <input type="number" name="longitude" class="form-control" id="lodge-longitude">
+                            <input type="text" name="longitude" class="form-control" id="lodge-longitude"
+                                   value="{{old('longitude')}}">
                         </div>
                         <div class="col form-group">
                             <label for="lodge-distance">Distance</label>
@@ -122,6 +136,9 @@ $imageToken = uniqid('', true);
                             data-url-images="{{route('cp.api.lodge.images', ['token' => $imageToken])}}">
                         Upload image
                     </button>
+                    <div class="form-group mt-3">
+                        <button class="btn btn-primary">Save</button>
+                    </div>
                 </form>
                 <!-- Modal -->
                 <div class="modal fade" id="lodge-image-upload" tabindex="-1" role="dialog"

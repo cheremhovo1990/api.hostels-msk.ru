@@ -13,6 +13,7 @@ namespace App\Http\Controllers\Cp;
 
 use App\Helpers\CityHelper;
 use App\Helpers\LodgeHelper;
+use App\Http\Requests\Cp\DetailRequest;
 use App\Models\Pagination\Detail\Detail;
 
 /**
@@ -33,5 +34,10 @@ class DetailController
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
             'cityDropDown' => CityHelper::getDropDown()
         ]);
+    }
+
+    public function store(DetailRequest $detailRequest)
+    {
+        var_dump($detailRequest->validated());
     }
 }

@@ -11,7 +11,7 @@
 
 <div class="form-group">
     <div class="input-group">
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" name="schema_org_opening_hours[]">
         <div class="input-group-append">
             <button class="btn delete-input-opening-hours-schema">Delete</button>
         </div>
