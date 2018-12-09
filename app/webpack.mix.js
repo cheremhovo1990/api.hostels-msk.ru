@@ -15,4 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/axios.js', 'public/js')
     .copy('node_modules/inputmask/dist/jquery.inputmask.bundle.js', 'public/js')
     .copy('node_modules/jquery/dist/jquery.js', 'public/js')
+    .copy('node_modules/@ckeditor/ckeditor5-build-classic/build', 'public/js/ckeditor')
     .sass('resources/sass/app.scss', 'public/css');
