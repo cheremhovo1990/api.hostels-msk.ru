@@ -36,22 +36,22 @@ $title = $model->name;
                         <thead>
                         <tr>
                             <th scope="col">#</th>
+                            <th scope="col">ID</th>
                             <th scope="col">Title</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
                         @foreach($details as $detail)
-
                             <tbody>
                             <tr>
                                 <th scope="row">{{ $loop->index }}</th>
+                                <td>{{$detail->id}}</td>
                                 <td>{{$detail->title}}</td>
                                 <td>
                                     <a href="{{route('cp.details.create', [$detail])}}">create</a>
                                 </td>
                             </tr>
                             </tbody>
-
                         @endforeach
                     </table>
                     {{$details->links()}}

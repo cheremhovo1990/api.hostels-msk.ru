@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Cp\OrganizationRequest;
 use App\Models\Organization\Organization;
 use App\Models\Pagination\Detail\Detail;
+use App\Models\Repositories\DetailRepository;
 use Illuminate\Http\Request;
 
 /**
@@ -24,6 +25,22 @@ use Illuminate\Http\Request;
  */
 class OrganizationController extends Controller
 {
+    /**
+     * @var DetailRepository
+     */
+    private $detailRepository;
+
+    /**
+     * OrganizationController constructor.
+     * @param DetailRepository $detailRepository
+     */
+    public function __construct(
+        DetailRepository $detailRepository
+    )
+    {
+        $this->detailRepository = $detailRepository;
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -68,10 +85,7 @@ class OrganizationController extends Controller
      */
     public function show(Organization $organization)
     {
-        $details = Detail::leftJoin('detail_organization', 'detail_organization.detail_id', '=', 'details.id')
-            ->leftJoin('detail_organizations', 'detail_organizations.id', '=', 'detail_organization.organization_id')
-            ->where('detail_organizations.organization_id', '=', $organization->id)
-            ->paginate();
+        $details = $this->detailRepository->allByOrganization($organization->id);
 
         return view('cp/organization/show', ['model' => $organization, 'details' => $details]);
     }
