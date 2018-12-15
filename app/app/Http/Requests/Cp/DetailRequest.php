@@ -73,10 +73,10 @@ class DetailRequest extends FormRequest
             'schema_org_opening_hours.*' => 'nullable|string',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'station.*.id' => 'exists:metro_stations,id',
-            'station.*.distance' => 'integer',
-            'administrative_district_id' => 'exists:administrative_districts,id',
-            'municipality_id' => 'exists:municipalities,id',
+            'stations.*.id' => 'exists:metro_stations,id',
+            'stations.*.distance' => 'integer',
+            'administrative_district_id' => 'required|exists:administrative_districts,id',
+            'municipality_id' => 'required|exists:municipalities,id',
         ];
     }
 }
