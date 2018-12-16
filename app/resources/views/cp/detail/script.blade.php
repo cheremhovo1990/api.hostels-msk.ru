@@ -1,7 +1,12 @@
 <script>
-    (function () {
+    $(function () {
         let selectors = {
-            'editors': '.ckeditor-editor'
+            'editors': '.ckeditor-editor',
+            'add-schema-org-opening-hours': '#add-input-opening-hours-schema',
+            'container-for-opening-hours-schema': '#container-for-opening-hours-schema',
+            'delete-input-opening-hours-schema': '.delete-input-opening-hours-schema',
+            'image-add-all': '#js-image-add-all',
+            'add-image': '.js-add-image'
         };
         let editors = document.querySelectorAll(selectors.editors);
         editors.forEach(function (editor) {
@@ -10,27 +15,26 @@
                 .catch(error => {
                     console.error(error);
                 });
-        })
-    })();
-    $(function () {
-        $(this).on('click', '.delete-input-opening-hours-schema', function (e) {
+        });
+        $(selectors['add-schema-org-opening-hours']).click(function (e) {
+            e.preventDefault();
+            let input = $(this).data('html');
+            let container = $(selectors['container-for-opening-hours-schema']);
+            if (container.find('.form-group').length < 7) {
+                container.append($(input));
+            }
+        });
+        $(this).on('click', selectors['delete-input-opening-hours-schema'], function (e) {
             e.preventDefault();
             $(this).closest('.form-group').remove();
         });
-        $('#add-input-opening-hours-schema').click(function (e) {
+        $(selectors['image-add-all']).click(function (e) {
             e.preventDefault();
-            let input = $(this).data('html');
-            if ($('#container-for-opening-hours-schema .form-group').length < 7) {
-                $('#container-for-opening-hours-schema').append($(input));
-            }
-        });
-        $('#js-image-add-all').click(function (e) {
-            e.preventDefault();
-            $('.js-add-image').each(function (index, element) {
+            $(selectors['add-image']).each(function (index, element) {
                 $(element).trigger('click');
             });
         });
-        $('.js-add-image').on('click', function (e) {
+        $(selectors['add-image']).on('click', function (e) {
             e.preventDefault();
             let img = document.querySelector($(this).data('target'));
             var xhr = new XMLHttpRequest();
@@ -107,12 +111,15 @@
     });
     ymaps.ready(function () {
         function Map() {
+            this.selectors = {
+                'lodge-latitude': '#lodge-latitude',
+                'lodge-longitude': '#lodge-longitude',
+            };
             this.mapDetail = null;
             this.mapLodge = null;
             this.lodge();
             this.detail();
         }
-
         Map.prototype.detail = function () {
             let id = 'detail-map';
             let coordinates = $('#' + id).data('coordinates');
@@ -126,10 +133,17 @@
         };
         Map.prototype.lodge = function () {
             self = this;
+            if (($(this.selectors['lodge-latitude']).val() != '') && ($(this.selectors['lodge-longitude']).val() != '')) {
+                let coordinates = [
+                    $(this.selectors['lodge-latitude']).val(),
+                    $(this.selectors['lodge-longitude']).val()
+                ];
+                self.createMap('lodge-map', coordinates);
+            }
             $('.js-coordinates-copy').on('click', function () {
                 let coordinates = $('#detail-map').data('coordinates');
-                $('#lodge-latitude').val(coordinates[0]);
-                $('#lodge-longitude').val(coordinates[1]);
+                $(self.selectors['lodge-latitude']).val(coordinates[0]);
+                $(self.selectors['lodge-longitude']).val(coordinates[1]);
                 self.createMap('lodge-map', coordinates);
             });
         };
