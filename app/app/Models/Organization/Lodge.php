@@ -126,6 +126,8 @@ class Lodge extends Model
      */
     public function stations()
     {
-        return $this->belongsToMany(Metro::class, 'lodge_metro_station', 'lodge_id', 'metro_station_id')->withPivot('distance', '');
+        return $this->belongsToMany(Metro::class, 'lodge_metro_station', 'lodge_id', 'metro_station_id')
+            ->using(LodgeMetroStation::class)
+            ->withPivot('distance');
     }
 }
