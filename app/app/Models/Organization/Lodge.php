@@ -11,6 +11,9 @@ declare(strict_types=1);
 namespace App\Models\Organization;
 
 
+use App\Models\District;
+use App\Models\Metro;
+use App\Models\Municipality;
 use App\Models\Pagination\Detail\Detail;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,9 +24,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property array $schema_org
  * @property Detail $detail
+ * @property Municipality $municipality
+ * @property District $district
+ * @property Metro[] $stations
  */
 class Lodge extends Model
 {
+    /**
+     *
+     */
+    const IMAGE_TOKEN = 'vo2leen0Ni';
+
     /**
      * @var string
      */
@@ -71,6 +82,7 @@ class Lodge extends Model
             'status' => $data['status'],
             'administrative_district_id' => $data['administrative_district_id'],
             'municipality_id' => $data['municipality_id'],
+            'image_token' => $data['image_token'],
         ]);
         $model->setSchemaOrg($data['schema_org_opening_hours'] ?? []);
         return $model;
@@ -90,5 +102,30 @@ class Lodge extends Model
     public function detail()
     {
         return $this->hasOne(Detail::class, 'lodge_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function municipality()
+    {
+        return $this->belongsTo(Municipality::class, 'municipality_id', 'id');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function district()
+    {
+        return $this->belongsTo(District::class, 'administrative_district_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function stations()
+    {
+        return $this->belongsToMany(Metro::class, 'lodge_metro_station', 'lodge_id', 'metro_station_id')->withPivot('distance', '');
     }
 }

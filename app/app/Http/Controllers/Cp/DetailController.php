@@ -14,6 +14,7 @@ namespace App\Http\Controllers\Cp;
 use App\Helpers\CityHelper;
 use App\Helpers\LodgeHelper;
 use App\Http\Requests\Cp\DetailRequest;
+use App\Models\Image;
 use App\Models\Organization\Lodge;
 use App\Models\Organization\LodgeMetroStation;
 use App\Models\Pagination\Detail\Detail;
@@ -52,6 +53,7 @@ class DetailController
         return view(
             'cp/detail/create', [
             'detail' => $detail,
+            'lodge' => null,
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
             'cityDropDown' => CityHelper::getDropDown()
         ]);
@@ -69,15 +71,29 @@ class DetailController
         DB::transaction(function () use ($data, $organization, $detail) {
             $lodge = Lodge::new($data, $organization);
             $lodge->saveOrFail();
-            //$lodge->detail()->save($detail);
+            $lodge->detail()->save($detail);
             if (isset($data['stations'])) {
                 foreach ($data['stations'] as $station) {
                     $lodgeMetroStation = LodgeMetroStation::new($lodge->id, $station['id'], $station['distance']);
                     $lodgeMetroStation->save();
                 }
             }
+            Image::where('token', $data['image_token'])
+                ->update(['model_id' => $lodge->id, 'model_token' => Lodge::IMAGE_TOKEN]);
         });
 
         return redirect(route('cp.organizations.show', [$organization]));
+    }
+
+    public function edit(Detail $detail)
+    {
+        $lodge = Lodge::where('id', $detail->lodge_id)->first();
+        return view(
+            'cp/detail/edit', [
+            'detail' => $detail,
+            'lodge' => $lodge,
+            'statusDropDown' => LodgeHelper::getStatusDropDown(),
+            'cityDropDown' => CityHelper::getDropDown()
+        ]);
     }
 }

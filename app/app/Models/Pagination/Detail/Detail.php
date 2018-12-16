@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $title
  * @property int $rating
+ * @property int $lodge_id
  * @property string $number_review
  * @property string $description_href
  * @property string $text

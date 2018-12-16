@@ -47,9 +47,20 @@ $title = $model->name;
                                 <th scope="row">{{ $loop->index }}</th>
                                 <td>{{$detail->id}}</td>
                                 <td>{{$detail->title}}</td>
-                                <td>
-                                    <a href="{{route('cp.details.create', [$detail])}}">create</a>
-                                </td>
+                                @if (is_null($detail->lodge_id))
+                                    <td>
+                                        <a href="{{route('cp.details.create', [$detail])}}">Create</a>
+                                    </td>
+                                @else
+                                    <td>
+                                        <a href="{{route('cp.details.edit', [$detail])}}">Update</a>
+                                        <form action="{{route('cp.details.destroy', [$detail])}}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button>Delete</button>
+                                        </form>
+                                    </td>
+                                @endif
                             </tr>
                             </tbody>
                         @endforeach
