@@ -6,12 +6,14 @@
  * Time: 16:36
  */
 
+/** @var $stations \App\Models\Metro[] */
+
 ?>
 <div class="row">
     <div class="col-md-12">
         @foreach($stations as $station)
             <input type="hidden" name="stations[{{$loop->index}}][id]" value="{{$station->id}}">
-            <input type="hidden" name="stations[{{$loop->index}}][distance]" value="">
+            <input type="hidden" name="stations[{{$loop->index}}][distance]" value="{{$station->pivot->distance}}">
         @endforeach
         <table class="table">
             <thead>
