@@ -41,6 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Municipality $municipality
  * @property District $district
  * @property Metro[] $stations
+ * @property Organization $organization
  */
 class Lodge extends Model
 {
@@ -94,6 +95,9 @@ class Lodge extends Model
         return $model;
     }
 
+    /**
+     * @param array $data
+     */
     public function edit(array $data)
     {
         $this->city_id = $data['city_id'];
@@ -151,5 +155,14 @@ class Lodge extends Model
         return $this->belongsToMany(Metro::class, 'lodge_metro_station', 'lodge_id', 'metro_station_id')
             ->using(LodgeMetroStation::class)
             ->withPivot('distance');
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

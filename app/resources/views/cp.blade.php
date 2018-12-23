@@ -29,6 +29,7 @@
                         <a class="dropdown-item" href="{{route('cp.cities.index')}}">Cities</a>
                         <a class="dropdown-item" href="{{route('cp.organizations.index')}}">Organizations</a>
                         <a class="dropdown-item" href="{{route('cp.stations.index')}}">Metro</a>
+                        <a class="dropdown-item" href="{{route('cp.lodges.index')}}">Lodges</a>
                     </div>
                 </li>
             </ul>
