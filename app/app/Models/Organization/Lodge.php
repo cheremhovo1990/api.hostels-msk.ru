@@ -37,6 +37,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $longitude
  * @property string $image_token
  * @property array $schema_org
+ * @property array $data
  * @property Detail $detail
  * @property Municipality $municipality
  * @property District $district
@@ -79,6 +80,7 @@ class Lodge extends Model
      */
     protected $casts = [
         'schema_org' => 'array',
+        'data' => 'array',
     ];
 
     /**
@@ -92,6 +94,9 @@ class Lodge extends Model
         $model->organization_id = $organization->id;
         $model->image_token = $data['image_token'];
         $model->edit($data);
+        $model->setData([
+            'source' => '2gis'
+        ]);
         return $model;
     }
 
@@ -120,6 +125,14 @@ class Lodge extends Model
     public function setSchemaOrg(array $data = [])
     {
         $this->schema_org = ['opening_hours' => $data];
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData(array $data)
+    {
+        $this->data = $data;
     }
 
     /**
