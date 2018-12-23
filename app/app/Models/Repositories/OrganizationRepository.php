@@ -35,4 +35,13 @@ class OrganizationRepository
 
         return $organization;
     }
+
+    /**
+     * @param int $id
+     * @return Organization
+     */
+    public function findOne(int $id): ?Organization
+    {
+        return Organization::where('id', $id)->first();
+    }
 }

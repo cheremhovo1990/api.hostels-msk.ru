@@ -16,12 +16,26 @@ use App\Models\Metro;
 use App\Models\Municipality;
 use App\Models\Pagination\Detail\Detail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Lodge
  * @package App\Models\Organization
  *
  * @property int $id
+ * @property int $organization_id
+ * @property int $city_id
+ * @property int $administrative_district_id
+ * @property int $municipality_id
+ * @property int $status
+ * @property string $announce
+ * @property string $description
+ * @property string $phone
+ * @property string $address
+ * @property string $opening_hours
+ * @property string $latitude
+ * @property string $longitude
+ * @property string $image_token
  * @property array $schema_org
  * @property Detail $detail
  * @property Municipality $municipality
@@ -30,6 +44,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Lodge extends Model
 {
+    use SoftDeletes;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
+
     /**
      *
      */
@@ -44,15 +67,11 @@ class Lodge extends Model
      *
      */
     const STATUS_DISABLE = 0;
+
     /**
      *
      */
     const STATUS_ENABLE = 1;
-
-    /**
-     * @var array
-     */
-    protected $guarded = [];
 
     /**
      * @var array
@@ -68,24 +87,27 @@ class Lodge extends Model
      */
     public static function new(array $data, Organization $organization): self
     {
-        /** @var self $model */
-        $model = Lodge::make([
-            'organization_id' => $organization->id,
-            'city_id' => $data['city_id'],
-            'announce' => $data['announce'],
-            'description' => $data['description'],
-            'phone' => $data['phone'],
-            'address' => $data['address'],
-            'opening_hours' => $data['opening_hours'],
-            'latitude' => $data['latitude'],
-            'longitude' => $data['longitude'],
-            'status' => $data['status'],
-            'administrative_district_id' => $data['administrative_district_id'],
-            'municipality_id' => $data['municipality_id'],
-            'image_token' => $data['image_token'],
-        ]);
-        $model->setSchemaOrg($data['schema_org_opening_hours'] ?? []);
+        $model = new self();
+        $model->organization_id = $organization->id;
+        $model->image_token = $data['image_token'];
+        $model->edit($data);
         return $model;
+    }
+
+    public function edit(array $data)
+    {
+        $this->city_id = $data['city_id'];
+        $this->announce = $data['announce'];
+        $this->description = $data['description'];
+        $this->phone = $data['phone'];
+        $this->address = $data['address'];
+        $this->opening_hours = $data['opening_hours'];
+        $this->latitude = $data['latitude'];
+        $this->longitude = $data['longitude'];
+        $this->status = $data['status'];
+        $this->administrative_district_id = $data['administrative_district_id'];
+        $this->municipality_id = $data['municipality_id'];
+        $this->setSchemaOrg($data['schema_org_opening_hours'] ?? []);
     }
 
     /**

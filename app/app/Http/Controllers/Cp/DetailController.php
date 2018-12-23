@@ -13,11 +13,12 @@ namespace App\Http\Controllers\Cp;
 
 use App\Helpers\CityHelper;
 use App\Helpers\LodgeHelper;
-use App\Http\Requests\Cp\DetailRequest;
+use App\Http\Requests\Cp\LodgeRequest;
 use App\Models\Image;
 use App\Models\Organization\Lodge;
 use App\Models\Organization\LodgeMetroStation;
 use App\Models\Pagination\Detail\Detail;
+use App\Models\Repositories\LodgeRepository;
 use App\Models\Repositories\OrganizationRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -31,16 +32,23 @@ class DetailController
      * @var OrganizationRepository
      */
     private $organizationRepository;
+    /**
+     * @var LodgeRepository
+     */
+    private $lodgeRepository;
 
     /**
      * DetailController constructor.
      * @param OrganizationRepository $organizationRepository
+     * @param LodgeRepository $lodgeRepository
      */
     public function __construct(
-        OrganizationRepository $organizationRepository
+        OrganizationRepository $organizationRepository,
+        LodgeRepository $lodgeRepository
     )
     {
         $this->organizationRepository = $organizationRepository;
+        $this->lodgeRepository = $lodgeRepository;
     }
 
 
@@ -61,13 +69,13 @@ class DetailController
 
     /**
      * @param Detail $detail
-     * @param DetailRequest $detailRequest
+     * @param LodgeRequest $lodgeRequest
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Detail $detail, DetailRequest $detailRequest)
+    public function store(Detail $detail, LodgeRequest $lodgeRequest)
     {
         $organization = $this->organizationRepository->oneByDetail($detail->id);
-        $data = $detailRequest->validated();
+        $data = $lodgeRequest->validated();
         DB::transaction(function () use ($data, $organization, $detail) {
             $lodge = Lodge::new($data, $organization);
             $lodge->saveOrFail();
@@ -85,8 +93,13 @@ class DetailController
         return redirect(route('cp.organizations.show', [$organization]));
     }
 
+    /**
+     * @param Detail $detail
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit(Detail $detail)
     {
+
         $lodge = Lodge::where('id', $detail->lodge_id)->first();
         return view(
             'cp/detail/edit', [
@@ -95,5 +108,35 @@ class DetailController
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
             'cityDropDown' => CityHelper::getDropDown()
         ]);
+    }
+
+    /**
+     * @param Lodge $lodge
+     * @param LodgeRequest $lodgeRequest
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
+     */
+    public function update(Lodge $lodge, LodgeRequest $lodgeRequest)
+    {
+        $organization = $this->organizationRepository->findOne($lodge->organization_id);
+        $data = $lodgeRequest->validated();
+        $lodge->edit($data);
+        $lodge->saveOrFail();
+        return redirect(route('cp.organizations.show', [$organization]));
+    }
+
+    /**
+     * @param Detail $detail
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
+     */
+    public function destroy(Detail $detail)
+    {
+        $lodge = $this->lodgeRepository->findOne($detail->lodge_id);
+        $organization = $this->organizationRepository->findOne($lodge->organization_id);
+        $lodge->delete();
+        $detail->lodge_id = null;
+        $detail->saveOrFail();
+        return redirect(route('cp.organizations.show', [$organization]));
     }
 }

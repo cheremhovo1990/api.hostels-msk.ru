@@ -14,6 +14,8 @@
 $title = $detail->name . " " . $detail->title;
 $imageToken = optional($lodge)->image_token ?? uniqid('', true);
 
+$url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.details.update', [$lodge]);
+
 ?>
 @extends('cp')
 
@@ -31,8 +33,11 @@ $imageToken = optional($lodge)->image_token ?? uniqid('', true);
         <div class="row">
             <div class="col">
                 @include('cp/parts/error')
-                <form action="{{route('cp.details.store', [$detail])}}" method="post">
+                <form action="{{$url}}" method="post">
                     @csrf
+                    @if (!is_null($lodge))
+                        @method('PUT')
+                    @endif
                     <div class="form-group required">
                         <label for="lodge-announce">Announce</label>
                         <textarea name="announce" class="form-control ckeditor-editor"

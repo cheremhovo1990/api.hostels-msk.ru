@@ -9,7 +9,7 @@ use Mews\Purifier\Facades\Purifier;
  * Class DetailRequest
  * @package App\Http\Requests\Cp
  */
-class DetailRequest extends FormRequest
+class LodgeRequest extends FormRequest
 {
     /**
      * @var array
