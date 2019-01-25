@@ -27,7 +27,7 @@ services:
         environment:
             CLIENT_HOST: ${CLIENT_HOST}
         networks:
-            self:
+            network_hostel:
                 ipv4_address: ${APP_URL}
     mysql:
         image: mysql:5.7.20
@@ -40,7 +40,7 @@ services:
             - ./docker/server/mysql:/var/lib/mysql
             - ./docker/config/mysql/conf.d:/etc/mysql/conf.d
         networks:
-            self:
+            network_hostel:
                 ipv4_address: ${DB_HOST}
     firefox:
         image: selenium/standalone-firefox:3.0
@@ -49,7 +49,7 @@ services:
         ports:
             - "4444:4444"
         networks:
-            self:
+            network_hostel:
                 ipv4_address: ${FIREFOX_HOST}
     node:
         image: node:10.13
@@ -57,7 +57,7 @@ services:
         volumes:
             - ./app:/var/www/html
 networks:
-    self:
+    network_hostel:
         driver: bridge
         ipam:
             config:
