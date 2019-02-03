@@ -28,4 +28,12 @@ class LodgeController extends Controller
     {
         return new LodgeCollection(Lodge::paginate());
     }
+
+    /**
+     * @return LodgeCollection
+     */
+    public function all()
+    {
+        return new LodgeCollection(Lodge::all());
+    }
 }

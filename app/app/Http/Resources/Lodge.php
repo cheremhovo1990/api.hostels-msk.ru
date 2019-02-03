@@ -18,6 +18,8 @@ class Lodge extends JsonResource
             'id' => $this->id,
             'announce' => $this->announce,
             'phone' => $this->getPhone(),
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
         ];
     }
 }
