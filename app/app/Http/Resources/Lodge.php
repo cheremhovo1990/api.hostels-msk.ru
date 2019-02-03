@@ -16,6 +16,8 @@ class Lodge extends JsonResource
     {
         return [
             'id' => $this->id,
+            'announce' => $this->announce,
+            'phone' => $this->getPhone(),
         ];
     }
 }

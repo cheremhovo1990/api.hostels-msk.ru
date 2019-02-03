@@ -178,4 +178,27 @@ class Lodge extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    /**
+     * @return array
+     */
+    public function getPhone(): array
+    {
+        if (preg_match('~(\d)(\d{3})(\d{3})(\d{2})(\d{2})~', $this->phone, $match)) {
+            $raw = $this->phone;
+            $country = $match[1];
+            if ($match[1] == 7) {
+                $raw = '+' . $this->phone;
+                $country = '+' . $match[1];
+            }
+            return [
+                'raw' => $raw,
+                'country' => $country,
+                'code' => $match[2],
+                'user' => "$match[3]-$match[4]-$match[5]",
+            ];
+        } else {
+            return [];
+        }
+    }
 }
