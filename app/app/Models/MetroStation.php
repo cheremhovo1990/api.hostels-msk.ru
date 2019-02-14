@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $latitude
  * @property $longitude
  */
-class Metro extends Model
+class MetroStation extends Model
 {
     protected $guarded = [];
     /**

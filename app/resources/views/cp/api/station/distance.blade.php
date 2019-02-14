@@ -6,10 +6,10 @@
  * Time: 7:34
  */
 
-use App\Models\Metro;
+use App\Models\MetroStation;
 use App\Services\MetroDistanceService;
 
-/** @var $stations Metro */
+/** @var $stations MetroStation */
 /** @var $latitude float */
 /** @var $longitude float */
 

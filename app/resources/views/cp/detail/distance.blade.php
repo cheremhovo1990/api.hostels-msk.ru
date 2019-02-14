@@ -6,7 +6,7 @@
  * Time: 16:36
  */
 
-/** @var $stations \App\Models\Metro[] */
+/** @var $stations \App\Models\MetroStation[] */
 
 ?>
 <div class="row">

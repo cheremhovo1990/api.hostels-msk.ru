@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 
-use App\Models\Metro;
+use App\Models\MetroStation;
 use Illuminate\Support\Collection;
 
 /**
@@ -58,7 +58,7 @@ class MetroDistanceService
         $eLng = $this->getPoint($longitude, $latitude, $distance, 0, 'longitude');
         $sLat = $this->getPoint($longitude, $latitude, $distance, 270, 'latitude');
         $eLat = $this->getPoint($longitude, $latitude, $distance, 90, 'latitude');
-        $stations = Metro::whereBetween('latitude', [$sLat, $eLat])
+        $stations = MetroStation::whereBetween('latitude', [$sLat, $eLat])
             ->whereBetween('longitude', [$sLng, $eLng])
             ->get();
         return $stations;
@@ -68,10 +68,10 @@ class MetroDistanceService
     /**
      * @param $latitude
      * @param $longitude
-     * @param Metro $station
+     * @param MetroStation $station
      * @return float
      */
-    public function distance(float $latitude, float $longitude, Metro $station): float
+    public function distance(float $latitude, float $longitude, MetroStation $station): float
     {
 
         // Средний радиус Земли в метрах

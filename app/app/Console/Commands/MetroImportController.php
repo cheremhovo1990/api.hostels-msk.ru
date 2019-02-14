@@ -12,7 +12,7 @@ namespace App\Console\Commands;
 
 
 use App\Models\City;
-use App\Models\Metro;
+use App\Models\MetroStation;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +39,7 @@ class MetroImportController extends Command
                     $latitude = $station['lat'];
                     $longitude = $station['lng'];
                     $order = $station['order'];
-                    $metro = Metro::create([
+                    $metro = MetroStation::create([
                         'name' => $name,
                         'latitude' => $latitude,
                         'longitude' => $longitude,

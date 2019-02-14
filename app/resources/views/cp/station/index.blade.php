@@ -6,7 +6,7 @@
  * Time: 18:33
  */
 
-/** @var $models \App\Models\Metro[]|\Illuminate\Support\Collection */
+/** @var $models \App\Models\MetroStation[]|\Illuminate\Support\Collection */
 
 ?>
 @extends('cp')

@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Cp;
 
 
-use App\Models\Metro;
+use App\Models\MetroStation;
 use Illuminate\Routing\Controller;
 
 /**
@@ -25,7 +25,7 @@ class StationController extends Controller
      */
     public function index()
     {
-        $models = Metro::all();
+        $models = MetroStation::all();
         return view('cp/station/index', ['models' => $models]);
     }
 }

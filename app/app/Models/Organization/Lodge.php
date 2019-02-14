@@ -12,7 +12,7 @@ namespace App\Models\Organization;
 
 
 use App\Models\District;
-use App\Models\Metro;
+use App\Models\MetroStation;
 use App\Models\Municipality;
 use App\Models\Pagination\Detail\Detail;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Detail $detail
  * @property Municipality $municipality
  * @property District $district
- * @property Metro[] $stations
+ * @property MetroStation[] $stations
  * @property Organization $organization
  */
 class Lodge extends Model
@@ -165,7 +165,7 @@ class Lodge extends Model
      */
     public function stations()
     {
-        return $this->belongsToMany(Metro::class, 'lodge_metro_station', 'lodge_id', 'metro_station_id')
+        return $this->belongsToMany(MetroStation::class, 'lodge_metro_station', 'lodge_id', 'metro_station_id')
             ->using(LodgeMetroStation::class)
             ->withPivot('distance');
     }
