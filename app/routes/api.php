@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/lodges', 'LodgeController@index')->name('lodges');
+Route::match(['get', 'post'], '/lodges', 'LodgeController@index')->name('lodges');
 
 Route::get('/lodges/all', 'LodgeController@all')->name('lodges.all');
 

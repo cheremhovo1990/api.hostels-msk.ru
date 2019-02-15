@@ -14,6 +14,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LodgeCollection;
 use App\Models\Organization\Lodge;
+use App\Models\Repositories\LodgeRepository;
+use Illuminate\Http\Request;
 
 /**
  * Class LodgeController
@@ -22,11 +24,36 @@ use App\Models\Organization\Lodge;
 class LodgeController extends Controller
 {
     /**
+     * @var LodgeRepository
+     */
+    private $lodgeRepository;
+
+    /**
+     * LodgeController constructor.
+     * @param LodgeRepository $lodgeRepository
+     */
+    public function __construct(
+        LodgeRepository $lodgeRepository
+    )
+    {
+        $this->lodgeRepository = $lodgeRepository;
+    }
+
+    /**
+     * @param Request $request
      * @return LodgeCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new LodgeCollection(Lodge::paginate());
+        $params = $request->json();
+
+        if (is_null($params)) {
+            $models = $this->lodgeRepository->get();
+        } else {
+            $models = $this->lodgeRepository->search($params);
+        }
+
+        return new LodgeCollection($models);
     }
 
     /**
