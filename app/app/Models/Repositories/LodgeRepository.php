@@ -7,11 +7,11 @@
  */
 declare(strict_types=1);
 
-
 namespace App\Models\Repositories;
 
-
 use App\Models\Organization\Lodge;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
@@ -31,9 +31,29 @@ class LodgeRepository
 
     /**
      * @param ParameterBag $params
-     * @return \Illuminate\Contracts\Pagination\Paginator
+     * @return Collection|Lodge[]
      */
-    public function search(ParameterBag $params)
+    public function search(ParameterBag $params): Collection
+    {
+        $query = $this->querySearch($params);
+        return $query->get();
+    }
+
+    /**
+     * @param ParameterBag $params
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function searchWithPaginate(ParameterBag $params)
+    {
+        $query = $this->querySearch($params);
+        return $query->paginate();
+    }
+
+    /**
+     * @param ParameterBag $params
+     * @return Builder
+     */
+    public function querySearch(ParameterBag $params): Builder
     {
         $query = Lodge::query();
         if ($params->has('metro-station')) {
@@ -48,7 +68,7 @@ class LodgeRepository
                 $params->get('metro-station')
             );
         }
-        return $query->paginate();
+        return $query;
     }
 
     /**
@@ -57,5 +77,13 @@ class LodgeRepository
     public function get()
     {
         return Lodge::paginate();
+    }
+
+    /**
+     * @return Lodge[]|Collection
+     */
+    public function all()
+    {
+        return Lodge::all();
     }
 }

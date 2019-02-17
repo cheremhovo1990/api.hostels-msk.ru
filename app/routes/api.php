@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::match(['get', 'post'], '/lodges', 'LodgeController@index')->name('lodges');
 
-Route::get('/lodges/all', 'LodgeController@all')->name('lodges.all');
+Route::match(['get', 'post'], '/lodges/all', 'LodgeController@all')->name('lodges.all');
 
 
 Route::get('/metro-station/all', 'MetroStationController@all')->name('metro-station.all');

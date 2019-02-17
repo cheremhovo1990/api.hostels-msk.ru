@@ -10,10 +10,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LodgeCollection;
-use App\Models\Organization\Lodge;
 use App\Models\Repositories\LodgeRepository;
 use Illuminate\Http\Request;
 
@@ -50,17 +48,26 @@ class LodgeController extends Controller
         if (is_null($params)) {
             $models = $this->lodgeRepository->get();
         } else {
-            $models = $this->lodgeRepository->search($params);
+            $models = $this->lodgeRepository->searchWithPaginate($params);
         }
 
         return new LodgeCollection($models);
     }
 
     /**
+     * @param Request $request
      * @return LodgeCollection
      */
-    public function all()
+    public function all(Request $request)
     {
-        return new LodgeCollection(Lodge::all());
+        $params = $request->json();
+
+        if (is_null($params)) {
+            $models = $this->lodgeRepository->all();
+        } else {
+            $models = $this->lodgeRepository->search($params);
+        }
+
+        return new LodgeCollection($models);
     }
 }
