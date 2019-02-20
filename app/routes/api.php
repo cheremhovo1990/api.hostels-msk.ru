@@ -22,5 +22,6 @@ Route::match(['get', 'post'], '/lodges', 'LodgeController@index')->name('lodges'
 
 Route::match(['get', 'post'], '/lodges/all', 'LodgeController@all')->name('lodges.all');
 
+Route::get('/lodges/{lodge}', 'LodgeController@show')->name('lodges.show');
 
 Route::get('/metro-station/all', 'MetroStationController@all')->name('metro-station.all');

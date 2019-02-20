@@ -49,6 +49,7 @@ class Lodge extends JsonResource
      */
     public function toArray($request)
     {
+
         /** @var \App\Models\Organization\Lodge $lodge */
         $lodge = $this;
         $organization = $lodge->organization;
@@ -56,11 +57,17 @@ class Lodge extends JsonResource
         $siteId = 1;
         $stations = $lodge->stations;
         $station = $stations->first();
-        $stationName = is_null($station) ? null : $station->name;
+        $identity = $siteId + $lodge->id;
+
+        if (!is_null($station) && $request->json('title_enable_station')) {
+            $title = $this->getTitleWithStation($identity, $organization_name, $station->name);
+        } else {
+            $title = $this->getTitle($identity, $organization_name);
+        }
         return [
             'id' => $lodge->id,
             'organization_name' => $organization_name,
-            'title' => $this->getTitle($siteId, $lodge->id, $organization_name, $stationName),
+            'title' => $title,
             'announce' => $lodge->announce,
             'phone' => $lodge->getPhone(),
             'latitude' => $lodge->latitude,
@@ -69,21 +76,27 @@ class Lodge extends JsonResource
     }
 
     /**
-     * @param int $siteId
-     * @param int $lodgeId
+     * @param int $identity
+     * @param string $organizationName
+     * @return string
+     */
+    public function getTitle(int $identity, string $organizationName)
+    {
+        $title = mb_convert_case($this->lodges[$identity % count($this->lodges)], MB_CASE_TITLE);
+        return "$title \"{$organizationName}\"";
+    }
+
+    /**
+     * @param int $identity
      * @param string $organizationName
      * @param string|null $stationName
      * @return string
      */
-    public function getTitle(int $siteId, int $lodgeId, string $organizationName, string $stationName = null)
+    public function getTitleWithStation(int $identity, string $organizationName, string $stationName)
     {
-        $identity = $siteId + $lodgeId;
-        $title = mb_convert_case($this->lodges[$identity % count($this->lodges)], MB_CASE_TITLE);
-        if (is_null($stationName)) {
-            return "$title \"{$organizationName}\"";
-        }
+        $title = $this->getTitle($identity, $organizationName);
         $metro = $this->metro[$identity % count($this->metro)];
         $nearMetro = $this->nearMetro[$identity % count($this->nearMetro)];
-        return "$title \"{$organizationName}\" {$nearMetro} {$metro} {$stationName}";
+        return "$title {$nearMetro} {$metro} {$stationName}";
     }
 }

@@ -11,7 +11,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Lodge as LodgeResource;
 use App\Http\Resources\LodgeCollection;
+use App\Models\Organization\Lodge;
 use App\Models\Repositories\LodgeRepository;
 use Illuminate\Http\Request;
 
@@ -45,10 +47,10 @@ class LodgeController extends Controller
     {
         $params = $request->json();
 
-        if (is_null($params)) {
-            $models = $this->lodgeRepository->get();
-        } else {
+        if ($params->has('metro-station')) {
             $models = $this->lodgeRepository->searchWithPaginate($params);
+        } else {
+            $models = $this->lodgeRepository->getPagination();
         }
 
         return new LodgeCollection($models);
@@ -69,5 +71,10 @@ class LodgeController extends Controller
         }
 
         return new LodgeCollection($models);
+    }
+
+    public function show(Lodge $lodge)
+    {
+        return new LodgeResource($lodge);
     }
 }

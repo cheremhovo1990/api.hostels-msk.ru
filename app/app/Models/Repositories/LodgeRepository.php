@@ -74,7 +74,7 @@ class LodgeRepository
     /**
      * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function get()
+    public function getPagination()
     {
         return Lodge::paginate();
     }
