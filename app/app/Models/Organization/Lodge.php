@@ -17,6 +17,7 @@ use App\Models\Municipality;
 use App\Models\Pagination\Detail\Detail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * Class Lodge
@@ -41,7 +42,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Detail $detail
  * @property Municipality $municipality
  * @property District $district
- * @property MetroStation[] $stations
+ * @property MetroStation[]|Collection $stations
  * @property Organization $organization
  */
 class Lodge extends Model
@@ -166,7 +167,9 @@ class Lodge extends Model
     public function stations()
     {
         return $this->belongsToMany(MetroStation::class, 'lodge_metro_station', 'lodge_id', 'metro_station_id')
+            ->addSelect(['metro_stations.*', 'distance'])
             ->using(LodgeMetroStation::class)
+            ->orderBy('distance')
             ->withPivot('distance');
     }
 
