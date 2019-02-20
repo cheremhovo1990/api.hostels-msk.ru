@@ -4,6 +4,11 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+
+/**
+ * Class Lodge
+ * @package App\Http\Resources
+ */
 class Lodge extends JsonResource
 {
     /**
@@ -14,12 +19,18 @@ class Lodge extends JsonResource
      */
     public function toArray($request)
     {
+        /** @var \App\Models\Organization\Lodge $lodge */
+        $lodge = $this;
+        $organization = $lodge->organization;
+        $organization_name = $organization->name;
+
         return [
-            'id' => $this->id,
-            'announce' => $this->announce,
-            'phone' => $this->getPhone(),
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
+            'id' => $lodge->id,
+            'organization_name' => $organization_name,
+            'announce' => $lodge->announce,
+            'phone' => $lodge->getPhone(),
+            'latitude' => $lodge->latitude,
+            'longitude' => $lodge->longitude,
         ];
     }
 }

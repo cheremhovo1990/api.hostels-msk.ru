@@ -55,7 +55,7 @@ class LodgeRepository
      */
     public function querySearch(ParameterBag $params): Builder
     {
-        $query = Lodge::query();
+        $query = Lodge::query()->with(['organization']);
         if ($params->has('metro-station')) {
             $query->join(
                 'lodge_metro_station',
