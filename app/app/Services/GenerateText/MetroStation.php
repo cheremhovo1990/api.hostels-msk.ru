@@ -39,6 +39,15 @@ class MetroStation
      */
     private $generateText;
 
+    /**
+     * @var array
+     */
+    public $list = [
+        'Уютное и просторное в {duration} мин. пешком от метро!',
+        'Удобное расположение – находится рядом с метро, в шаговой доступности',
+        '{duration} минутах ходьбы от метро! Выгодное расположение не заставит вас долго искать наш хостел',
+        '{title} находится в {duration} минутах ходьбы от {metro}',
+    ];
 
     /**
      * MetroStation constructor.
@@ -60,5 +69,36 @@ class MetroStation
         $metro = $this->metro[$this->generateText->getIdentity() % count($this->metro)];
         $nearMetro = $this->nearMetro[$this->generateText->getIdentity() % count($this->nearMetro)];
         return "{$nearMetro} {$metro} {$stationName}";
+    }
+
+    /**
+     * @return int
+     */
+    public function getDuration(): int
+    {
+        $station = $this->generateText->getMetroStation();
+        $distance = $station->pivot->distance;
+        return (int)ceil($distance / 100);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMetro(): string
+    {
+        $text = $this->list[3];
+        $duration = $this->getDuration();
+        $metro = 'м. ' . $this->generateText->getMetroStation()->name;
+        $title = $this->generateText->getTitle();
+        $text = str_replace([
+            '{duration}',
+            '{metro}',
+            '{title}'
+        ], [
+            $duration,
+            $metro,
+            $title
+        ], $text);
+        return $text;
     }
 }

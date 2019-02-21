@@ -67,6 +67,14 @@ class GenerateText
     }
 
     /**
+     * @return string
+     */
+    public function getMetro(): string
+    {
+        return (new GenerateMetroStation($this))->getMetro();
+    }
+
+    /**
      * @return int
      */
     public function getIdentity(): int
@@ -89,5 +97,10 @@ class GenerateText
     public function getMetroStation(): MetroStation
     {
         return $this->lodge->stations->first();
+    }
+
+    public function getMetroStations()
+    {
+        return $this->lodge->stations;
     }
 }

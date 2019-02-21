@@ -20,7 +20,12 @@ class DatabaseSeeder extends Seeder
             $distance = 1000;
             $stations = $metroDistanceService->getMetro($lodge->latitude, $lodge->longitude, $distance)->all();
             foreach ($stations as $station) {
-                $lodgeMetroStation = LodgeMetroStation::new($lodge->id, $station->id, $distance);
+
+                $lodgeMetroStation = LodgeMetroStation::new(
+                    $lodge->id,
+                    $station->id,
+                    $metroDistanceService->distance($lodge->latitude, $lodge->longitude, $station)
+                );
                 $lodgeMetroStation->save();
             }
         });
