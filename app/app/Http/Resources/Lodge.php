@@ -69,9 +69,12 @@ class Lodge extends JsonResource
             'organization_name' => $organization_name,
             'title' => $title,
             'announce' => $lodge->announce,
+            'stations' => new MetroStationCollection($stations),
+            'description' => $lodge->description,
             'phone' => $lodge->getPhone(),
             'latitude' => $lodge->latitude,
             'longitude' => $lodge->longitude,
+            'address' => $lodge->address,
         ];
     }
 
