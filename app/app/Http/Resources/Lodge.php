@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Services\GenerateText\GenerateText;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 
@@ -14,36 +15,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class Lodge extends JsonResource
 {
     /**
-     * @var array
-     */
-    public $lodges = [
-        'хостел',
-        'hostel',
-        'мини хостел',
-        'мини-отель',
-        'общежитие',
-        'общежития эконом-класса',
-        'общежитие гостиничного типа'
-    ];
-
-    /**
-     * @var array
-     */
-    public $metro = [
-        'м.',
-        'метро'
-    ];
-
-    /**
-     * @var array
-     */
-    public $nearMetro = [
-        'рядом c',
-        'около',
-        'возле',
-    ];
-
-    /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request $request
@@ -51,20 +22,18 @@ class Lodge extends JsonResource
      */
     public function toArray($request)
     {
-
         /** @var \App\Models\Organization\Lodge $lodge */
         $lodge = $this;
-        $organization = $lodge->organization;
-        $organization_name = $organization->name;
         $siteId = 1;
+        $generateText = new GenerateText($lodge->resource, $siteId);
+        $organization_name = $lodge->organization->name;
         $stations = $lodge->stations;
         $station = $stations->first();
-        $identity = $siteId + $lodge->id;
 
         if (!is_null($station) && $request->json('title_enable_station')) {
-            $title = $this->getTitleWithStation($identity, $organization_name, $station->name);
+            $title = $generateText->getTitleWithStation();
         } else {
-            $title = $this->getTitle($identity, $organization_name);
+            $title = $generateText->getTitle();
         }
         return [
             'id' => $lodge->id,
@@ -80,28 +49,4 @@ class Lodge extends JsonResource
         ];
     }
 
-    /**
-     * @param int $identity
-     * @param string $organizationName
-     * @return string
-     */
-    public function getTitle(int $identity, string $organizationName)
-    {
-        $title = mb_convert_case($this->lodges[$identity % count($this->lodges)], MB_CASE_TITLE);
-        return "$title \"{$organizationName}\"";
-    }
-
-    /**
-     * @param int $identity
-     * @param string $organizationName
-     * @param string|null $stationName
-     * @return string
-     */
-    public function getTitleWithStation(int $identity, string $organizationName, string $stationName)
-    {
-        $title = $this->getTitle($identity, $organizationName);
-        $metro = $this->metro[$identity % count($this->metro)];
-        $nearMetro = $this->nearMetro[$identity % count($this->nearMetro)];
-        return "$title {$nearMetro} {$metro} {$stationName}";
-    }
 }
