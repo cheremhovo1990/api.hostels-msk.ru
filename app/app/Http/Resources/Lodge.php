@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Services\GenerateText\GenerateText;
+use App\Services\Text\Service;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 
@@ -25,16 +25,12 @@ class Lodge extends JsonResource
         /** @var \App\Models\Organization\Lodge $lodge */
         $lodge = $this;
         $siteId = 1;
-        $generateText = new GenerateText($lodge->resource, $siteId);
         $organization_name = $lodge->organization->name;
         $stations = $lodge->stations;
-        $station = $stations->first();
-
-        if (!is_null($station) && $request->json('title_enable_station')) {
-            $title = $generateText->getTitleWithStation();
-        } else {
-            $title = $generateText->getTitle();
-        }
+        /** @var Service $generateService */
+        $generateService = app(Service::class);
+        $title = $generateService->title($this->resource, $siteId, (bool)$request->json('title_enable_station'));
+        $generateService->announce($this->resource, $siteId);
         return [
             'id' => $lodge->id,
             'organization_name' => $organization_name,

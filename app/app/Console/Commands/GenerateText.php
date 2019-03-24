@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Organization\Lodge;
+use App\Services\Text\Service;
 use Illuminate\Console\Command;
 
 class GenerateText extends Command
@@ -20,8 +21,8 @@ class GenerateText extends Command
     public function handle()
     {
         /** @var Lodge $lodge */
-        $lodge = Lodge::where('id', '=', 301)->first();
-        $generateText = new \App\Services\GenerateText\GenerateText($lodge, 1);
-        echo $generateText->getMetro() . PHP_EOL;
+        $lodge = Lodge::where('id', '=', 603)->first();
+        app(Service::class)->announce($lodge, 1);
+        echo $lodge->announce . PHP_EOL;
     }
 }

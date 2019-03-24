@@ -44,6 +44,7 @@ use Illuminate\Support\Collection;
  * @property District $district
  * @property MetroStation[]|Collection $stations
  * @property Organization $organization
+ * @property Property[]|Collection $properties
  */
 class Lodge extends Model
 {
@@ -173,6 +174,13 @@ class Lodge extends Model
             ->withPivot('distance');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function properties()
+    {
+        return $this->belongsToMany(Property::class, 'lodge_property', 'lodge_id', 'property_id');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
