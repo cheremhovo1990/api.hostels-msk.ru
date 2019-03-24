@@ -14,7 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(PropertySeeder::class);
+        DB::delete('delete from lodges');
+        DB::delete('delete from lodge_metro_station');
+
         $lodges = factory(Lodge::class, 100)->create();
+
         $lodges->each(function (Lodge $lodge) {
             $metroDistanceService = app(MetroDistanceService::class);
             $distance = 1000;
