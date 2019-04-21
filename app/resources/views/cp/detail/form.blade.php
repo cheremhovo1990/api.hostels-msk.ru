@@ -276,5 +276,6 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
     <script src="/js/ckeditor/ckeditor.js"></script>
+    @include('cp.parts.script-common')
     @include('cp.detail.script')
 @endsection

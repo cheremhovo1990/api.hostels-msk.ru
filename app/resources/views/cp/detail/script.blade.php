@@ -1,21 +1,12 @@
 <script>
     $(function () {
         let selectors = {
-            'editors': '.ckeditor-editor',
             'add-schema-org-opening-hours': '#add-input-opening-hours-schema',
             'container-for-opening-hours-schema': '#container-for-opening-hours-schema',
             'delete-input-opening-hours-schema': '.delete-input-opening-hours-schema',
             'image-add-all': '#js-image-add-all',
             'add-image': '.js-add-image'
         };
-        let editors = document.querySelectorAll(selectors.editors);
-        editors.forEach(function (editor) {
-            ClassicEditor
-                .create(editor)
-                .catch(error => {
-                    console.error(error);
-                });
-        });
         $(selectors['add-schema-org-opening-hours']).click(function (e) {
             e.preventDefault();
             let input = $(this).data('html');
@@ -162,5 +153,4 @@
         };
         let map = new Map();
     });
-    $('.js-phone-mask').inputmask("+7(999)999-99-99");
 </script>

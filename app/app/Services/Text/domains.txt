@@ -147,7 +147,7 @@
 !redhostelmoscow.com
 !rahmanoff.ru
 !qubehotel.ru
-privethostels.com
+!privethostels.com
 pribrejhotel.ru
 pledhostels.ru
 pioneer-9.ru

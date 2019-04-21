@@ -35,7 +35,7 @@ $title = 'Lodges';
                     <td>{{$model->id}}</td>
                     <td>{{$model->organization->name}}</td>
                     <td>
-                        <a href="{{route('cp.details.edit', [$model->detail])}}" class="btn btn-primary">Update</a>
+                        <a href="{{route('cp.lodges.edit', [$model])}}" class="btn btn-primary">Update</a>
                     </td>
                 </tr>
                 </tbody>
