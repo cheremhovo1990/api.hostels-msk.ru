@@ -92,7 +92,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                     <div id="container-for-opening-hours-schema">
                         @if (!is_null($lodge))
                             @foreach($lodge->schema_org['opening_hours'] as $opening_hour)
-                                @include('cp.detail.opening-hours-schema')
+                                @include('cp.parts.lodge.opening-hours-schema')
                             @endforeach
                         @endif
                     </div>
@@ -278,4 +278,5 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
     <script src="/js/ckeditor/ckeditor.js"></script>
     @include('cp.parts.script-common')
     @include('cp.detail.script')
+    @include('cp.parts.lodge.script')
 @endsection

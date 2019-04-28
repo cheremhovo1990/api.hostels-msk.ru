@@ -8,6 +8,7 @@
 
 /** @var $model \App\Models\Organization\Lodge */
 /** @var $cityDropDown \Illuminate\Support\Collection */
+/** @var $statusDropDown \Illuminate\Support\Collection */
 
 ?>
 @extends('cp')
@@ -46,7 +47,88 @@
                            value="{{old('address', optional($model)->address)}}">
                 </div>
             </div>
-            <div class="from-group">
+            <div class="form-group required">
+                <label for="lodge-status">Status</label>
+                <select name="status" id="lodge-status" class="form-control">
+                    @foreach($statusDropDown as $id => $status)
+                        <option value="{{$id}}" {{$id == optional($model)->status ? 'selected': ''}}>{{$status}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group required">
+                <label for="lodge-opening-hours">Opening Hours</label>
+                <input type="text" name="opening_hours" id="lodge-opening-hours" class="form-control"
+                       value="{{old('opening_hours', optional($model)->opening_hours)}}">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" id="add-input-opening-hours-schema"
+                        data-html='@include('cp.detail.opening-hours-schema')'>Add Schema.org
+                </button>
+                <small id="emailHelp" class="form-text text-muted"><a href="https://schema.org/openingHours"
+                                                                      target="_blank">https://schema.org/openingHours</a>
+                </small>
+            </div>
+            <div id="container-for-opening-hours-schema">
+                @if (!is_null($model))
+                    @foreach($model->schema_org['opening_hours'] as $opening_hour)
+                        @include('cp.parts.lodge.opening-hours-schema')
+                    @endforeach
+                @endif
+            </div>
+            <div class="row">
+                <div class="col form-group required">
+                    <label for="lodge-latitude">Latitude</label>
+                    <input type="text" name="latitude" class="form-control" id="lodge-latitude" disabled
+                           value="{{old('latitude', optional($model)->latitude)}}">
+                </div>
+                <div class="col form-group required">
+                    <label for="lodge-longitude">Longitude</label>
+                    <input type="text" name="longitude" class="form-control" id="lodge-longitude" disabled
+                           value="{{old('longitude', optional($model)->longitude)}}">
+                </div>
+                <div class="col form-group">
+                    <label for="lodge-distance">Distance</label>
+                    <div class="input-group">
+                        <input type="number" value="1000" class="form-control" id="lodge-distance">
+                        <div class="input-group-append">
+                            <button class="form-control btn-primary btn" id="js-lodge-station-distance">
+                                Distance
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="js-show-station-distance">
+                @if (!is_null($model))
+                    @include('cp/detail/distance', ['stations' => $model->stations])
+                @endif
+            </div>
+            <div id="map" style="height: 400px; width: 100%"></div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button id="js-button-district" class="btn btn-primary btn-lg btn-block">
+                        Administrative District
+                    </button>
+                </div>
+            </div>
+            <div id="js-district-view">
+                @if (!is_null($model))
+                    @include('cp/api/district/view', ['model' => $model->district])
+                @endif
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button id="js-button-municipality" class="btn btn-primary btn-lg btn-block">
+                        Municipality
+                    </button>
+                </div>
+            </div>
+            <div id="js-municipality-view">
+                @if (!is_null($model))
+                    @include('cp/api/municipality/view', ['model' => $model->municipality])
+                @endif
+            </div>
+            <div class="from-group mt-3">
                 <button class="btn btn-primary">Save</button>
             </div>
         </form>
@@ -59,4 +141,6 @@
     <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
     <script src="/js/ckeditor/ckeditor.js"></script>
     @include('cp.parts.script-common')
+    @include('cp.parts.lodge.script')
+    @include('cp.lodge.script')
 @endsection

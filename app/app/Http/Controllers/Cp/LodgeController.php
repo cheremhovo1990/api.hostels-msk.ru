@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Cp;
 
 
 use App\Helpers\CityHelper;
+use App\Helpers\LodgeHelper;
 use App\Models\Organization\Lodge;
 
 /**
@@ -38,7 +39,8 @@ class LodgeController
     {
         return view('cp/lodge/edit', [
             'model' => $model,
-            'cityDropDown' => CityHelper::getDropDown()
+            'cityDropDown' => CityHelper::getDropDown(),
+            'statusDropDown' => LodgeHelper::getStatusDropDown(),
         ]);
     }
 

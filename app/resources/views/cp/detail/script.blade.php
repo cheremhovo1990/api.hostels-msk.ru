@@ -1,24 +1,9 @@
 <script>
     $(function () {
         let selectors = {
-            'add-schema-org-opening-hours': '#add-input-opening-hours-schema',
-            'container-for-opening-hours-schema': '#container-for-opening-hours-schema',
-            'delete-input-opening-hours-schema': '.delete-input-opening-hours-schema',
             'image-add-all': '#js-image-add-all',
             'add-image': '.js-add-image'
         };
-        $(selectors['add-schema-org-opening-hours']).click(function (e) {
-            e.preventDefault();
-            let input = $(this).data('html');
-            let container = $(selectors['container-for-opening-hours-schema']);
-            if (container.find('.form-group').length < 7) {
-                container.append($(input));
-            }
-        });
-        $(this).on('click', selectors['delete-input-opening-hours-schema'], function (e) {
-            e.preventDefault();
-            $(this).closest('.form-group').remove();
-        });
         $(selectors['image-add-all']).click(function (e) {
             e.preventDefault();
             $(selectors['add-image']).each(function (index, element) {
@@ -58,40 +43,6 @@
         $('#lodge-image-upload').on('show.bs.modal', function () {
             $('#lodge-preview-image').html('');
             renderModalBody();
-        });
-        $('#js-lodge-station-distance').on('click', function (event) {
-            event.preventDefault();
-            let latitude = $('#lodge-latitude').val();
-            let longitude = $('#lodge-longitude').val();
-            let distance = $('#lodge-distance').val();
-            if (latitude != '' && longitude != '') {
-                let url = '/cp/api/station-by-coordinates/lat/' + latitude + '/lon/' + longitude + '/dist/' + distance;
-                $.get(url, function (html) {
-                    $('#js-show-station-distance').html(html);
-                });
-            }
-        });
-        $('#js-button-district').on('click', function (event) {
-            event.preventDefault();
-            let latitude = $('#lodge-latitude').val();
-            let longitude = $('#lodge-longitude').val();
-            if (latitude != '' && longitude != '') {
-                let url = '/cp/api/administrative-district/lat/' + latitude + '/lon/' + longitude;
-                $.get(url, function (html) {
-                    $('#js-district-view').html(html);
-                });
-            }
-        });
-        $('#js-button-municipality').on('click', function (event) {
-            event.preventDefault();
-            let latitude = $('#lodge-latitude').val();
-            let longitude = $('#lodge-longitude').val();
-            if (latitude != '' && longitude != '') {
-                let url = '/cp/api/municipality/lat/' + latitude + '/lon/' + longitude;
-                $.get(url, function (html) {
-                    $('#js-municipality-view').html(html);
-                });
-            }
         });
 
         function renderModalBody() {
