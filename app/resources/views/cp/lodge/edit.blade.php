@@ -33,20 +33,7 @@
                 <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone"
                        value="{{old('phone', optional($model)->phone)}}">
             </div>
-            <div class="form-group required">
-                <label for="lodge-address">Address</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <select name="city_id" class="form-control">
-                            @foreach($cityDropDown as $id => $city)
-                                <option value="{{$id}}" {{$id == optional($model)->city_id ? 'selected': ''}}>{{$city}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <input type="text" name="address" class="form-control" id="lodge-address"
-                           value="{{old('address', optional($model)->address)}}">
-                </div>
-            </div>
+
             <div class="form-group required">
                 <label for="lodge-status">Status</label>
                 <select name="status" id="lodge-status" class="form-control">
@@ -102,6 +89,24 @@
                 @if (!is_null($model))
                     @include('cp/detail/distance', ['stations' => $model->stations])
                 @endif
+            </div>
+            <div class="form-group required">
+                <label for="lodge-address">Address</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select name="city_id" class="form-control" id="lodge-city">
+                            @foreach($cityDropDown as $id => $city)
+                                <option value="{{$id}}" {{$id == optional($model)->city_id ? 'selected': ''}}>{{$city}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <input type="text" name="address" class="form-control" id="lodge-address"
+                           value="{{old('address', optional($model)->address)}}">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" id="js-search-map">Search Map</button>
+                    </div>
+                </div>
+                <div id="js-lodge-address-error" class="form-text text-danger"></div>
             </div>
             <div id="map" style="height: 400px; width: 100%"></div>
             <div class="row mt-3">
