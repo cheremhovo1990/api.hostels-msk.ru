@@ -25,7 +25,9 @@
             </div>
             <?php if (!is_null($model->id)): ?>
             <a href="{{route('cp.api.text.generate', ['lodge' => $model])}}" id="js-announce-generate"
-               class="btn btn-primary mt-1">Generate</a>
+               class="btn btn-primary mt-1">
+                Generate
+            </a>
             <?php endif; ?>
             <div class="form-group required mt-2">
                 <label for="lodge-description">Description</label>

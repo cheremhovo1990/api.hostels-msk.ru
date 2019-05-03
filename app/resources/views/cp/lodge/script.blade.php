@@ -6,11 +6,7 @@
         'search': '#js-search-map',
         'address': '#lodge-address',
         'address-error': '#js-lodge-address-error',
-        'city': '#lodge-city',
-        'announce-generate': '#js-announce-generate',
-        'announce': '#lodge-announce',
-        'description-generate': '#js-description-generate',
-        'description': '#lodge-description'
+        'city': '#lodge-city'
     };
     ymaps.ready(function () {
         let latitude = parseFloat($(selection['latitude']).val());
@@ -53,20 +49,5 @@
             }
         })
     });
-    $(selection['announce-generate']).on('click', function (e) {
-        e.preventDefault();
-        $.post(this.href, function (response) {
-            if (response.success) {
-                $(selection['announce']).data('editor').setData(response.text)
-            }
-        });
-    })
-    $(selection['description-generate']).on('click', function (e) {
-        e.preventDefault();
-        $.post(this.href, function (response) {
-            if (response.success) {
-                $(selection['description']).data('editor').setData(response.text)
-            }
-        });
-    })
+
 </script>

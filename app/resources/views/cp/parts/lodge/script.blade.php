@@ -12,6 +12,10 @@
         'district-view': '#js-district-view',
         'button-municipality': '#js-button-municipality',
         'municipality-view': '#js-municipality-view',
+        'announce-generate': '#js-announce-generate',
+        'announce': '#lodge-announce',
+        'description-generate': '#js-description-generate',
+        'description': '#lodge-description'
     };
     $(selectors['add-schema-org-opening-hours']).click(function (e) {
         e.preventDefault();
@@ -48,7 +52,22 @@
             });
         }
     });
-
+    $(selectors['announce-generate']).on('click', function (e) {
+        e.preventDefault();
+        $.get(this.href, function (response) {
+            if (response.success) {
+                $(selectors['announce']).data('editor').setData(response.text)
+            }
+        });
+    });
+    $(selectors['description-generate']).on('click', function (e) {
+        e.preventDefault();
+        $.get(this.href, function (response) {
+            if (response.success) {
+                $(selectors['description']).data('editor').setData(response.text)
+            }
+        });
+    });
     $(selectors['button-municipality']).on('click', function (event) {
         event.preventDefault();
         let latitude = $(selectors['latitude']).val();
