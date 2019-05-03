@@ -10,6 +10,8 @@
 /** @var $cityDropDown \Illuminate\Support\Collection */
 /** @var $statusDropDown \Illuminate\Support\Collection */
 
+$imageToken = optional($model)->image_token ?? uniqid('', true);
+
 ?>
 @extends('cp')
 
@@ -143,10 +145,36 @@
                     @include('cp/api/municipality/view', ['model' => $model->municipality])
                 @endif
             </div>
+            <input type="hidden" name="image_token" value="{{$imageToken}}">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" id="js-image-button-modal" data-toggle="modal"
+                    data-target="#js-lodge-image-upload"
+                    data-url-images="{{route('cp.api.lodge.images', ['token' => $imageToken])}}">
+                Upload image
+            </button>
             <div class="from-group mt-3">
                 <button class="btn btn-primary">Save</button>
             </div>
         </form>
+        <!-- Modal -->
+        <div class="modal fade" id="js-lodge-image-upload" tabindex="-1" role="dialog"
+             aria-labelledby="lodge-image-upload" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <form action="{{route('cp.api.lodge.images.store', ['token' => $imageToken])}}">
+                            <input type="file" id="js-input-lodge-images" accept="image/*" multiple>
+                        </form>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="js-lodge-preview-image">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 

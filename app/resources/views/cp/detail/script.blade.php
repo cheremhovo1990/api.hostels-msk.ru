@@ -24,32 +24,7 @@
             };
             xhr.send();
         });
-        $(this).on('click', '.js-image-destroy', function (e) {
-            e.preventDefault();
-            axios.delete(this.href).then(function () {
-                renderModalBody();
-            });
-        });
-        $('#js-input-lodge-images').on('change', function () {
-            let formData = new FormData();
-            for (let i = 0; i < this.files.length; i++) {
-                formData.append('images[]', this.files.item(i))
-            }
-            axios.post(this.form.action, formData)
-                .then(function () {
-                    renderModalBody();
-                });
-        });
-        $('#lodge-image-upload').on('show.bs.modal', function () {
-            $('#lodge-preview-image').html('');
-            renderModalBody();
-        });
 
-        function renderModalBody() {
-            $.get($('#js-image-button-modal').data('url-images'), function (html) {
-                $('#lodge-preview-image').html(html);
-            });
-        }
     });
     ymaps.ready(function () {
         function Map() {

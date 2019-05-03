@@ -15,7 +15,12 @@
         'announce-generate': '#js-announce-generate',
         'announce': '#lodge-announce',
         'description-generate': '#js-description-generate',
-        'description': '#lodge-description'
+        'description': '#lodge-description',
+        'lodge-preview-image': '#js-lodge-preview-image',
+        'lodge-image-upload': '#js-lodge-image-upload',
+        'image-button-modal': '#js-image-button-modal',
+        'image-destroy': '.js-image-destroy',
+        'input-lodge-images': '#js-input-lodge-images'
     };
     $(selectors['add-schema-org-opening-hours']).click(function (e) {
         e.preventDefault();
@@ -79,4 +84,30 @@
             });
         }
     });
+    $(selectors['lodge-image-upload']).on('show.bs.modal', function () {
+        $(selectors['lodge-preview-image']).html('');
+        renderModalBody();
+    });
+    $(document).on('click', selectors['image-destroy'], function (e) {
+        e.preventDefault();
+        axios.delete(this.href).then(function () {
+            renderModalBody();
+        });
+    });
+    $(selectors['input-lodge-images']).on('change', function () {
+        let formData = new FormData();
+        for (let i = 0; i < this.files.length; i++) {
+            formData.append('images[]', this.files.item(i))
+        }
+        axios.post(this.form.action, formData)
+            .then(function () {
+                renderModalBody();
+            });
+    });
+
+    function renderModalBody() {
+        $.get($(selectors['image-button-modal']).data('url-images'), function (html) {
+            $(selectors['lodge-preview-image']).html(html);
+        });
+    }
 </script>

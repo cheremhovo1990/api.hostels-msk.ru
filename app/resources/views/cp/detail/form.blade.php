@@ -166,7 +166,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                     <input type="hidden" name="image_token" value="{{$imageToken}}">
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" id="js-image-button-modal" data-toggle="modal"
-                            data-target="#lodge-image-upload"
+                            data-target="#js-lodge-image-upload"
                             data-url-images="{{route('cp.api.lodge.images', ['token' => $imageToken])}}">
                         Upload image
                     </button>
@@ -175,7 +175,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                     </div>
                 </form>
                 <!-- Modal -->
-                <div class="modal fade" id="lodge-image-upload" tabindex="-1" role="dialog"
+                <div class="modal fade" id="js-lodge-image-upload" tabindex="-1" role="dialog"
                      aria-labelledby="lodge-image-upload" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
@@ -187,7 +187,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body" id="lodge-preview-image">
+                            <div class="modal-body" id="js-lodge-preview-image">
 
                             </div>
                         </div>
