@@ -23,11 +23,19 @@
                 <textarea name="announce" class="form-control ckeditor-editor"
                           id="lodge-announce">{{old('announce', optional($model)->announce)}}</textarea>
             </div>
-            <div class="form-group required">
+            <?php if (!is_null($model->id)): ?>
+            <a href="{{route('cp.api.text.generate', ['lodge' => $model])}}" id="js-announce-generate"
+               class="btn btn-primary mt-1">Generate</a>
+            <?php endif; ?>
+            <div class="form-group required mt-2">
                 <label for="lodge-description">Description</label>
                 <textarea name="description" class="form-control ckeditor-editor"
                           id="lodge-description">{{old('description', optional($model)->description)}}</textarea>
             </div>
+            <?php if (!is_null($model->id)): ?>
+            <a href="{{route('cp.api.text.generate', ['lodge' => $model])}}" id="js-description-generate"
+               class="btn btn-primary mt-1">Generate</a>
+            <?php endif; ?>
             <div class="form-group required">
                 <label for="lodge-phone">Phone</label>
                 <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone"

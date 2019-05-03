@@ -53,19 +53,20 @@ class Service
     /**
      * @param Lodge $lodge
      * @param $siteId
+     * @return string
      */
-    public function announce(Lodge $lodge, $siteId)
+    public function announce(Lodge $lodge, $siteId): string
     {
-        $options = [
-        ];
+        $options = [];
         $variables = [];
         $variables['{city}'] = 'Москве';
         $this->name($lodge, $variables);
         $this->metro($lodge, $options, $variables);
         $this->hostel($lodge, $siteId, $variables);
         $this->wifi($lodge, $options, $variables);
-        $lodge->announce = $this->generate->getText($options);
-        $lodge->announce = $this->replace($variables, $lodge->announce);
+        $announce = $this->generate->getText($options);
+        $announce = $this->replace($variables, $announce);
+        return $announce;
     }
 
     /**
