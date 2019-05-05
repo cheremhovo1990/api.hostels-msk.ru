@@ -11,12 +11,15 @@
     ymaps.ready(function () {
         let latitude = parseFloat($(selection['latitude']).val());
         let longitude = parseFloat($(selection['longitude']).val());
-        if (latitude == '' && longitude == '') {
-
+        let zoom = 15;
+        if (isNaN(latitude) || isNaN(longitude)) {
+            latitude = 55.76;
+            longitude = 37.64;
+            zoom = 10;
         }
         let map = new ymaps.Map('map', {
             'center': [latitude, longitude],
-            'zoom': 15,
+            'zoom': zoom,
         });
         $(selection['map']).prop('map', map);
         var placemark = new ymaps.Placemark([latitude, longitude], {}, {draggable: true});
@@ -27,6 +30,15 @@
         });
         map.geoObjects.add(placemark);
         $(selection['map']).prop('placemark', placemark);
+        map.events.add('click', function (e) {
+            console.log(e);
+            let coordinates = e.get('coords');
+
+            $(selection['latitude']).val(coordinates[0]);
+            $(selection['longitude']).val(coordinates[1]);
+            let placemark = $(selection['map']).prop('placemark');
+            placemark.geometry.setCoordinates(coordinates);
+        })
     });
     $(selection['search']).on('click', function (e) {
         e.preventDefault();

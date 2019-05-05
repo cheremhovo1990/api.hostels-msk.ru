@@ -62,7 +62,12 @@ class LodgeRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [];
+        $detail = $this->route('detail');
+        if (is_null($detail)) {
+            $rules['organization_id'] = 'required|integer';
+        }
+        return array_merge([
             'announce' => 'required|string',
             'description' => 'required|string',
             'phone' => 'required|string|size:11',
@@ -78,6 +83,6 @@ class LodgeRequest extends FormRequest
             'administrative_district_id' => 'required|exists:administrative_districts,id',
             'municipality_id' => 'required|exists:municipalities,id',
             'image_token' => 'required|string'
-        ];
+        ], $rules);
     }
 }

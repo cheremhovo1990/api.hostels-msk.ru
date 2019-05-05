@@ -2,23 +2,30 @@
 /**
  * Created by PhpStorm.
  * User: cheremhovo1990
- * Date: 09.12.18
- * Time: 18:27
+ * Date: 05.05.19
+ * Time: 10:27
  */
 declare(strict_types=1);
 
 
-namespace App\Models\Repositories;
+namespace App\Models\Organization\Repositories;
 
 
 use App\Models\Organization\Organization;
 
 /**
  * Class OrganizationRepository
- * @package App\Models\Repositories
+ * @package App\Models\Organization\Repositories
  */
 class OrganizationRepository
 {
+    /**
+     * @return mixed
+     */
+    public static function getDropDown()
+    {
+        return Organization::pluck('name', 'id');
+    }
 
     /**
      * @param int $id

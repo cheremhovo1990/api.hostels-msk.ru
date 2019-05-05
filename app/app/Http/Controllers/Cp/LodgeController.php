@@ -13,7 +13,9 @@ namespace App\Http\Controllers\Cp;
 
 use App\Helpers\CityHelper;
 use App\Helpers\LodgeHelper;
+use App\Http\Requests\Cp\LodgeRequest;
 use App\Models\Organization\Lodge;
+use App\Models\Organization\Repositories\OrganizationRepository;
 
 /**
  * Class LodgeController
@@ -26,9 +28,33 @@ class LodgeController
      */
     public function index()
     {
-        $models = Lodge::paginate();
+        $models = Lodge::orderBy('id', 'desc')->paginate();
 
         return view('cp/lodge/index', ['models' => $models]);
+    }
+
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('cp/lodge/create',
+            [
+                'model' => null,
+                'cityDropDown' => CityHelper::getDropDown(),
+                'statusDropDown' => LodgeHelper::getStatusDropDown(),
+                'organizationDropDown' => OrganizationRepository::getDropDown(),
+            ]
+        );
+    }
+
+    public function store(LodgeRequest $lodgeRequest)
+    {
+        $data = $lodgeRequest->validated();
+        $lodge = Lodge::new($data);
+        $lodge->saveOrFail();
+        return redirect(route('cp.lodges.index'));
     }
 
     /**
@@ -41,11 +67,21 @@ class LodgeController
             'model' => $model,
             'cityDropDown' => CityHelper::getDropDown(),
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
+            'organizationDropDown' => OrganizationRepository::getDropDown(),
         ]);
     }
 
-    public function update()
+    /**
+     * @param Lodge $lodge
+     * @param LodgeRequest $lodgeRequest
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
+     */
+    public function update(Lodge $lodge, LodgeRequest $lodgeRequest)
     {
+        $data = $lodgeRequest->validated();
+        $lodge->edit($data);
+        $lodge->saveOrFail();
         return redirect(route('cp.lodges.index'));
     }
 }

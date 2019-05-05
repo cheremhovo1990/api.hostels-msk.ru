@@ -18,6 +18,10 @@ $title = 'Lodges';
     <div class="col-md-12">
         <h1>{{$title}}</h1>
 
+        <p>
+            <a href="{{route('cp.lodges.create')}}" class="btn btn-primary">Create</a>
+        </p>
+
         <table class="table">
             <thead>
             <tr>

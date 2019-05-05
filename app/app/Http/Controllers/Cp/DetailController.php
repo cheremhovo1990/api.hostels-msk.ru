@@ -19,7 +19,7 @@ use App\Models\Organization\Lodge;
 use App\Models\Organization\LodgeMetroStation;
 use App\Models\Pagination\Detail\Detail;
 use App\Models\Repositories\LodgeRepository;
-use App\Models\Repositories\OrganizationRepository;
+use App\Models\Organization\Repositories\OrganizationRepository;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -77,7 +77,7 @@ class DetailController
         $organization = $this->organizationRepository->oneByDetail($detail->id);
         $data = $lodgeRequest->validated();
         DB::transaction(function () use ($data, $organization, $detail) {
-            $lodge = Lodge::new($data, $organization);
+            $lodge = Lodge::newForDetail($data, $organization);
             $lodge->saveOrFail();
             $lodge->detail()->save($detail);
             if (isset($data['stations'])) {
