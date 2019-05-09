@@ -25,18 +25,15 @@ class Lodge extends JsonResource
         /** @var \App\Models\Organization\Lodge $lodge */
         $lodge = $this;
         $siteId = 1;
-        $organization_name = $lodge->organization->name;
-        $stations = $lodge->stations;
         /** @var Service $generateService */
         $generateService = app(Service::class);
         $title = $generateService->title($this->resource, $siteId, (bool)$request->json('title_enable_station'));
-        $generateService->announce($this->resource, $siteId);
         return [
             'id' => $lodge->id,
-            'organization_name' => $organization_name,
+            'organization_name' => $lodge->organization->name,
             'title' => $title,
             'announce' => $lodge->announce,
-            'stations' => new MetroStationCollection($stations),
+            'stations' => new MetroStationCollection($lodge->stations),
             'description' => $lodge->description,
             'phone' => $lodge->getPhone(),
             'latitude' => $lodge->latitude,

@@ -55,7 +55,7 @@ class LodgeRepository
      */
     public function querySearch(ParameterBag $params): Builder
     {
-        $query = Lodge::query()->with(['organization']);
+        $query = Lodge::query()->orderBy('id', 'desc')->with(['organization']);
         if ($params->has('metro-station')) {
             $query->join(
                 'lodge_metro_station',
@@ -76,7 +76,7 @@ class LodgeRepository
      */
     public function getPagination()
     {
-        return Lodge::paginate();
+        return Lodge::orderBy('id', 'desc')->paginate();
     }
 
     /**
