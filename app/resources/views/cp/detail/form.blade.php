@@ -19,14 +19,6 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
 ?>
 @extends('cp')
 
-@section('style')
-    @parent
-    div.required label:after {
-    content: " *";
-    color: red;
-    }
-@endsection
-
 @section('content')
     <div class="col-md-12">
         <h1>{{$title}}</h1>

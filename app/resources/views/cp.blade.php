@@ -12,6 +12,10 @@
     <title>Hello, world!</title>
     <style>
         @section('style')
+            div.required label:after {
+            content: " *";
+            color: red;
+        }
         @show
     </style>
 </head>
@@ -30,6 +34,7 @@
                         <a class="dropdown-item" href="{{route('cp.organizations.index')}}">Organizations</a>
                         <a class="dropdown-item" href="{{route('cp.stations.index')}}">Metro</a>
                         <a class="dropdown-item" href="{{route('cp.lodges.index')}}">Lodges</a>
+                        <a class="dropdown-item" href="{{route('cp.meta.index')}}">Meta</a>
                     </div>
                 </li>
             </ul>
