@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 Route::resource('organizations', 'OrganizationController');
 Route::resource('lodges', 'LodgeController');
 Route::resource('meta', 'MetaController');
+Route::resource('property-groups', 'PropertyGroupController');
 
 Route::get('organizations/details/{detail}/create', 'DetailController@create')->name('details.create');
 Route::post('organizations/details/{detail}', 'DetailController@store')->name('details.store');

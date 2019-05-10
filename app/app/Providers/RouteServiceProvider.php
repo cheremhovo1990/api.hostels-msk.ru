@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Meta;
 use App\Models\Organization\Lodge;
+use App\Models\Organization\PropertyGroup;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -28,6 +29,7 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
         Route::model('lodge', Lodge::class);
         Route::model('metum', Meta::class);
+        Route::model('property_group', PropertyGroup::class);
     }
 
     /**

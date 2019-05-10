@@ -35,6 +35,7 @@
                         <a class="dropdown-item" href="{{route('cp.stations.index')}}">Metro</a>
                         <a class="dropdown-item" href="{{route('cp.lodges.index')}}">Lodges</a>
                         <a class="dropdown-item" href="{{route('cp.meta.index')}}">Meta</a>
+                        <a class="dropdown-item" href="{{route('cp.property-groups.index')}}">Property Group</a>
                     </div>
                 </li>
             </ul>

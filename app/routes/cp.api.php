@@ -6,6 +6,8 @@
  * Time: 11:42
  */
 
+use Illuminate\Support\Facades\Route;
+
 Route::get('station-by-coordinates/lat/{latitude}/lon/{longitude}/dist/{distance}', function (\App\Services\MetroDistanceService $metroDistanceService, float $latitude, float $longitude, int $distance) {
     $stations = $metroDistanceService->getMetro($latitude, $longitude, $distance)->all();
 
