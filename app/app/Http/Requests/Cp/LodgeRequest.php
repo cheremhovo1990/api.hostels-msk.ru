@@ -82,7 +82,8 @@ class LodgeRequest extends FormRequest
             'stations.*.distance' => 'integer',
             'administrative_district_id' => 'required|exists:administrative_districts,id',
             'municipality_id' => 'required|exists:municipalities,id',
-            'image_token' => 'required|string'
+            'image_token' => 'required|string',
+            'properties.*' => 'integer|exists:properties,id',
         ], $rules);
     }
 }

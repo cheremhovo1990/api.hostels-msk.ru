@@ -10,6 +10,7 @@
 /** @var $cityDropDown \Illuminate\Support\Collection */
 /** @var $statusDropDown \Illuminate\Support\Collection */
 /** @var $organizationDropDown \Illuminate\Support\Collection */
+/** @var $groups \App\Models\Organization\PropertyGroup[] */
 
 $imageToken = optional($model)->image_token ?? uniqid('', true);
 
@@ -39,26 +40,33 @@ if (is_null($model)) {
                     @endforeach
                 </select>
             </div>
-            <div class="form-group required">
-                <label for="lodge-announce">Announce</label>
-                <textarea name="announce" class="form-control ckeditor-editor"
-                          id="lodge-announce">{{old('announce', optional($model)->announce)}}</textarea>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group required">
+                        <label for="lodge-announce">Announce</label>
+                        <textarea name="announce" class="form-control ckeditor-editor"
+                                  id="lodge-announce">{{old('announce', optional($model)->announce)}}</textarea>
+                    </div>
+                    <?php if (!is_null($model)): ?>
+                    <a href="{{route('cp.api.text.generate', ['lodge' => $model])}}" id="js-announce-generate"
+                       class="btn btn-primary mt-1">
+                        Generate
+                    </a>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group required">
+                        <label for="lodge-description">Description</label>
+                        <textarea name="description" class="form-control ckeditor-editor"
+                                  id="lodge-description">{{old('description', optional($model)->description)}}</textarea>
+                    </div>
+                    <?php if (!is_null($model)): ?>
+                    <a href="{{route('cp.api.text.generate', ['lodge' => $model])}}" id="js-description-generate"
+                       class="btn btn-primary mt-1">Generate</a>
+                    <?php endif; ?>
+                </div>
             </div>
-            <?php if (!is_null($model)): ?>
-            <a href="{{route('cp.api.text.generate', ['lodge' => $model])}}" id="js-announce-generate"
-               class="btn btn-primary mt-1">
-                Generate
-            </a>
-            <?php endif; ?>
-            <div class="form-group required mt-2">
-                <label for="lodge-description">Description</label>
-                <textarea name="description" class="form-control ckeditor-editor"
-                          id="lodge-description">{{old('description', optional($model)->description)}}</textarea>
-            </div>
-            <?php if (!is_null($model)): ?>
-            <a href="{{route('cp.api.text.generate', ['lodge' => $model])}}" id="js-description-generate"
-               class="btn btn-primary mt-1">Generate</a>
-            <?php endif; ?>
+
             <div class="form-group required">
                 <label for="lodge-phone">Phone</label>
                 <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone"
@@ -163,6 +171,24 @@ if (is_null($model)) {
                 @if (!is_null($model))
                     @include('cp/api/municipality/view', ['model' => $model->municipality])
                 @endif
+            </div>
+            <div class="form-group">
+                @foreach($groups as $group)
+                    <div class="card">
+                        <div class="card-header">
+                            {{$group->name}}
+                        </div>
+                        <div class="card-body">
+                            @foreach($group->properties as $property)
+                                <div class="col-md-12">
+                                    <label><input name="properties[]"
+                                                  {{optional($model)->isHasProperty($property->id) ? 'checked': ''}} value="{{$property->id}}"
+                                                  class="form-check-input" type="checkbox">{{$property->name}}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
             </div>
             <input type="hidden" name="image_token" value="{{$imageToken}}">
             <!-- Button trigger modal -->

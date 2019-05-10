@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class PropertyGroup
  * @package App\Models\Organization
  * @property $name
+ * @property Property[] $properties
  */
 class PropertyGroup extends Model
 {
@@ -29,4 +30,13 @@ class PropertyGroup extends Model
      * @var bool
      */
     public $timestamps = false;
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function properties()
+    {
+        return $this->hasMany(Property::class, 'group_id', 'id');
+    }
 }

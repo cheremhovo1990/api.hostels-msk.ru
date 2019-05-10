@@ -16,6 +16,8 @@ use App\Helpers\LodgeHelper;
 use App\Http\Requests\Cp\LodgeRequest;
 use App\Models\Organization\Lodge;
 use App\Models\Organization\Repositories\OrganizationRepository;
+use App\Models\Organization\Repositories\PropertyGroupRepository;
+use App\Services\LodgeService;
 
 /**
  * Class LodgeController
@@ -23,6 +25,29 @@ use App\Models\Organization\Repositories\OrganizationRepository;
  */
 class LodgeController
 {
+    /**
+     * @var PropertyGroupRepository
+     */
+    private $propertyGroupRepository;
+    /**
+     * @var LodgeService
+     */
+    private $lodgeService;
+
+    /**
+     * LodgeController constructor.
+     * @param PropertyGroupRepository $propertyGroupRepository
+     * @param LodgeService $lodgeService
+     */
+    public function __construct(
+        PropertyGroupRepository $propertyGroupRepository,
+        LodgeService $lodgeService
+    )
+    {
+        $this->propertyGroupRepository = $propertyGroupRepository;
+        $this->lodgeService = $lodgeService;
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -45,6 +70,7 @@ class LodgeController
                 'cityDropDown' => CityHelper::getDropDown(),
                 'statusDropDown' => LodgeHelper::getStatusDropDown(),
                 'organizationDropDown' => OrganizationRepository::getDropDown(),
+                'groups' => $this->propertyGroupRepository->findAll(),
             ]
         );
     }
@@ -52,8 +78,8 @@ class LodgeController
     public function store(LodgeRequest $lodgeRequest)
     {
         $data = $lodgeRequest->validated();
-        $lodge = Lodge::new($data);
-        $lodge->saveOrFail();
+        $this->lodgeService->create($data);
+
         return redirect(route('cp.lodges.index'));
     }
 
@@ -68,6 +94,7 @@ class LodgeController
             'cityDropDown' => CityHelper::getDropDown(),
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
             'organizationDropDown' => OrganizationRepository::getDropDown(),
+            'groups' => $this->propertyGroupRepository->findAll(),
         ]);
     }
 
@@ -80,8 +107,8 @@ class LodgeController
     public function update(Lodge $lodge, LodgeRequest $lodgeRequest)
     {
         $data = $lodgeRequest->validated();
-        $lodge->edit($data);
-        $lodge->saveOrFail();
+        $this->lodgeService->update($lodge, $data);
+
         return redirect(route('cp.lodges.index'));
     }
 }

@@ -231,4 +231,18 @@ class Lodge extends Model
             return [];
         }
     }
+
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function isHasProperty($id): bool
+    {
+        foreach ($this->properties as $property) {
+            if ($property->id == $id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
