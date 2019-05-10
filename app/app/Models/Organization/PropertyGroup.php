@@ -13,9 +13,20 @@ namespace App\Models\Organization;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class PropertyGroup
+ * @package App\Models\Organization
+ * @property $name
+ */
 class PropertyGroup extends Model
 {
+    /**
+     * @var array
+     */
     protected $guarded = [];
 
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 }

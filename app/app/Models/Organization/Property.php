@@ -13,12 +13,25 @@ namespace App\Models\Organization;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+/**
+ * Class Property
+ * @package App\Models\Organization
+ * @property PropertyGroup $group
+ */
 class Property extends Model
 {
+    protected $guarded = [];
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 
-    public function getGroup()
+    /**
+     *
+     */
+    public function group()
     {
-        $this->belongsTo(PropertyGroup::class, 'group_id', 'id');
+        return $this->belongsTo(PropertyGroup::class, 'group_id', 'id');
     }
 }
