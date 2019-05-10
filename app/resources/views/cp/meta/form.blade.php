@@ -30,7 +30,7 @@ if (is_null($model)) {
                 <label for="meta-page-identify">Page identify</label>
                 <select name="page_identify" id="meta-page-identify" class="form-control">
                     @foreach($pageIdentityDropDown as $pageIdentity)
-                        <option value="{{$pageIdentity}}">{{$pageIdentity}}</option>
+                        <option value="{{$pageIdentity}}" {{($pageIdentity == optional($model)->page_identify)?'selected': ''}}>{{$pageIdentity}}</option>
                     @endforeach
                 </select>
             </div>

@@ -75,6 +75,7 @@ class MetaController
      * @param Meta $model
      * @param MetaRequest $metaRequest
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Throwable
      */
     public function update(Meta $model, MetaRequest $metaRequest)
     {
