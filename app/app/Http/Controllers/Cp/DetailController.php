@@ -18,6 +18,7 @@ use App\Models\Image;
 use App\Models\Organization\Lodge;
 use App\Models\Organization\LodgeMetroStation;
 use App\Models\Pagination\Detail\Detail;
+use App\Models\Repositories\ImageRepository;
 use App\Models\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
 use Illuminate\Support\Facades\DB;
@@ -36,19 +37,26 @@ class DetailController
      * @var LodgeRepository
      */
     private $lodgeRepository;
+    /**
+     * @var ImageRepository
+     */
+    private $imageRepository;
 
     /**
      * DetailController constructor.
      * @param OrganizationRepository $organizationRepository
      * @param LodgeRepository $lodgeRepository
+     * @param ImageRepository $imageRepository
      */
     public function __construct(
         OrganizationRepository $organizationRepository,
-        LodgeRepository $lodgeRepository
+        LodgeRepository $lodgeRepository,
+        ImageRepository $imageRepository
     )
     {
         $this->organizationRepository = $organizationRepository;
         $this->lodgeRepository = $lodgeRepository;
+        $this->imageRepository = $imageRepository;
     }
 
 
@@ -86,8 +94,7 @@ class DetailController
                     $lodgeMetroStation->save();
                 }
             }
-            Image::where('token', $data['image_token'])
-                ->update(['model_id' => $lodge->id, 'model_token' => Lodge::IMAGE_TOKEN]);
+            $this->imageRepository->update($lodge, $data['image_token'], Lodge::IMAGE_TOKEN);
         });
 
         return redirect(route('cp.organizations.show', [$organization]));

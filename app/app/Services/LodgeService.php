@@ -12,6 +12,7 @@ namespace App\Services;
 
 
 use App\Models\Organization\Lodge;
+use App\Models\Repositories\ImageRepository;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -20,6 +21,23 @@ use Illuminate\Support\Facades\DB;
  */
 class LodgeService
 {
+    /**
+     * @var ImageRepository
+     */
+    private $imageRepository;
+
+    /**
+     * LodgeService constructor.
+     * @param ImageRepository $imageRepository
+     */
+    public function __construct(
+        ImageRepository $imageRepository
+    )
+    {
+        $this->imageRepository = $imageRepository;
+    }
+
+
     /**
      * @param $data
      * @return Lodge
@@ -30,6 +48,7 @@ class LodgeService
         $model = Lodge::new($data);
         $model->saveOrFail();
         $this->saveProperties($model, $data['properties'] ?? []);
+        $this->imageRepository->update($model, $data['image_token'], Lodge::IMAGE_TOKEN);
         return $model;
     }
 
