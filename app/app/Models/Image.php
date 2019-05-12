@@ -20,6 +20,8 @@ use Illuminate\Notifications\Notifiable;
  * Class Image
  * @package App\Models
  * @property $id
+ * @property $model_id
+ * @property $model_token
  * @property $name
  * @property $extension
  * @property $token
@@ -34,6 +36,21 @@ class Image extends Model
      * @var string
      */
     protected $table = 'images';
+
+    /**
+     * @param string $token
+     * @param string $extension
+     * @return Image
+     */
+    public static function newForLodge(string $token, string $extension): self
+    {
+        $model = new static();
+        $model->token = $token;
+        $model->name = uniqid('', true);
+        $model->extension = $extension;
+        $model->folder = 'lodge';
+        return $model;
+    }
 
     /**
      * @param int $width

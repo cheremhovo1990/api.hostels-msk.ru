@@ -75,11 +75,7 @@ class LodgeController extends Controller
      */
     protected function store(UploadedFile $file, $token)
     {
-        $model = new \App\Models\Image();
-        $model->token = $token;
-        $model->name = uniqid('', true);
-        $model->extension = $file->extension();
-        $model->folder = 'lodge';
+        $model = \App\Models\Image::newForLodge($token, $file->extension());
         $model->saveOrFail();
         $pathFullOriginal = $file->storeAs($model->getFolderOriginal(), $model->getFullName(), ['disk' => 'uploads']);
         $image = Image::make(public_path(\App\Models\Image::ROOT_FOLDER . '/' . $pathFullOriginal));

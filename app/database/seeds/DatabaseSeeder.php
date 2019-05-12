@@ -4,6 +4,7 @@ use App\Models\Organization\Lodge;
 use App\Models\Organization\LodgeMetroStation;
 use App\Services\MetroDistanceService;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,9 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('lodge_property')->delete();
         $this->call(PropertySeeder::class);
         DB::delete('delete from lodges');
         DB::delete('delete from lodge_metro_station');
+
 
         $lodges = factory(Lodge::class, 100)->create();
 
@@ -34,6 +37,7 @@ class DatabaseSeeder extends Seeder
                 $lodgeMetroStation->save();
             }
         });
+        $this->call(ImageSeeder::class);
         // $this->call(UsersTableSeeder::class);
     }
 }
