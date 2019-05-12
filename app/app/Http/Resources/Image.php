@@ -18,7 +18,7 @@ class Image extends JsonResource
         $image = $this;
         return [
             'id' => $image->id,
-            'uri' => $image->getUrl(\App\Models\Image::WIDTH),
+            'uri' => \App\Models\Image::ROOT_FOLDER . '/' . $image->getUrl(\App\Models\Image::WIDTH),
             'host' => config('app.url'),
         ];
     }

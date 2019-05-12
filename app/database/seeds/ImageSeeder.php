@@ -16,15 +16,21 @@ class ImageSeeder extends Seeder
      */
     public function run()
     {
+        $images = \App\Models\Image::where('model_type', Lodge::IMAGE_TOKEN)->all();
+
+        foreach ($images as $image) {
+            $image->delete();
+        }
+
         $lodges = Lodge::all();
         foreach ($lodges as $lodge) {
             for ($i = 0; $i < 10; $i++) {
-                $this->image($lodge);
+                $this->image($lodge, $i == 0 ? \App\Models\Image::STATUS_MAIN : \App\Models\Image::STATUS_NONE);
             }
         }
     }
 
-    public function image(Lodge $lodge)
+    public function image(Lodge $lodge, $status)
     {
         $faker = \Faker\Factory::create();
         $url = $faker->imageUrl($width = 640, $height = 480);
@@ -38,7 +44,7 @@ class ImageSeeder extends Seeder
             $lodge->id,
             Lodge::IMAGE_TOKEN
         );
-
+        $image->status = $status;
         $image->saveOrFail();
 
         Container::getInstance()->make(Factory::class)->disk('uploads')->put($image->getPathOriginal(), $file);
