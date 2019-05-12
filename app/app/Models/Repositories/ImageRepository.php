@@ -30,4 +30,21 @@ class ImageRepository
         Image::where('token', $imageToken)
             ->update(['model_id' => $model->id, 'model_type' => $modelToken]);
     }
+
+    /**
+     * @param $id
+     * @return Image|null
+     */
+    public function findOne($id): ?Image
+    {
+        return Image::where(['id' => $id])->first();
+    }
+
+    /**
+     * @param $token
+     */
+    public function resetMain($token)
+    {
+        Image::where('token', $token)->update(['status' => Image::STATUS_NONE]);
+    }
 }

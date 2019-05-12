@@ -20,7 +20,8 @@
         'lodge-image-upload': '#js-lodge-image-upload',
         'image-button-modal': '#js-image-button-modal',
         'image-destroy': '.js-image-destroy',
-        'input-lodge-images': '#js-input-lodge-images'
+        'input-lodge-images': '#js-input-lodge-images',
+        'image-main': '.js-image-main'
     };
     $(selectors['add-schema-org-opening-hours']).click(function (e) {
         e.preventDefault();
@@ -94,6 +95,10 @@
             renderModalBody();
         });
     });
+    $(document).on('click', selectors['image-main'], function (e) {
+        let self = $(this);
+        axios.post(self.data('url'), {id: self.val()});
+    });
     $(selectors['input-lodge-images']).on('change', function () {
         let formData = new FormData();
         for (let i = 0; i < this.files.length; i++) {
@@ -104,7 +109,6 @@
                 renderModalBody();
             });
     });
-
     function renderModalBody() {
         $.get($(selectors['image-button-modal']).data('url-images'), function (html) {
             $(selectors['lodge-preview-image']).html(html);

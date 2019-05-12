@@ -7,7 +7,7 @@
  */
 declare(strict_types=1);
 
-namespace App\Models\Repositories;
+namespace App\Models\Organization\Repositories;
 
 use App\Models\Organization\Lodge;
 use Illuminate\Database\Eloquent\Builder;
@@ -85,5 +85,14 @@ class LodgeRepository
     public function all()
     {
         return Lodge::all();
+    }
+
+    /**
+     * @param $token
+     * @return Lodge|null
+     */
+    public function findOneByImageToken($token): ?Lodge
+    {
+        return Lodge::where('image_token', $token)->first();
     }
 }

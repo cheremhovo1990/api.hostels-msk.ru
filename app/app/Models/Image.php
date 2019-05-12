@@ -26,12 +26,27 @@ use Illuminate\Notifications\Notifiable;
  * @property $extension
  * @property $token
  * @property $folder
+ * @property $status
  */
 class Image extends Model
 {
     use Notifiable;
+    /**
+     *
+     */
     const ROOT_FOLDER = 'uploads';
+    /**
+     *
+     */
     const WIDTH = 160;
+    /**
+     *
+     */
+    const STATUS_NONE = 'none';
+    /**
+     *
+     */
+    const STATUS_MAIN = 'main';
     /**
      * @var string
      */
@@ -103,6 +118,18 @@ class Image extends Model
         return $this->folder . '/' . $this->token . '/' . $this->getFullName($width);
     }
 
+
+    /**
+     * @return bool
+     */
+    public function isMain(): bool
+    {
+        return $this->status == static::STATUS_MAIN;
+    }
+
+    /**
+     * @var array
+     */
     protected $dispatchesEvents = [
         'deleted' => ImageDeleted::class,
     ];

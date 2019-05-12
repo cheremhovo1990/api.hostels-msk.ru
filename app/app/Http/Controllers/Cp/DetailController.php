@@ -19,7 +19,7 @@ use App\Models\Organization\Lodge;
 use App\Models\Organization\LodgeMetroStation;
 use App\Models\Pagination\Detail\Detail;
 use App\Models\Repositories\ImageRepository;
-use App\Models\Repositories\LodgeRepository;
+use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
 use Illuminate\Support\Facades\DB;
 

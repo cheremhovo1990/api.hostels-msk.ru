@@ -14,7 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Lodge as LodgeResource;
 use App\Http\Resources\LodgeCollection;
 use App\Models\Organization\Lodge;
-use App\Models\Repositories\LodgeRepository;
+use App\Models\Organization\Repositories\LodgeRepository;
 use Illuminate\Http\Request;
 
 /**

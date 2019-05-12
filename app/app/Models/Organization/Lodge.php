@@ -47,6 +47,7 @@ use Illuminate\Support\Collection;
  * @property Organization $organization
  * @property Property[]|Collection $properties
  * @property Image[]|Collection $images
+ * @property Image $imageMain
  */
 class Lodge extends Model
 {
@@ -183,9 +184,23 @@ class Lodge extends Model
         return $this->belongsTo(District::class, 'administrative_district_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function images()
     {
         return $this->morphMany(Image::class, 'model');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function imageMain()
+    {
+        return $this->hasOne(Image::class, 'model_id', 'id')->where([
+            ['model_type', static::IMAGE_TOKEN],
+            ['status', Image::STATUS_MAIN]
+        ]);
     }
 
     /**

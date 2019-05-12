@@ -12,6 +12,10 @@ namespace App\Http\Controllers\Cp\Api;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Organization\Lodge;
+use App\Models\Organization\Repositories\LodgeRepository;
+use App\Models\Repositories\ImageRepository;
+use App\Services\ToolService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Facades\Image;
@@ -22,6 +26,35 @@ use Intervention\Image\Facades\Image;
  */
 class LodgeController extends Controller
 {
+    /**
+     * @var LodgeRepository
+     */
+    private $lodgeRepository;
+    /**
+     * @var ImageRepository
+     */
+    private $imageRepository;
+    /**
+     * @var ToolService
+     */
+    private $toolService;
+
+    /**
+     * LodgeController constructor.
+     * @param LodgeRepository $lodgeRepository
+     * @param ImageRepository $imageRepository
+     * @param ToolService $toolService
+     */
+    public function __construct(
+        LodgeRepository $lodgeRepository,
+        ImageRepository $imageRepository,
+        ToolService $toolService
+    )
+    {
+        $this->lodgeRepository = $lodgeRepository;
+        $this->imageRepository = $imageRepository;
+        $this->toolService = $toolService;
+    }
 
     /**
      * @param \App\Models\Image $image
@@ -50,7 +83,8 @@ class LodgeController extends Controller
      */
     public function storeImage(Request $request, $token)
     {
-        $file = $request->file('image');
+        $lodge = $this->lodgeRepository->findOneByImageToken($token);
+        $file = $request->file('image', $lodge);
         $this->store($file, $token);
     }
 
@@ -61,21 +95,44 @@ class LodgeController extends Controller
      */
     public function storeImages(Request $request, $token)
     {
+        $lodge = $this->lodgeRepository->findOneByImageToken($token);
+
         /** @var UploadedFile[] $files */
         $files = $request->file('images');
         foreach ($files as $file) {
-            $this->store($file, $token);
+            $this->store($file, $token, $lodge);
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     * @throws \Throwable
+     */
+    public function imageMain(Request $request)
+    {
+        $image = $this->imageRepository->findOne($request->get('id'));
+        $this->toolService->notFound($image);
+        $this->imageRepository->resetMain($image->token);
+        $image->status = \App\Models\Image::STATUS_MAIN;
+        $image->saveOrFail();
+        return ['success' => true];
     }
 
     /**
      * @param UploadedFile $file
      * @param $token
+     * @param Lodge|null $lodge
      * @throws \Throwable
      */
-    protected function store(UploadedFile $file, $token)
+    protected function store(UploadedFile $file, $token, Lodge $lodge = null)
     {
-        $model = \App\Models\Image::newForLodge($token, $file->extension());
+        if (is_null($lodge)) {
+            $model = \App\Models\Image::newForLodge($token, $file->extension());
+        } else {
+            $model = \App\Models\Image::newForLodge($token, $file->extension(), $lodge->id, \App\Models\Organization\Lodge::IMAGE_TOKEN);
+        }
+
         $model->saveOrFail();
         $pathFullOriginal = $file->storeAs($model->getFolderOriginal(), $model->getFullName(), ['disk' => 'uploads']);
         $image = Image::make(public_path(\App\Models\Image::ROOT_FOLDER . '/' . $pathFullOriginal));
