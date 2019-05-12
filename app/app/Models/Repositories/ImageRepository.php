@@ -28,6 +28,6 @@ class ImageRepository
     public function update(Model $model, $imageToken, $modelToken)
     {
         Image::where('token', $imageToken)
-            ->update(['model_id' => $model->id, 'model_token' => $modelToken]);
+            ->update(['model_id' => $model->id, 'model_type' => $modelToken]);
     }
 }

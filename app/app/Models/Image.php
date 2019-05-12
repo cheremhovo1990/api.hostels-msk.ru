@@ -21,7 +21,7 @@ use Illuminate\Notifications\Notifiable;
  * @package App\Models
  * @property $id
  * @property $model_id
- * @property $model_token
+ * @property $model_type
  * @property $name
  * @property $extension
  * @property $token
@@ -48,7 +48,7 @@ class Image extends Model
     {
         $model = new static();
         $model->model_id = $modelId;
-        $model->model_token = $modelToken;
+        $model->model_type = $modelToken;
         $model->token = $token;
         $model->name = uniqid('', true);
         $model->extension = $extension;

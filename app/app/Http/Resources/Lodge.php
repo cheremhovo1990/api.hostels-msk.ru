@@ -39,6 +39,7 @@ class Lodge extends JsonResource
             'latitude' => $lodge->latitude,
             'longitude' => $lodge->longitude,
             'address' => $lodge->address,
+            'images' => new ImageCollection($lodge->images),
         ];
     }
 

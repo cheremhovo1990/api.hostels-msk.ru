@@ -12,6 +12,7 @@ namespace App\Models\Organization;
 
 
 use App\Models\District;
+use App\Models\Image;
 use App\Models\MetroStation;
 use App\Models\Municipality;
 use App\Models\Pagination\Detail\Detail;
@@ -45,6 +46,7 @@ use Illuminate\Support\Collection;
  * @property MetroStation[]|Collection $stations
  * @property Organization $organization
  * @property Property[]|Collection $properties
+ * @property Image[]|Collection $images
  */
 class Lodge extends Model
 {
@@ -179,6 +181,11 @@ class Lodge extends Model
     public function district()
     {
         return $this->belongsTo(District::class, 'administrative_district_id', 'id');
+    }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'model');
     }
 
     /**
