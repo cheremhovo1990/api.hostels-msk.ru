@@ -40,11 +40,15 @@ class Image extends Model
     /**
      * @param string $token
      * @param string $extension
+     * @param null $modelId
+     * @param null $modelToken
      * @return Image
      */
-    public static function newForLodge(string $token, string $extension): self
+    public static function newForLodge(string $token, string $extension, $modelId = null, $modelToken = null): self
     {
         $model = new static();
+        $model->model_id = $modelId;
+        $model->model_token = $modelToken;
         $model->token = $token;
         $model->name = uniqid('', true);
         $model->extension = $extension;

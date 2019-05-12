@@ -32,7 +32,13 @@ class ImageSeeder extends Seeder
         $file = tmpfile();
         $response = $client->get($url, ['sink' => $file]);
         $mime = $response->getHeader('Content-Type')[0];
-        $image = \App\Models\Image::newForLodge($lodge->image_token, $this->getExtensionByMimeType($mime));
+        $image = \App\Models\Image::newForLodge(
+            $lodge->image_token,
+            $this->getExtensionByMimeType($mime),
+            $lodge->id,
+            Lodge::IMAGE_TOKEN
+        );
+
         $image->saveOrFail();
 
         Container::getInstance()->make(Factory::class)->disk('uploads')->put($image->getPathOriginal(), $file);
