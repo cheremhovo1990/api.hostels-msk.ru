@@ -30,3 +30,8 @@ Route::get('/metro-station/all', 'MetroStationController@all')->name('metro-stat
 Route::get('/meta/metro-main', 'MetaController@metroMain');
 
 Route::get('/meta/metro', 'MetaController@metro');
+
+Route::post('/deploy', function (Request $request, \App\Services\DeployService $deployService) {
+    $repository = $request->input('repository');
+    return $deployService->run($repository['uuid']);
+});
