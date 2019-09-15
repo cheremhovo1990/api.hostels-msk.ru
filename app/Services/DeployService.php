@@ -8,7 +8,7 @@ namespace App\Services;
 
 class DeployService
 {
-    protected $uuid = "{5ad102b4-9a61-4def-9018-d21cf89af905}";
+    protected $uuid = "{24c954f6-63d7-418a-b911-77b8683dca69}";
 
     public function run($uuid)
     {
