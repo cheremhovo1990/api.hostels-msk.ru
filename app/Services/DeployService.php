@@ -10,6 +10,7 @@ class DeployService
 {
     protected $uuid = "{5ad102b4-9a61-4def-9018-d21cf89af905}";
 
+
     public function run($uuid)
     {
         abort_if($uuid != $this->uuid, 404);
