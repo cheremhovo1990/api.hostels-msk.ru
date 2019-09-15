@@ -69,21 +69,6 @@ return [
             'engine' => null,
         ],
 
-        'geobase' => [
-            'driver' => 'mysql',
-            'host' => env('DB_HOST_GEOBASE', '127.0.0.1'),
-            'port' => env('DB_PORT_GEOBASE', '3306'),
-            'database' => env('DB_DATABASE_GEOBASE', 'forge'),
-            'username' => env('DB_USERNAME_GEOBASE', 'forge'),
-            'password' => env('DB_PASSWORD_GEOBASE', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
-
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),
