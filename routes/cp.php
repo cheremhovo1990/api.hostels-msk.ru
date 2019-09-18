@@ -8,16 +8,21 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::resource('organizations', 'OrganizationController');
+
 Route::resource('lodges', 'LodgeController');
 Route::resource('meta', 'MetaController');
 Route::resource('property-groups', 'PropertyGroupController');
 Route::resource('properties', 'PropertyController');
 
-Route::get('organizations/details/{detail}/create', 'DetailController@create')->name('details.create');
-Route::post('organizations/details/{detail}', 'DetailController@store')->name('details.store');
-Route::get('organizations/details/{detail}/edit', 'DetailController@edit')->name('details.edit');
-Route::delete('organizations/details/{detail}', 'DetailController@destroy')->name('details.destroy');
-Route::put('organizations/details/{lodge}', 'DetailController@update')->name('details.update');
+Route::prefix('organizations/details')->name('details.')->group(function () {
+    Route::get('/', 'DetailController@index')->name('index');
+    Route::get('{detail}/create', 'DetailController@create')->name('create');
+    Route::post('{detail}', 'DetailController@store')->name('store');
+    Route::get('{detail}/edit', 'DetailController@edit')->name('edit');
+    Route::delete('{detail}', 'DetailController@destroy')->name('destroy');
+    Route::put('{lodge}', 'DetailController@update')->name('update');
+});
+Route::resource('organizations', 'OrganizationController');
+
 Route::get('cities', 'CityController@index')->name('cities.index');
 Route::get('metro', 'StationController@index')->name('stations.index');

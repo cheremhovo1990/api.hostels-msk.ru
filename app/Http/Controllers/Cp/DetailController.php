@@ -75,6 +75,13 @@ class DetailController
         ]);
     }
 
+    public function index()
+    {
+        $models = Detail::all();
+
+        return view('cp.detail.index', ['models' => $models]);
+    }
+
     /**
      * @param Detail $detail
      * @param LodgeRequest $lodgeRequest
