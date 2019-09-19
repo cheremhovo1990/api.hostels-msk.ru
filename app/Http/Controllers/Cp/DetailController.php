@@ -60,6 +60,15 @@ class DetailController
     }
 
 
+
+
+    public function index()
+    {
+        $models = Detail::all();
+
+        return view('cp.detail.index', ['models' => $models]);
+    }
+
     /**
      * @param Detail $detail
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -73,13 +82,6 @@ class DetailController
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
             'cityDropDown' => CityHelper::getDropDown()
         ]);
-    }
-
-    public function index()
-    {
-        $models = Detail::all();
-
-        return view('cp.detail.index', ['models' => $models]);
     }
 
     /**

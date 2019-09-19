@@ -16,6 +16,9 @@ class Detail extends JsonResource
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
+            'title' => $this->title,
+            'url' => route('cp.details.create', $this),
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
         ];

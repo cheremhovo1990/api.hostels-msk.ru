@@ -32,10 +32,11 @@
             myMap.geoObjects.add(clusterer);
             let details = $('#map').data('details');
             for (let i = 0; i < details.length; i++) {
+                let detail = details[i];
                 let placemark = new ymaps.Placemark(
-                    [details[i].latitude, details[i].longitude],
+                    [detail.latitude, detail.longitude],
                     {
-                        balloonContent: 'test',
+                        balloonContent: '<a href="' + detail.url + '">Организация:' + detail.name + '<br></a>',
                     }
                 );
                 clusterer.add(placemark);
