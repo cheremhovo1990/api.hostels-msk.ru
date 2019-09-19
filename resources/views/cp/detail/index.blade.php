@@ -7,8 +7,18 @@
 @extends('cp')
 
 @section('content')
-
-    <div class="col-12">
+    <div class="col-4">
+        <form action="">
+            <div class="form-group">
+                <label for="organization" class="col-form-label">Organization</label>
+                <input type="text" class="form-control" value="{{old('organization')}}">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Search</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-8">
         <div id="map" class="w-100" style="height: calc(100vh - 3.5em)"
              data-details='@json((new \App\Http\Resources\Parse\DetailCollection($models))->toArray(null))'></div>
     </div>
