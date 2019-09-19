@@ -26,10 +26,19 @@
                 center: [55.76, 37.64],
                 zoom: 11
             });
+            let clusterer = new ymaps.Clusterer({
+                preset: 'islands#invertedBlueClusterIcons',
+            });
+            myMap.geoObjects.add(clusterer);
             let details = $('#map').data('details');
             for (let i = 0; i < details.length; i++) {
-                let placemark = new ymaps.Placemark([details[i].latitude, details[i].longitude]);
-                myMap.geoObjects.add(placemark);
+                let placemark = new ymaps.Placemark(
+                    [details[i].latitude, details[i].longitude],
+                    {
+                        balloonContent: 'test',
+                    }
+                );
+                clusterer.add(placemark);
             }
         }
     </script>
