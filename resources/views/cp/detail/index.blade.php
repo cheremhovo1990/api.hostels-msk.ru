@@ -11,7 +11,12 @@
         <form action="">
             <div class="form-group">
                 <label for="organization" class="col-form-label">Organization</label>
-                <input type="text" class="form-control" value="{{old('organization')}}">
+                <select name="organization" id="organization" class="form-control select2">
+                    <option value=""></option>
+                    @foreach(\App\Helpers\OrganizationHelper::getDropDown() as $id => $name)
+                        <option value="{{$id}}" {{request('organization') == $id ? ' selected': ''}}>{{$name}}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-success">Search</button>

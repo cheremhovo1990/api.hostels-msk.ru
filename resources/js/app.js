@@ -6,3 +6,10 @@
  */
 
 require('./bootstrap');
+
+
+// select 2
+
+window.$('.select2').select2({
+    theme: 'bootstrap4',
+});

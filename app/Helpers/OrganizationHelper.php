@@ -12,6 +12,7 @@ namespace App\Helpers;
 
 
 use App\Models\Organization\Organization;
+use Illuminate\Support\Collection;
 
 /**
  * Class OrganizationHelper
@@ -19,14 +20,16 @@ use App\Models\Organization\Organization;
  */
 class OrganizationHelper
 {
-    /**
-     * @return array
-     */
     public static function getNameDropDown(): array
     {
         return [
             Organization::STATUS_DISABLE => 'Disable',
             Organization::STATUS_ENABLE => 'Enable',
         ];
+    }
+
+    public static function getDropDown(): Collection
+    {
+        return Organization::pluck('name', 'id');
     }
 }

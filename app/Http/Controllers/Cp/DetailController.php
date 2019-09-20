@@ -21,6 +21,7 @@ use App\Models\Pagination\Detail\Detail;
 use App\Models\Repositories\ImageRepository;
 use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -62,9 +63,18 @@ class DetailController
 
 
 
-    public function index()
+    public function index(Request $request)
     {
-        $models = Detail::all();
+        $query = $models = Detail::query();
+
+        if ($request->has('organization')) {
+            $query
+                ->join('detail_organization', 'detail_organization.detail_id', '=', 'details.id')
+                ->join('detail_organizations', 'detail_organization.organization_id', '=', 'detail_organizations.id')
+                ->where('detail_organizations.organization_id', '=', $request->get('organization'));
+        }
+
+        $models = $query->get();
 
         return view('cp.detail.index', ['models' => $models]);
     }
