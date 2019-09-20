@@ -1,6 +1,7 @@
 <?php
 
 /** @var $models [] \App\Models\Pagination\Detail\Detail */
+/** @var $groupStation \Illuminate\Support\Collection */
 
 ?>
 
@@ -8,7 +9,7 @@
 
 @section('content')
     <div class="col-4">
-        <form action="">
+        <form action="" id="form-detail-search">
             <div class="form-group">
                 <label for="organization" class="col-form-label">Organization</label>
                 <select name="organization" id="organization" class="form-control select2">
@@ -19,7 +20,39 @@
                 </select>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-success">Search</button>
+                <a href="" class="btn btn-primary" data-toggle="modal" data-target="#modal-search-by-metro">Station Metro</a>
+
+                <div class="modal fade" id="modal-search-by-metro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="list-group" id="list-tab" role="tablist">
+                                            @foreach ($groupStation as $name => $stations)
+                                                <a class="list-group-item list-group-item-action {{$loop->first? ' active': ''}}" id="list-home-list" data-toggle="list" href="#{{ \Illuminate\Support\Str::slug($name)}}" role="tab" aria-controls="home">{{$name}}</a>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="tab-content" id="nav-tabContent">
+                                            @foreach ($groupStation as $name => $stations)
+                                                <div class="tab-pane fade {{$loop->first? ' show active': ''}}" id="{{ \Illuminate\Support\Str::slug($name)}}" role="tabpanel" aria-labelledby="list-home-list">
+                                                    <ul>
+                                                        @foreach($stations as $station)
+                                                            <li><a href="{{request()->fullUrlWithQuery(['station' => $station->id])}}">{{$station->name}}</a></li>
+                                                        @endforeach
+                                                    </ul>
+
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -27,6 +60,8 @@
         <div id="map" class="w-100" style="height: calc(100vh - 3.5em)"
              data-details='@json((new \App\Http\Resources\Parse\DetailCollection($models))->toArray(null))'></div>
     </div>
+
+
 @endsection
 
 @section('script')
@@ -57,5 +92,9 @@
                 clusterer.add(placemark);
             }
         }
+        $('#form-detail-search select').change(function () {
+            this.form.submit();
+        });
+
     </script>
 @endsection

@@ -14,7 +14,7 @@ namespace App\Http\Controllers\Cp;
 use App\Helpers\CityHelper;
 use App\Helpers\LodgeHelper;
 use App\Http\Requests\Cp\LodgeRequest;
-use App\Models\Image;
+use App\Models\MetroStation;
 use App\Models\Organization\Lodge;
 use App\Models\Organization\LodgeMetroStation;
 use App\Models\Pagination\Detail\Detail;
@@ -76,7 +76,9 @@ class DetailController
 
         $models = $query->get();
 
-        return view('cp.detail.index', ['models' => $models]);
+        $stations = MetroStation::all();
+        $groupStation = $stations->groupBy('line_name');
+        return view('cp.detail.index', ['models' => $models, 'groupStation' => $groupStation]);
     }
 
     /**
