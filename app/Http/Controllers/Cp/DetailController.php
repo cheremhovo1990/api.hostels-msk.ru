@@ -73,7 +73,9 @@ class DetailController
                 ->join('detail_organizations', 'detail_organization.organization_id', '=', 'detail_organizations.id')
                 ->where('detail_organizations.organization_id', '=', $request->get('organization'));
         }
+        if ($request->has('station')) {
 
+        }
         $models = $query->get();
 
         $stations = MetroStation::all();
