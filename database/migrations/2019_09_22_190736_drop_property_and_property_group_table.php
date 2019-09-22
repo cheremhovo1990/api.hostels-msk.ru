@@ -13,9 +13,9 @@ class DropPropertyAndPropertyGroupTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('lodge_property');
         Schema::dropIfExists('properties');
         Schema::dropIfExists('property_groups');
-        Schema::dropIfExists('lodge_property');
     }
 
     /**
