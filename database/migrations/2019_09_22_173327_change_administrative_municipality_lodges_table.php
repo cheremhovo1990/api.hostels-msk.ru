@@ -17,6 +17,7 @@ class ChangeAdministrativeMunicipalityLodgesTable extends Migration
             $table->integer('administrative_district_id')->nullable()->unsigned()->change();
             $table->integer('municipality_id')->nullable()->unsigned()->change();
         });
+
     }
 
     /**
