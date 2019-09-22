@@ -14,11 +14,16 @@ class Detail extends JsonResource
      */
     public function toArray($request)
     {
+        if ($this->lodge) {
+            $url = route('cp.details.edit', $this);
+        } else {
+            $url = route('cp.details.create', $this);
+        }
         return [
             'id' => $this->id,
             'name' => $this->name,
             'title' => $this->title,
-            'url' => route('cp.details.create', $this),
+            'url' => $url,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
         ];

@@ -133,8 +133,7 @@ class DetailController
             $this->imageRepository->update($lodge, $data['image_token'], Lodge::IMAGE_TOKEN);
             return $lodge;
         });
-        $organization = $lodge->organization();
-        return redirect(route('cp.organizations.show', [$organization]));
+        return redirect(route('cp.lodges.index'));
     }
 
     /**
@@ -168,7 +167,7 @@ class DetailController
         $data = $lodgeRequest->validated();
         $lodge->edit($data);
         $lodge->saveOrFail();
-        return redirect(route('cp.organizations.show', [$organization]));
+        return redirect(route('cp.lodges.index'));
     }
 
     /**
