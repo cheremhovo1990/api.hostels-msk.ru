@@ -76,17 +76,23 @@ class DetailController
                 ->join('detail_organizations', 'detail_organization.organization_id', '=', 'detail_organizations.id')
                 ->where('detail_organizations.organization_id', '=', $request->get('organization'));
         }
+        $station = null;
         if ($request->has('station')) {
             $query->join('hostel.metro_stations', function (JoinClause $join) use ($request) {
                 $join->whereRaw('ST_Distance(Point(details.latitude, details.longitude), Point(hostel.metro_stations.latitude, hostel.metro_stations.longitude)) * 100000 < 2000 AND hostel.metro_stations.id = ' . $request->get('station'));
             });
+            $station = MetroStation::query()->where('id', '=', $request->get('station'))->first();
         }
         $query->groupBy('id');
         $models = $query->get();
 
         $stations = MetroStation::all();
         $groupStation = $stations->groupBy('line_name');
-        return view('cp.detail.index', ['models' => $models, 'groupStation' => $groupStation]);
+        return view('cp.detail.index', [
+            'models' => $models,
+            'groupStation' => $groupStation,
+            'station' => $station,
+        ]);
     }
 
     /**

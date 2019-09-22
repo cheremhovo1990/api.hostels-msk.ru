@@ -1,7 +1,8 @@
 <?php
 
 /** @var $models [] \App\Models\Pagination\Detail\Detail */
-/** @var $groupStation \Illuminate\Support\Collection */
+/** @var $models [] \App\Models\Pagination\Detail\Detail */
+/** @var $station \App\Models\MetroStation */
 
 ?>
 
@@ -20,7 +21,14 @@
                 </select>
             </div>
             <div class="form-group">
-                <a href="" class="btn btn-primary" data-toggle="modal" data-target="#modal-search-by-metro">Station Metro</a>
+                <a href="" class="btn btn-primary" data-toggle="modal" data-target="#modal-search-by-metro">
+                    @if (is_null($station))
+                        Station Metro
+                    @else
+                        м. <?= $station->name ?>
+                    @endif
+
+                </a>
 
                 <div class="modal fade" id="modal-search-by-metro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
