@@ -15,6 +15,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Organization\Lodge;
 use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Repositories\ImageRepository;
+use App\Services\Text\Generate;
+use App\Services\Text\Service;
 use App\Services\ToolService;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -38,22 +40,23 @@ class LodgeController extends Controller
      * @var ToolService
      */
     private $toolService;
-
     /**
-     * LodgeController constructor.
-     * @param LodgeRepository $lodgeRepository
-     * @param ImageRepository $imageRepository
-     * @param ToolService $toolService
+     * @var Service
      */
+    private $generate;
+
+
     public function __construct(
         LodgeRepository $lodgeRepository,
         ImageRepository $imageRepository,
+        Service $generate,
         ToolService $toolService
     )
     {
         $this->lodgeRepository = $lodgeRepository;
         $this->imageRepository = $imageRepository;
         $this->toolService = $toolService;
+        $this->generate = $generate;
     }
 
     /**
@@ -142,11 +145,12 @@ class LodgeController extends Controller
             ->save(public_path(\App\Models\Image::ROOT_FOLDER . '/' . $model->getPath($width)));
     }
 
-    public function generateText()
+    public function generateText(Lodge $lodge): array
     {
+        $text = $this->generate->announce($lodge, 1);
         return [
             'success' => true,
-            'text' => 'text',
+            'text' => $text,
         ];
     }
 }
