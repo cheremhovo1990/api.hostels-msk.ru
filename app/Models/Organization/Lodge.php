@@ -212,14 +212,6 @@ class Lodge extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function properties()
-    {
-        return $this->belongsToMany(Property::class, 'lodge_property', 'lodge_id', 'property_id');
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function organization()
@@ -248,19 +240,5 @@ class Lodge extends Model
         } else {
             return [];
         }
-    }
-
-    /**
-     * @param $id
-     * @return bool
-     */
-    public function isHasProperty($id): bool
-    {
-        foreach ($this->properties as $property) {
-            if ($property->id == $id) {
-                return true;
-            }
-        }
-        return false;
     }
 }

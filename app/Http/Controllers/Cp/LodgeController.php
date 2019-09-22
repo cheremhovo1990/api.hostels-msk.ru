@@ -26,10 +26,6 @@ use App\Services\LodgeService;
 class LodgeController
 {
     /**
-     * @var PropertyGroupRepository
-     */
-    private $propertyGroupRepository;
-    /**
      * @var LodgeService
      */
     private $lodgeService;
@@ -40,11 +36,9 @@ class LodgeController
      * @param LodgeService $lodgeService
      */
     public function __construct(
-        PropertyGroupRepository $propertyGroupRepository,
         LodgeService $lodgeService
     )
     {
-        $this->propertyGroupRepository = $propertyGroupRepository;
         $this->lodgeService = $lodgeService;
     }
 
@@ -70,7 +64,6 @@ class LodgeController
                 'cityDropDown' => CityHelper::getDropDown(),
                 'statusDropDown' => LodgeHelper::getStatusDropDown(),
                 'organizationDropDown' => OrganizationRepository::getDropDown(),
-                'groups' => $this->propertyGroupRepository->findAll(),
             ]
         );
     }
@@ -94,7 +87,6 @@ class LodgeController
             'cityDropDown' => CityHelper::getDropDown(),
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
             'organizationDropDown' => OrganizationRepository::getDropDown(),
-            'groups' => $this->propertyGroupRepository->findAll(),
         ]);
     }
 
@@ -109,6 +101,12 @@ class LodgeController
         $data = $lodgeRequest->validated();
         $this->lodgeService->update($lodge, $data);
 
+        return redirect(route('cp.lodges.index'));
+    }
+
+    public function destroy(Lodge $lodge)
+    {
+        $this->lodgeService->destroy($lodge);
         return redirect(route('cp.lodges.index'));
     }
 }

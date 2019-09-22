@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('lodges', 'LodgeController');
 Route::resource('meta', 'MetaController');
-Route::resource('property-groups', 'PropertyGroupController');
-Route::resource('properties', 'PropertyController');
 
 Route::prefix('organizations/details')->name('details.')->group(function () {
     Route::get('/', 'DetailController@index')->name('index');

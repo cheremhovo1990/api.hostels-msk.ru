@@ -47,7 +47,6 @@ class LodgeService
     {
         $model = Lodge::new($data);
         $model->saveOrFail();
-        $this->saveProperties($model, $data['properties'] ?? []);
         $this->imageRepository->update($model, $data['image_token'], Lodge::IMAGE_TOKEN);
         return $model;
     }
@@ -62,21 +61,15 @@ class LodgeService
     {
         $model->edit($data);
         $model->saveOrFail();
-        $this->saveProperties($model, $data['properties'] ?? []);
         return $model;
     }
 
-    /**
-     * @param Lodge $model
-     * @param array $properties
-     */
-    public function saveProperties(Lodge $model, array $properties)
+    public function destroy(Lodge $lodge): void
     {
-        DB::table('lodge_property')->where('lodge_id', $model->id)->delete();
-        $rows = [];
-        foreach ($properties as $property) {
-            $rows[] = ['lodge_id' => $model->id, 'property_id' => $property];
+        $detail = $lodge->detail;
+        if ($lodge->delete()) {
+            $detail->lodge_id = null;
+            $detail->update();
         }
-        DB::table('lodge_property')->insert($rows);
     }
 }

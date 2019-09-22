@@ -38,11 +38,16 @@ $title = 'Lodges';
                     <th scope="row">{{ $loop->index }}</th>
                     <td>{{$model->id}}</td>
                     <td>{{$model->organization->name}}</td>
-                    <td>
+                    <td class="d-flex">
                         <a href="{{route('cp.lodges.edit', [$model])}}" class="btn btn-primary">Update</a>
                         @if ($model->detail)
                             <a href="{{route('cp.details.edit', $model->detail)}}" class="btn btn-primary">2 gis</a>
                         @endif
+                        <form action="{{route('cp.lodges.destroy', [$model])}}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-primary">delete</button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>

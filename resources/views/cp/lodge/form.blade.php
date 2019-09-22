@@ -172,24 +172,6 @@ if (is_null($model)) {
                     @include('cp/api/municipality/view', ['model' => $model->municipality])
                 @endif
             </div>
-            <div class="form-group">
-                @foreach($groups as $group)
-                    <div class="card">
-                        <div class="card-header">
-                            {{$group->name}}
-                        </div>
-                        <div class="card-body">
-                            @foreach($group->properties as $property)
-                                <div class="col-md-12">
-                                    <label><input name="properties[]"
-                                                  {{optional($model)->isHasProperty($property->id) ? 'checked': ''}} value="{{$property->id}}"
-                                                  class="form-check-input" type="checkbox">{{$property->name}}</label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endforeach
-            </div>
             <input type="hidden" name="image_token" value="{{$imageToken}}">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" id="js-image-button-modal" data-toggle="modal"
