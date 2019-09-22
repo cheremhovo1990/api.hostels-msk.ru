@@ -122,7 +122,6 @@
         axios.get(self.data('url')).then(function (response) {
             let content = response.data;
             if (content.success) {
-                console.log('yes');
                 $.gritter.add({title: 'Success'});
                 $(self.data('target')).data('editor').setData(content.text);
             } else {
