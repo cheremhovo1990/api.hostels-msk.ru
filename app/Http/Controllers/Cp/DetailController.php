@@ -21,6 +21,7 @@ use App\Models\Pagination\Detail\Detail;
 use App\Models\Repositories\ImageRepository;
 use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -65,7 +66,9 @@ class DetailController
 
     public function index(Request $request)
     {
-        $query = $models = Detail::query()->join('detail_organization', 'detail_organization.detail_id', 'details.id');
+        $query = $models = Detail::query()
+            ->select('details.*')
+            ->join('detail_organization', 'detail_organization.detail_id', 'details.id');
 
         if ($request->has('organization')) {
             $query
@@ -74,8 +77,11 @@ class DetailController
                 ->where('detail_organizations.organization_id', '=', $request->get('organization'));
         }
         if ($request->has('station')) {
-
+            $query->join('hostel.metro_stations', function (JoinClause $join) use ($request) {
+                $join->whereRaw('ST_Distance(Point(details.latitude, details.longitude), Point(hostel.metro_stations.latitude, hostel.metro_stations.longitude)) * 100000 < 2000 AND hostel.metro_stations.id = ' . $request->get('station'));
+            });
         }
+        $query->groupBy('id');
         $models = $query->get();
 
         $stations = MetroStation::all();
