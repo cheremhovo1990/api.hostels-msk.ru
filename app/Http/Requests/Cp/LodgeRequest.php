@@ -76,8 +76,8 @@ class LodgeRequest extends FormRequest
             'longitude' => 'required|numeric',
             'stations.*.id' => 'exists:metro_stations,id',
             'stations.*.distance' => 'integer',
-            'administrative_district_id' => 'required|exists:administrative_districts,id',
-            'municipality_id' => 'required|exists:municipalities,id',
+            'administrative_district_id' => 'nullable|exists:administrative_districts,id',
+            'municipality_id' => 'nullable|exists:municipalities,id',
             'image_token' => 'required|string',
             'properties.*' => 'integer|exists:properties,id',
         ];

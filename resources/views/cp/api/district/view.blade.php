@@ -12,22 +12,28 @@
 
 <div class="row">
     <div class="col-md-12">
-        <input type="hidden" name="administrative_district_id" value="{{$model->id}}">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Abbrev</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>{{$model->id}}</td>
-                <td>{{$model->name}}</td>
-                <td>{{$model->abbrev}}</td>
-            </tr>
-            </tbody>
-        </table>
+        @if (!is_null($model))
+            <input type="hidden" name="administrative_district_id" value="{{$model->id}}">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Abbrev</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{$model->id}}</td>
+                    <td>{{$model->name}}</td>
+                    <td>{{$model->abbrev}}</td>
+                </tr>
+                </tbody>
+            </table>
+        @else
+            <input type="hidden" name="administrative_district_id" value="">
+            <p>Not results</p>
+        @endif
+
     </div>
 </div>
