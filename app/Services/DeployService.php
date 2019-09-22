@@ -14,6 +14,7 @@ class DeployService
     {
         abort_if($uuid != $this->uuid, 404);
 
+
         chdir(base_path());
         exec('git reset --hard HEAD', $output);
         exec('git pull', $output);
