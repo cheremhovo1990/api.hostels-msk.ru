@@ -85,9 +85,7 @@ class OrganizationController extends Controller
      */
     public function show(Organization $organization)
     {
-        $details = $this->detailRepository->allByOrganization($organization->id);
-
-        return view('cp/organization/show', ['model' => $organization, 'details' => $details]);
+        return view('cp/organization/show', ['model' => $organization]);
     }
 
     /**

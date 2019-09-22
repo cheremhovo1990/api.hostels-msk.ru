@@ -65,7 +65,7 @@ class DetailController
 
     public function index(Request $request)
     {
-        $query = $models = Detail::query();
+        $query = $models = Detail::query()->join('detail_organization', 'detail_organization.detail_id', 'details.id');
 
         if ($request->has('organization')) {
             $query
@@ -91,6 +91,7 @@ class DetailController
     {
         return view(
             'cp/detail/create', [
+            'organization' => $this->organizationRepository->oneByDetail($detail->id),
             'detail' => $detail,
             'lodge' => null,
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
@@ -105,10 +106,10 @@ class DetailController
      */
     public function store(Detail $detail, LodgeRequest $lodgeRequest)
     {
-        $organization = $this->organizationRepository->oneByDetail($detail->id);
+
         $data = $lodgeRequest->validated();
-        DB::transaction(function () use ($data, $organization, $detail) {
-            $lodge = Lodge::newForDetail($data, $organization);
+        $lodge = DB::transaction(function () use ($data, $detail) {
+            $lodge = Lodge::newForDetail($data);
             $lodge->saveOrFail();
             $lodge->detail()->save($detail);
             if (isset($data['stations'])) {
@@ -118,8 +119,9 @@ class DetailController
                 }
             }
             $this->imageRepository->update($lodge, $data['image_token'], Lodge::IMAGE_TOKEN);
+            return $lodge;
         });
-
+        $organization = $lodge->organization();
         return redirect(route('cp.organizations.show', [$organization]));
     }
 
@@ -131,10 +133,12 @@ class DetailController
     {
 
         $lodge = Lodge::where('id', $detail->lodge_id)->first();
+
         return view(
             'cp/detail/edit', [
             'detail' => $detail,
             'lodge' => $lodge,
+            'organization' => $lodge->organization,
             'statusDropDown' => LodgeHelper::getStatusDropDown(),
             'cityDropDown' => CityHelper::getDropDown()
         ]);

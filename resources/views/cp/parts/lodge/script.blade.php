@@ -21,7 +21,8 @@
         'image-button-modal': '#js-image-button-modal',
         'image-destroy': '.js-image-destroy',
         'input-lodge-images': '#js-input-lodge-images',
-        'image-main': '.js-image-main'
+        'image-main': '.js-image-main',
+        'generate-text': '.js-generate-text'
     };
     $(selectors['add-schema-org-opening-hours']).click(function (e) {
         e.preventDefault();
@@ -114,4 +115,19 @@
             $(selectors['lodge-preview-image']).html(html);
         });
     }
+
+    $(selectors['generate-text']).click(function (e) {
+        let self = $(this);
+        e.preventDefault();
+        axios.get(self.data('url')).then(function (response) {
+            let content = response.data;
+            if (content.success) {
+                console.log('yes');
+                $.gritter.add({title: 'Success'});
+                $(self.data('target')).data('editor').setData(content.text);
+            } else {
+                $.gritter.add({title: 'Fail'});
+            }
+        });
+    });
 </script>

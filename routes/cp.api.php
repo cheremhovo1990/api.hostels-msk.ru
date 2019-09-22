@@ -34,6 +34,7 @@ Route::get('municipality/lat/{latitude}/lon/{longitude}', function ($latitude, $
     return view('cp/api/municipality/view', ['model' => $model]);
 })->name('municipality.view');
 
+Route::get('/lodge/generate-text/{lodge}', 'LodgeController@generateText')->name('lodge.generate-text');
 Route::get('lodge/images/{token}', 'LodgeController@viewImages')->name('lodge.images');
 Route::post('lodge/images/{token}', 'LodgeController@storeImages')->name('lodge.images.store');
 Route::post('lodge/image/main', 'LodgeController@imageMain')->name('lodge.image.main');

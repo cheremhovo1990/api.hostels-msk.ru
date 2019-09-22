@@ -31,8 +31,25 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                         @method('PUT')
                     @endif
                     <div class="form-group required">
+                        <label for="lodge-organization">Organization</label>
+                        <select name="organization_id" id="lodge-organization" class="form-control">
+                            <option value=""></option>
+                            @foreach(\App\Helpers\OrganizationHelper::getDropDown() as $id => $name)
+                                <option
+                                    value="{{$id}}" {{$id == old('organization_id', $organization->id) ? 'selected': ''}}>
+                                    {{$name}}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if (!is_null($lodge))
+                        <p><a href="#" data-url="{{route('cp.api.lodge.generate-text', $lodge)}}"
+                              data-target=".editor-textarea" class="btn btn-success js-generate-text">Generate Text</a>
+                        </p>
+                    @endif
+                    <div class="form-group">
                         <label for="lodge-announce">Announce</label>
-                        <textarea name="announce" class="form-control ckeditor-editor"
+                        <textarea name="announce" class="form-control editor-textarea ckeditor-editor"
                                   id="lodge-announce">{{old('announce', optional($lodge)->announce)}}</textarea>
                     </div>
                     <?php if (isset($lodge->id)): ?>
@@ -41,7 +58,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                         Generate
                     </a>
                     <?php endif; ?>
-                    <div class="form-group required">
+                    <div class="form-group">
                         <label for="lodge-description">Description</label>
                         <textarea name="description" class="form-control ckeditor-editor"
                                   id="lodge-description">{{old('description', optional($lodge)->description)}}</textarea>

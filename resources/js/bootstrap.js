@@ -13,6 +13,7 @@ try {
     require('bootstrap');
     //require('typeahead.js');
     require('select2');
+    require('gritter/js/jquery.gritter.min');
 } catch (e) {}
 
 /**

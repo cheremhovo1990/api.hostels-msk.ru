@@ -93,10 +93,9 @@ class Lodge extends Model
      * @param Organization $organization
      * @return Lodge
      */
-    public static function newForDetail(array $data, Organization $organization): self
+    public static function newForDetail(array $data): self
     {
         $model = new self();
-        $model->organization_id = $organization->id;
         $model->image_token = $data['image_token'];
         $model->edit($data);
         $model->setData([
@@ -112,7 +111,6 @@ class Lodge extends Model
     public static function new(array $data): self
     {
         $model = new self();
-        $model->organization_id = $data['organization_id'];
         $model->image_token = $data['image_token'];
         $model->edit($data);
         $model->setData([
@@ -126,9 +124,7 @@ class Lodge extends Model
      */
     public function edit(array $data)
     {
-        if (isset($data['organization_id'])) {
-            $this->organization_id = $data['organization_id'];
-        }
+        $this->organization_id = $data['organization_id'];
         $this->city_id = $data['city_id'];
         $this->announce = $data['announce'];
         $this->description = $data['description'];

@@ -40,6 +40,9 @@ $title = 'Lodges';
                     <td>{{$model->organization->name}}</td>
                     <td>
                         <a href="{{route('cp.lodges.edit', [$model])}}" class="btn btn-primary">Update</a>
+                        @if ($model->detail)
+                            <a href="{{route('cp.details.edit', $model->detail)}}" class="btn btn-primary">2 gis</a>
+                        @endif
                     </td>
                 </tr>
                 </tbody>

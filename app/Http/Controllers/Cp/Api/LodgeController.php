@@ -141,4 +141,12 @@ class LodgeController extends Controller
         $image->fit($width, ceil($width / $ratio))
             ->save(public_path(\App\Models\Image::ROOT_FOLDER . '/' . $model->getPath($width)));
     }
+
+    public function generateText()
+    {
+        return [
+            'success' => true,
+            'text' => 'text',
+        ];
+    }
 }
