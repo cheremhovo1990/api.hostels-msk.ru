@@ -1,8 +1,9 @@
 <script>
-    $(function () {
+    (function () {
         let selectors = {
             'image-add-all': '#js-image-add-all',
-            'add-image': '.js-add-image'
+            'add-image': '.js-add-image',
+            'copy-phone': '.js-copy'
         };
         $(selectors['image-add-all']).click(function (e) {
             e.preventDefault();
@@ -24,8 +25,11 @@
             };
             xhr.send();
         });
-
-    });
+        $(selectors['copy-phone']).on('click', function (e) {
+            e.preventDefault();
+            $($(this).data('target')).val($(this).closest('p').text());
+        });
+    })();
     ymaps.ready(function () {
         function Map() {
             this.selectors = {
