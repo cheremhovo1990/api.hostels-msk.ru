@@ -229,7 +229,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                 @endforeach
                 <h3>Phones</h3>
                 @foreach($detail->phones as $phone)
-                    <p>{{$phone->phone}}</p>
+                    <p>{{$phone->phone}} <span class="fa fa-copy" title="copy"></span></p>
                 @endforeach
                 <h3>Address</h3>
                 <p>

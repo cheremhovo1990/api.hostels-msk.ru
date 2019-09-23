@@ -20,11 +20,11 @@
         "popper.js": "^1.15.0",
         "select2": "~4.0",
         "typeahead.js": "v0.11.1"
-
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^11.2.0",
-        "inputmask": "^4.0.8",
-        "gritter": "^1.7.4"
+        "font-awesome": "^4.7.0",
+        "gritter": "^1.7.4",
+        "inputmask": "^4.0.8"
     }
 }
