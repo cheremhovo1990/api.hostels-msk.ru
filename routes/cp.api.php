@@ -34,5 +34,3 @@ Route::post('lodge/images/{token}', 'LodgeController@storeImages')->name('lodge.
 Route::post('lodge/image/main', 'LodgeController@imageMain')->name('lodge.image.main');
 Route::post('lodge/image/{token}', 'LodgeController@storeImage')->name('lodge.image.store');
 Route::delete('lodge/image/{image}', 'LodgeController@destroyImage')->name('lodge.image.destroy');
-
-Route::get('text/generate/{lodge}', 'TextController@generate')->name('text.generate');

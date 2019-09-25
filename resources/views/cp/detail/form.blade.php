@@ -75,23 +75,11 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                         <textarea name="announce" class="form-control editor-textarea ckeditor-editor"
                                   id="lodge-announce">{{old('announce', optional($lodge)->announce)}}</textarea>
                     </div>
-                    <?php if (isset($lodge->id)): ?>
-                    <a href="{{route('cp.api.text.generate', ['lodge' => $lodge])}}" id="js-announce-generate"
-                       class="btn btn-primary mt-1">
-                        Generate
-                    </a>
-                    <?php endif; ?>
                     <div class="form-group">
                         <label for="lodge-description">Description</label>
                         <textarea name="description" class="form-control ckeditor-editor"
                                   id="lodge-description">{{old('description', optional($lodge)->description)}}</textarea>
                     </div>
-                    <?php if (isset($lodge->id)): ?>
-                    <a href="{{route('cp.api.text.generate', ['lodge' => $lodge])}}" id="js-description-generate"
-                       class="btn btn-primary mt-1">
-                        Generate
-                    </a>
-                    <?php endif; ?>
 
                     <div class="form-group required">
                         <label for="lodge-address">Address</label>

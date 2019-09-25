@@ -63,7 +63,7 @@ class Service
         $this->name($lodge, $variables);
         $this->metro($lodge, $options, $variables);
         $this->hostel($lodge, $siteId, $variables);
-        $this->wifi($lodge, $options, $variables);
+        //$this->wifi($lodge, $options, $variables);
         $announce = $this->generate->getText($options);
         $announce = $this->replace($variables, $announce);
         return $announce;
