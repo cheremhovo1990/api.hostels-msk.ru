@@ -11,7 +11,11 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .copy('node_modules/inputmask/dist/jquery.inputmask.bundle.js', 'public/js')
-    .copy('node_modules/@ckeditor/ckeditor5-build-classic/build', 'public/js/ckeditor')
-    .sass('resources/sass/app.scss', 'public/css');
+mix
+    .setPublicPath('public/build')
+    .setResourceRoot('/build/')
+    .js('resources/js/app.js', 'js')
+    .copy('node_modules/inputmask/dist/jquery.inputmask.bundle.js', 'public/build/js')
+    .copy('node_modules/@ckeditor/ckeditor5-build-classic/build', 'public/build/js/ckeditor')
+    .sass('resources/sass/app.scss', 'css')
+    .version();

@@ -19,8 +19,8 @@ class DeployService
         exec('git pull', $output);
         exec('composer install --no-dev --optimize-autoloader', $output);
         exec('./artisan migrate', $output);
-        //exec('npm install', $output);
-        //exec('npm run prod', $output);
+        exec('npm install', $output);
+        exec('npm run prod', $output);
         $output['success'] = true;
         return $output;
     }

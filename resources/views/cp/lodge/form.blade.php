@@ -10,7 +10,6 @@
 /** @var $cityDropDown \Illuminate\Support\Collection */
 /** @var $statusDropDown \Illuminate\Support\Collection */
 /** @var $organizationDropDown \Illuminate\Support\Collection */
-/** @var $groups \App\Models\Organization\PropertyGroup[] */
 
 $imageToken = optional($model)->image_token ?? uniqid('', true);
 
@@ -208,8 +207,8 @@ if (is_null($model)) {
 @section('script')
     @parent
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
-    <script src="/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
-    <script src="/js/ckeditor/ckeditor.js"></script>
+    <script src="/build/js/jquery.inputmask.bundle.js" type="text/javascript"></script>
+    <script src="/build/js/ckeditor/ckeditor.js"></script>
     @include('cp.parts.script-common')
     @include('cp.parts.lodge.script')
     @include('cp.lodge.script')

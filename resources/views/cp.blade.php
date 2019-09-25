@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="{{mix('css/app.css', '/build')}}">
 
     <title>Hello, world!</title>
     <style>
@@ -45,7 +45,7 @@
     </div>
 </div>
 @section('script')
-    <script src="/js/app.js"></script>
+    <script src="{{mix('js/app.js', '/build')}}"></script>
 @show
 
 </body>
