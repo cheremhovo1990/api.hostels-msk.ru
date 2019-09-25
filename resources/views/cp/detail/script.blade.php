@@ -26,8 +26,9 @@
             xhr.send();
         });
         $(selectors['copy-phone']).on('click', function (e) {
+            let self = $(this);
             e.preventDefault();
-            $($(this).data('target')).val($(this).closest('p').text());
+            $(self.data('target')).val(self.data('content'));
         });
     })();
     ymaps.ready(function () {
@@ -61,7 +62,8 @@
                 ];
                 self.createMap('lodge-map', coordinates);
             }
-            $('.js-coordinates-copy').on('click', function () {
+            $('.js-coordinates-copy').on('click', function (e) {
+                e.preventDefault();
                 let coordinates = $('#detail-map').data('coordinates');
                 $(self.selectors['lodge-latitude']).val(coordinates[0]);
                 $(self.selectors['lodge-longitude']).val(coordinates[1]);

@@ -30,17 +30,40 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                     @if (!is_null($lodge))
                         @method('PUT')
                     @endif
-                    <div class="form-group required">
-                        <label for="lodge-organization">Organization</label>
-                        <select name="organization_id" id="lodge-organization" class="form-control">
-                            <option value=""></option>
-                            @foreach(\App\Helpers\OrganizationHelper::getDropDown() as $id => $name)
-                                <option
-                                    value="{{$id}}" {{$id == old('organization_id', $organization->id) ? 'selected': ''}}>
-                                    {{$name}}
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group required">
+                                <label for="lodge-organization">Organization</label>
+                                <select name="organization_id" id="lodge-organization" class="form-control">
+                                    <option value=""></option>
+                                    @foreach(\App\Helpers\OrganizationHelper::getDropDown() as $id => $name)
+                                        <option
+                                            value="{{$id}}" {{$id == old('organization_id', $organization->id) ? 'selected': ''}}>
+                                            {{$name}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group required">
+                                <label for="lodge-phone">Phone</label>
+                                <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone"
+                                       value="{{old('phone', optional($lodge)->phone)}}">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group required">
+                                <label for="lodge-status">Status</label>
+                                <select name="status" id="lodge-status" class="form-control">
+                                    @foreach($statusDropDown as $id => $status)
+                                        <option value="{{$id}}" {{$id == optional($lodge)->status ? 'selected': ''}}>
+                                            {{$status}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     @if (!is_null($lodge))
                         <p><a href="#" data-url="{{route('cp.api.lodge.generate-text', $lodge)}}"
@@ -69,11 +92,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                         Generate
                     </a>
                     <?php endif; ?>
-                    <div class="form-group required">
-                        <label for="lodge-phone">Phone</label>
-                        <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone"
-                               value="{{old('phone', optional($lodge)->phone)}}">
-                    </div>
+
                     <div class="form-group required">
                         <label for="lodge-address">Address</label>
                         <div class="input-group">
@@ -89,14 +108,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                         </div>
 
                     </div>
-                    <div class="form-group required">
-                        <label for="lodge-status">Status</label>
-                        <select name="status" id="lodge-status" class="form-control">
-                            @foreach($statusDropDown as $id => $status)
-                                <option value="{{$id}}" {{$id == optional($lodge)->status ? 'selected': ''}}>{{$status}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+
                     <div class="form-group required">
                         <label for="lodge-opening-hours">Opening Hours</label>
                         <input type="text" name="opening_hours" id="lodge-opening-hours" class="form-control"
@@ -203,91 +215,7 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="row">
-                    <div class="col">
-                        <h3>Name</h3>
-                        <p>
-                            {{$detail->name}}
-                        </p>
-                    </div>
-                    <div class="col">
-                        <h3>Title</h3>
-                        <p>
-                            {{$detail->title}}
-                        </p>
-
-                    </div>
-                </div>
-                <h3>Text</h3>
-                <p>
-                    {{$detail->text}}
-                </p>
-                <h3>Description</h3>
-                @foreach($detail->descriptions as $description)
-                    <p>{{$description->description}}</p>
-                @endforeach
-                <h3>Phones</h3>
-                @foreach($detail->phones as $phone)
-                    <p>{{$phone->phone}} <a href="" class="js-copy" data-target="#lodge-phone"><span class="fa fa-copy" title="copy"></span></a></p>
-                @endforeach
-                <h3>Address</h3>
-                <p>
-                    {{$detail->address}}
-                </p>
-                <h2>latitude and Longitude</h2>
-                <p>
-                    {{$detail->latitude}} {{$detail->longitude}}
-                    <button class="js-coordinates-copy btn btn-primary">Copy</button>
-                </p>
-                <div id="detail-map" style="height: 200px"
-                     data-coordinates="{{collect([$detail->latitude, $detail->longitude])}}">
-
-                </div>
-                <h3>work_hour</h3>
-                <p>
-                    {{$detail->work_hour}}
-                </p>
-                <div class="row">
-                    <div class="col">
-                        <h3>Site</h3>
-                        <p>
-                            {{$detail->site}}
-                        </p>
-                    </div>
-                    <div class="col">
-                        <h3>Email</h3>
-                        <p>
-                            {{$detail->email}}
-                        </p>
-                    </div>
-                </div>
-                <h3>Attributes</h3>
-                @foreach($detail->detailAttributes as $attribute)
-                    <p>{{$attribute->attribute}}</p>
-                @endforeach
-                <h3>Images</h3>
-                <p>
-                    <a href="#" class="btn btn-primary" id="js-image-add-all">Add all</a>
-                </p>
-                <div class="row" id="js-image-url"
-                     data-url="{{route('cp.api.lodge.image.store', ['token' => $imageToken])}}">
-                    @foreach($detail->images as $image)
-                        <div class="col">
-                            <div class="row">
-                                <figure class="figure">
-                                    <img src="{{$image->src}}" id="js-image-add-{{$image->id}}" alt=""
-                                         style="max-width: 200px">
-                                </figure>
-                            </div>
-
-                            <a href="#" data-target="#js-image-add-{{$image->id}}" class="js-add-image">add</a>
-                        </div>
-
-                    @endforeach
-                </div>
-
-            </div>
+            @include('cp.detail.form-right')
         </div>
     </div>
 @endsection
