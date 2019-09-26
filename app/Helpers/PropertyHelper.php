@@ -6,14 +6,16 @@ declare(strict_types=1);
 namespace App\Helpers;
 
 
+use App\Models\Organization\Property;
+
 class PropertyHelper
 {
-    public static function getDropDown()
+    public static function getDropDown(Property $property = null)
     {
         return [
             [
                 'name' => 'wi_fi',
-                'label' => 'Wi-Fi'
+                'label' => 'Wi-Fi',
             ],
             [
                 'name' => 'reception_24_hour',

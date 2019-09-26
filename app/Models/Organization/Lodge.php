@@ -241,4 +241,9 @@ class Lodge extends Model
             return [];
         }
     }
+
+    public function property()
+    {
+        return $this->hasOne(Property::class);
+    }
 }
