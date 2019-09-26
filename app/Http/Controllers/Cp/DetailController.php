@@ -22,6 +22,7 @@ use App\Models\Repositories\ImageRepository;
 use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
 use App\Services\LodgeService;
+use App\UseCases\LodgeUseCase;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -48,18 +49,18 @@ class DetailController
      * @var LodgeService
      */
     private $lodgeService;
+    /**
+     * @var LodgeUseCase
+     */
+    private $lodgeUseCase;
 
     public function __construct(
         OrganizationRepository $organizationRepository,
-        LodgeService $lodgeService,
-        LodgeRepository $lodgeRepository,
-        ImageRepository $imageRepository
+        LodgeUseCase $lodgeUseCase
     )
     {
         $this->organizationRepository = $organizationRepository;
-        $this->lodgeRepository = $lodgeRepository;
-        $this->imageRepository = $imageRepository;
-        $this->lodgeService = $lodgeService;
+        $this->lodgeUseCase = $lodgeUseCase;
     }
 
 
@@ -119,22 +120,8 @@ class DetailController
      */
     public function store(Detail $detail, LodgeRequest $lodgeRequest)
     {
-
         $data = $lodgeRequest->validated();
-        $lodge = DB::transaction(function () use ($data, $detail) {
-            $lodge = Lodge::newForDetail($data);
-            $lodge->saveOrFail();
-            $lodge->detail()->save($detail);
-            $this->lodgeService->createProperty($lodge->id, $data['properties']);
-            if (isset($data['stations'])) {
-                foreach ($data['stations'] as $station) {
-                    $lodgeMetroStation = LodgeMetroStation::new($lodge->id, $station['id'], $station['distance']);
-                    $lodgeMetroStation->save();
-                }
-            }
-            $this->imageRepository->update($lodge, $data['image_token'], Lodge::IMAGE_TOKEN);
-            return $lodge;
-        });
+        $lodge = $this->lodgeUseCase->createByDetail($detail, $data);
         return redirect(route('cp.lodges.index'));
     }
 
@@ -165,11 +152,8 @@ class DetailController
      */
     public function update(Lodge $lodge, LodgeRequest $lodgeRequest)
     {
-        $organization = $this->organizationRepository->findOne($lodge->organization_id);
         $data = $lodgeRequest->validated();
-        $lodge->edit($data);
-        $lodge->saveOrFail();
-        $this->lodgeService->updateProperty($lodge->id, $data['properties']);
+        $this->lodgeUseCase->update($lodge, $data);
         return redirect(route('cp.lodges.index'));
     }
 
