@@ -12,6 +12,7 @@ namespace App\Services;
 
 
 use App\Models\Organization\Lodge;
+use App\Models\Organization\Property;
 use App\Models\Repositories\ImageRepository;
 use Illuminate\Support\Facades\DB;
 
@@ -51,6 +52,29 @@ class LodgeService
         return $model;
     }
 
+    public function createProperty($lodgeId, array $properties): Property
+    {
+        $property = Property::create([
+            'lodge_id' => $lodgeId,
+            'wi_fi' => $properties['wi_fi'],
+            'reception_24_hour' => $properties['reception_24_hour'],
+            'fridge' => $properties['fridge'],
+            'television' => $properties['television'],
+            'bunk_bed' => $properties['bunk_bed'],
+            'single_beds' => $properties['single_beds'],
+            'orthopedic_mattress' => $properties['orthopedic_mattress'],
+            'security_24_hour' => $properties['security_24_hour'],
+            'conditioner' => $properties['conditioner'],
+            'soundproofing' => $properties['soundproofing'],
+            'kitchen' => $properties['kitchen'],
+            'bath' => $properties['bath'],
+            'shower' => $properties['shower'],
+            'washer' => $properties['washer'],
+            'drying_machine' => $properties['drying_machine'],
+        ]);
+        return $property;
+    }
+
     /**
      * @param Lodge $model
      * @param $data
@@ -62,6 +86,30 @@ class LodgeService
         $model->edit($data);
         $model->saveOrFail();
         return $model;
+    }
+
+    public function updateProperty($lodgeId, $properties)
+    {
+        $property = Property::query()->where('lodge_id', '=', $lodgeId)->first();
+        $property->update([
+            'lodge_id' => $lodgeId,
+            'wi_fi' => $properties['wi_fi'],
+            'reception_24_hour' => $properties['reception_24_hour'],
+            'fridge' => $properties['fridge'],
+            'television' => $properties['television'],
+            'bunk_bed' => $properties['bunk_bed'],
+            'single_beds' => $properties['single_beds'],
+            'orthopedic_mattress' => $properties['orthopedic_mattress'],
+            'security_24_hour' => $properties['security_24_hour'],
+            'conditioner' => $properties['conditioner'],
+            'soundproofing' => $properties['soundproofing'],
+            'kitchen' => $properties['kitchen'],
+            'bath' => $properties['bath'],
+            'shower' => $properties['shower'],
+            'washer' => $properties['washer'],
+            'drying_machine' => $properties['drying_machine'],
+        ]);
+        return $property;
     }
 
     public function destroy(Lodge $lodge): void

@@ -21,6 +21,7 @@ use App\Models\Pagination\Detail\Detail;
 use App\Models\Repositories\ImageRepository;
 use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
+use App\Services\LodgeService;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,15 +44,14 @@ class DetailController
      * @var ImageRepository
      */
     private $imageRepository;
-
     /**
-     * DetailController constructor.
-     * @param OrganizationRepository $organizationRepository
-     * @param LodgeRepository $lodgeRepository
-     * @param ImageRepository $imageRepository
+     * @var LodgeService
      */
+    private $lodgeService;
+
     public function __construct(
         OrganizationRepository $organizationRepository,
+        LodgeService $lodgeService,
         LodgeRepository $lodgeRepository,
         ImageRepository $imageRepository
     )
@@ -59,6 +59,7 @@ class DetailController
         $this->organizationRepository = $organizationRepository;
         $this->lodgeRepository = $lodgeRepository;
         $this->imageRepository = $imageRepository;
+        $this->lodgeService = $lodgeService;
     }
 
 
@@ -124,6 +125,7 @@ class DetailController
             $lodge = Lodge::newForDetail($data);
             $lodge->saveOrFail();
             $lodge->detail()->save($detail);
+            $this->lodgeService->createProperty($lodge->id, $data['properties']);
             if (isset($data['stations'])) {
                 foreach ($data['stations'] as $station) {
                     $lodgeMetroStation = LodgeMetroStation::new($lodge->id, $station['id'], $station['distance']);
@@ -167,6 +169,7 @@ class DetailController
         $data = $lodgeRequest->validated();
         $lodge->edit($data);
         $lodge->saveOrFail();
+        $this->lodgeService->updateProperty($lodge->id, $data['properties']);
         return redirect(route('cp.lodges.index'));
     }
 

@@ -32,6 +32,11 @@ class CreateLodgePropertiesTable extends Migration
             $table->integer('washer')->default(0)->comment('Стиральная машина');
             $table->integer('drying_machine')->default(0)->comment('Сушильная машина');
         });
+
+        $lodges = \App\Models\Organization\Lodge::all();
+        foreach ($lodges as $lodge) {
+            \Illuminate\Support\Facades\DB::insert('INSERT INTO lodge_properties SET lodge_id = :lodge', [':lodge' => $lodge->id]);
+        };
     }
 
     /**

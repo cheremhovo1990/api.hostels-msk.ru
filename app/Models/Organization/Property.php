@@ -31,6 +31,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Property extends Model
 {
+    protected $table = 'lodge_properties';
+    public $guarded = [];
+
     const CHECKED_NO = 0;
     const CHECKED_YES = 1;
 
