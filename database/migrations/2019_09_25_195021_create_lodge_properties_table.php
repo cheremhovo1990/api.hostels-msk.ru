@@ -14,7 +14,7 @@ class CreateLodgePropertiesTable extends Migration
     public function up()
     {
         Schema::create('lodge_properties', function (Blueprint $table) {
-            $table->integer('form_id')->refenrences('id')->on('id')->onDelete('CASCADE');
+            $table->integer('lodge_id')->refenrences('id')->on('id')->onDelete('CASCADE');
             $table->integer('wi_fi')->default(0)->comment('Wi-Fi');
             $table->integer('24_hour_reception')->default(0)->comment('Круглосуточная стойка регистрации');
             $table->integer('fridge')->default(0)->comment('Холодильник');
