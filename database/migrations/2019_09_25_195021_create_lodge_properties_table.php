@@ -16,14 +16,14 @@ class CreateLodgePropertiesTable extends Migration
         Schema::create('lodge_properties', function (Blueprint $table) {
             $table->integer('lodge_id')->unique()->refenrences('id')->on('id')->onDelete('CASCADE');
             $table->integer('wi_fi')->default(0)->comment('Wi-Fi');
-            $table->integer('24_hour_reception')->default(0)->comment('Круглосуточная стойка регистрации');
+            $table->integer('reception_24_hour')->default(0)->comment('Круглосуточная стойка регистрации');
             $table->integer('fridge')->default(0)->comment('Холодильник');
             $table->integer('television')->default(0)->comment('Телевизор');
             $table->integer('bunk_bed')->default(0)->comment('Двухъярусные кровати');
             $table->integer('single_beds')->default(0)->comment('Одноярусные кровати');
             $table->integer('orthopedic_mattress')->default(0)->comment('Ортопедические матрасы');
             $table->integer('daily_cleaning')->default(0)->comment('Ежедневная уборка');
-            $table->integer('24_hour_security')->default(0)->comment('Круглосуточная охрана');
+            $table->integer('security_24_hour')->default(0)->comment('Круглосуточная охрана');
             $table->integer('conditioner')->default(0)->comment('Кондиционер');
             $table->integer('soundproofing')->default(0)->comment('Шумоизоляция');
             $table->integer('kitchen')->default(0)->comment('Кухня');
