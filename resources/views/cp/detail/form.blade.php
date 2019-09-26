@@ -37,12 +37,15 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                     @if (!is_null($lodge))
                         @method('PUT')
                     @endif
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs mb-4">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="list" href="#tab-main">Main</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="list" href="#tab-address">Address</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="list" href="#tab-properties">Properties</a>
                         </li>
                     </ul>
 
@@ -52,6 +55,9 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
                         </div>
                         <div class="tab-pane fade" id="tab-address">
                             @include('cp.detail.tab-address')
+                        </div>
+                        <div class="tab-pane fade" id="tab-properties">
+                            @include('cp.detail.tab-properties')
                         </div>
                     </div>
 
