@@ -41,14 +41,7 @@ class DetailController
      * @var LodgeRepository
      */
     private $lodgeRepository;
-    /**
-     * @var ImageRepository
-     */
-    private $imageRepository;
-    /**
-     * @var LodgeService
-     */
-    private $lodgeService;
+
     /**
      * @var LodgeUseCase
      */
