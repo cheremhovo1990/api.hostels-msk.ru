@@ -46,7 +46,7 @@ class LodgeUseCase
                     $lodgeMetroStation->save();
                 }
             }
-            $this->imageRepository->update($lodge, $data['image_token'], Lodge::IMAGE_TOKEN);
+            $this->imageRepository->update($lodge, session()->getId(), Lodge::IMAGE_TOKEN);
             return $lodge;
         });
         return $lodge;

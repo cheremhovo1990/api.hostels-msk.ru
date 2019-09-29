@@ -15,8 +15,8 @@ use App\Helpers\CityHelper;
 use App\Helpers\LodgeHelper;
 use App\Http\Requests\Cp\LodgeRequest;
 use App\Models\Organization\Lodge;
+use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
-use App\Models\Organization\Repositories\PropertyGroupRepository;
 use App\Services\LodgeService;
 
 /**
@@ -31,15 +31,17 @@ class LodgeController
     private $lodgeService;
 
     /**
-     * LodgeController constructor.
-     * @param PropertyGroupRepository $propertyGroupRepository
-     * @param LodgeService $lodgeService
+     * @var LodgeRepository
      */
+    private $lodgeRepository;
+
     public function __construct(
-        LodgeService $lodgeService
+        LodgeService $lodgeService,
+        LodgeRepository $lodgeRepository
     )
     {
         $this->lodgeService = $lodgeService;
+        $this->lodgeRepository = $lodgeRepository;
     }
 
     /**

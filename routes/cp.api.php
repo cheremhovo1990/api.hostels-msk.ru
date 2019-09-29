@@ -14,23 +14,30 @@ Route::get('station-by-coordinates/lat/{latitude}/lon/{longitude}/dist/{distance
     return view('cp/api/station/distance', [
         'stations' => $stations,
         'latitude' => $latitude,
-        'longitude' => $longitude
+        'longitude' => $longitude,
+        'formId' => 'form-lodge',
     ]);
 })->name('station.distance');
 
 Route::get('administrative-district/lat/{latitude}/lon/{longitude}', function ($latitude, $longitude) {
     $model = \App\Models\District::byLatitudeLongitude((float)$latitude, (float)$longitude)->first();
-    return view('cp/api/district/view', ['model' => $model]);
+    return view(
+        'cp/api/district/view', [
+        'model' => $model,
+        'formId' => 'form-lodge',
+    ]);
 })->name('administrative-district.view');
 
 Route::get('municipality/lat/{latitude}/lon/{longitude}', function ($latitude, $longitude) {
     $model = \App\Models\Municipality::byLatitudeLongitude((float)$latitude, (float)$longitude)->first();
-    return view('cp/api/municipality/view', ['model' => $model]);
+    return view('cp/api/municipality/view', [
+        'model' => $model,
+        'formId' => 'form-lodge',
+    ]);
 })->name('municipality.view');
 
-Route::get('/lodge/generate-text/{lodge}', 'LodgeController@generateText')->name('lodge.generate-text');
-Route::get('lodge/images/{token}', 'LodgeController@viewImages')->name('lodge.images');
-Route::post('lodge/images/{token}', 'LodgeController@storeImages')->name('lodge.images.store');
-Route::post('lodge/image/main', 'LodgeController@imageMain')->name('lodge.image.main');
-Route::post('lodge/image/{token}', 'LodgeController@storeImage')->name('lodge.image.store');
-Route::delete('lodge/image/{image}', 'LodgeController@destroyImage')->name('lodge.image.destroy');
+
+Route::group(['prefix' => 'lodge', 'as' => 'lodge.'], function () {
+    Route::get('generate-text/{lodge}', 'LodgeController@generateText')->name('generate-text');
+});
+

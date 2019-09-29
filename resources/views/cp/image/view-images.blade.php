@@ -15,16 +15,16 @@ use App\Models\Image;
 <div class="row">
     <?php foreach ($images as $image): ?>
     <div class="col-md-3">
-        <img src="/{{Image::ROOT_FOLDER}}/<?= $image->getUrl(160) ?>" alt="">
+        <img src="" alt="">
         <div class="d-flex align-items-center justify-content-between">
             <div>
-                <a href="{{route('cp.api.lodge.image.destroy', [$image])}}" class="js-image-destroy">delete</a>
+                <a href="{{route('cp.lodge.image.destroy', [$image])}}" class="js-image-destroy">delete</a>
             </div>
             <div>
                 <label class="mb-0">
                     <input type="radio" name="main" value="{{$image->id}}"
                            {{$image->isMain()? 'checked':''}} class="js-image-main"
-                           data-url="{{route('cp.api.lodge.image.main')}}">
+                           data-url="{{route('cp.lodge.image.main')}}">
                     Main
                 </label>
             </div>

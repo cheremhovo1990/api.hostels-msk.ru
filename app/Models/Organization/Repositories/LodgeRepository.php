@@ -24,7 +24,7 @@ class LodgeRepository
      * @param int $id
      * @return Lodge|null
      */
-    public function findOne(int $id): ?Lodge
+    public function findOne($id): ?Lodge
     {
         return Lodge::where('id', $id)->first();
     }

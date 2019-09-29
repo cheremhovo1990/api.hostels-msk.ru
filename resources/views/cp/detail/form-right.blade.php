@@ -76,8 +76,8 @@
     <p>
         <a href="#" class="btn btn-primary" id="js-image-add-all">Add all</a>
     </p>
-    <div class="row" id="js-image-url"
-         data-url="{{route('cp.api.lodge.image.store', ['token' => $imageToken])}}">
+    <div class="row" id="js-image-container"
+         data-url="{{route('cp.lodge.image.store', ['lodge_id' => optional($lodge)->id])}}">
         @foreach($detail->images as $image)
             <div class="col">
                 <div class="row">

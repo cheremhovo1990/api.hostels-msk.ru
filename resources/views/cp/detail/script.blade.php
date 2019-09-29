@@ -3,7 +3,8 @@
         let selectors = {
             'image-add-all': '#js-image-add-all',
             'add-image': '.js-add-image',
-            'copy-phone': '.js-copy'
+            'image-container': '#js-image-container',
+            'copy': '.js-copy'
         };
         $(selectors['image-add-all']).click(function (e) {
             e.preventDefault();
@@ -21,11 +22,15 @@
                 blob = xhr.response;
                 let formData = new FormData();
                 formData.append('image', blob);
-                axios.post($('#js-image-url').data('url'), formData);
+                axios.post($(selectors['image-container']).data('url'), formData, function (response) {
+                    if (response.data.success) {
+                        $.gritter.add('Success');
+                    }
+                });
             };
             xhr.send();
         });
-        $(selectors['copy-phone']).on('click', function (e) {
+        $(selectors['copy']).on('click', function (e) {
             let self = $(this);
             e.preventDefault();
             $(self.data('target')).val(self.data('content'));

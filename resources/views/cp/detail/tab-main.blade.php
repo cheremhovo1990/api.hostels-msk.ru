@@ -2,7 +2,7 @@
     <div class="col-4">
         <div class="form-group required">
             <label for="lodge-organization">Organization</label>
-            <select name="organization_id" id="lodge-organization" class="form-control">
+            <select name="organization_id" id="lodge-organization" class="form-control" form="{{$formId}}">
                 <option value=""></option>
                 @foreach(\App\Helpers\OrganizationHelper::getDropDown() as $id => $name)
                     <option
@@ -17,13 +17,13 @@
         <div class="form-group required">
             <label for="lodge-phone">Phone</label>
             <input type="tel" name="phone" class="form-control js-phone-mask" id="lodge-phone"
-                   value="{{old('phone', optional($lodge)->phone)}}">
+                   value="{{old('phone', optional($lodge)->phone)}}" form="{{$formId}}">
         </div>
     </div>
     <div class="col-4">
         <div class="form-group required">
             <label for="lodge-status">Status</label>
-            <select name="status" id="lodge-status" class="form-control">
+            <select name="status" id="lodge-status" class="form-control" form="{{$formId}}">
                 @foreach($statusDropDown as $id => $status)
                     <option value="{{$id}}" {{$id == optional($lodge)->status ? 'selected': ''}}>
                         {{$status}}
@@ -40,19 +40,27 @@
 @endif
 <div class="form-group">
     <label for="lodge-announce">Announce</label>
-    <textarea name="announce" class="form-control editor-textarea ckeditor-editor"
-              id="lodge-announce">{{old('announce', optional($lodge)->announce)}}</textarea>
+    <textarea
+        name="announce"
+        class="form-control editor-textarea ckeditor-editor"
+        id="lodge-announce"
+        form="{{$formId}}"
+    >{{old('announce', optional($lodge)->announce)}}</textarea>
 </div>
 <div class="form-group">
     <label for="lodge-description">Description</label>
-    <textarea name="description" class="form-control ckeditor-editor"
-              id="lodge-description">{{old('description', optional($lodge)->description)}}</textarea>
+    <textarea
+        name="description"
+        class="form-control ckeditor-editor"
+        form="{{$formId}}"
+        id="lodge-description"
+    >{{old('description', optional($lodge)->description)}}</textarea>
 </div>
 
 
 <div class="form-group required">
     <label for="lodge-opening-hours">Opening Hours</label>
-    <input type="text" name="opening_hours" id="lodge-opening-hours" class="form-control"
+    <input type="text" name="opening_hours" id="lodge-opening-hours" class="form-control" form="{{$formId}}"
            value="{{old('opening_hours', optional($lodge)->opening_hours)}}">
 </div>
 <div class="form-group">
@@ -70,12 +78,3 @@
         @endforeach
     @endif
 </div>
-
-
-<input type="hidden" name="image_token" value="{{$imageToken}}">
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" id="js-image-button-modal" data-toggle="modal"
-        data-target="#js-lodge-image-upload"
-        data-url-images="{{route('cp.api.lodge.images', ['token' => $imageToken])}}">
-    Upload image
-</button>

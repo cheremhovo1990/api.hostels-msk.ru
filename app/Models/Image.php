@@ -31,14 +31,7 @@ use Illuminate\Notifications\Notifiable;
 class Image extends Model
 {
     use Notifiable;
-    /**
-     *
-     */
-    const ROOT_FOLDER = 'uploads';
-    /**
-     *
-     */
-    const WIDTH = 160;
+
     /**
      *
      */
@@ -47,77 +40,15 @@ class Image extends Model
      *
      */
     const STATUS_MAIN = 'main';
+
     /**
      * @var string
      */
     protected $table = 'images';
 
-    /**
-     * @param string $token
-     * @param string $extension
-     * @param null $modelId
-     * @param null $modelToken
-     * @return Image
-     */
-    public static function newForLodge(string $token, string $extension, $modelId = null, $modelToken = null): self
-    {
-        $model = new static();
-        $model->model_id = $modelId;
-        $model->model_type = $modelToken;
-        $model->token = $token;
-        $model->name = uniqid('', true);
-        $model->extension = $extension;
-        $model->folder = 'lodge';
-        return $model;
-    }
+    public $timestamps = false;
 
-    /**
-     * @param int $width
-     * @return string
-     */
-    public function getFullName(int $width = null): string
-    {
-        if (is_null($width)) {
-            return $this->name . '.' . $this->extension;
-        } else {
-            return $this->name . '.' . $width . '.' . $this->extension;
-        }
-    }
-
-    /**
-     * @return string
-     */
-    public function getFolderOriginal(): string
-    {
-        return $this->folder . '/' . $this->token . '/original';
-    }
-
-    /**
-     * @return string
-     */
-    public function getPathOriginal(): string
-    {
-        return $this->folder . '/' . $this->token . '/original' . '/' . $this->getFullName();
-    }
-
-    /**
-     * @param int $width
-     * @return string
-     */
-    public function getPath(int $width): string
-    {
-        return $this->folder . '/' . $this->token . '/' . $this->getFullName($width);
-    }
-
-    /**
-     * @param int $width
-     * @return string
-     */
-    public function getUrl(int $width): string
-    {
-        return $this->folder . '/' . $this->token . '/' . $this->getFullName($width);
-    }
-
+    public $guarded = [];
 
     /**
      * @return bool

@@ -20,8 +20,8 @@ $distance = app(MetroDistanceService::class);
 <div class="row">
     <div class="col-md-12">
         @foreach($stations as $station)
-            <input type="hidden" name="stations[{{$loop->index}}][id]" value="{{$station->id}}">
-            <input type="hidden" name="stations[{{$loop->index}}][distance]"
+            <input type="hidden" name="stations[{{$loop->index}}][id]" value="{{$station->id}}" form="{{$formId}}">
+            <input type="hidden" name="stations[{{$loop->index}}][distance]" form="{{$formId}}"
                    value="{{$distance->distance($latitude, $longitude, $station)}}">
         @endforeach
         <table class="table">

@@ -13,7 +13,7 @@
 <div class="row">
     <div class="col-md-12">
         @if (!is_null($model))
-            <input type="hidden" name="administrative_district_id" value="{{$model->id}}">
+            <input type="hidden" name="administrative_district_id" value="{{$model->id}}" form="{{$formId}}">
             <table class="table">
                 <thead>
                 <tr>
@@ -31,7 +31,7 @@
                 </tbody>
             </table>
         @else
-            <input type="hidden" name="administrative_district_id" value="">
+            <input type="hidden" name="administrative_district_id" value="" form="{{$formId}}">
             <p>Not results</p>
         @endif
 

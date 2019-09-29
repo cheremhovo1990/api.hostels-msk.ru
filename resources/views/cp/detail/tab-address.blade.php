@@ -2,25 +2,25 @@
     <label for="lodge-address">Address</label>
     <div class="input-group">
         <div class="input-group-prepend">
-            <select name="city_id" class="form-control">
+            <select name="city_id" class="form-control" form="{{$formId}}">
                 @foreach($cityDropDown as $id => $city)
                     <option value="{{$id}}" {{$id == optional($lodge)->city_id ? 'selected': ''}}>{{$city}}</option>
                 @endforeach
             </select>
         </div>
-        <input type="text" name="address" class="form-control" id="lodge-address"
+        <input type="text" name="address" class="form-control" id="lodge-address" form="{{$formId}}"
                value="{{old('address', optional($lodge)->address)}}">
     </div>
 </div>
 <div class="row">
     <div class="col form-group required">
         <label for="lodge-latitude">Latitude</label>
-        <input type="text" name="latitude" class="form-control" id="lodge-latitude"
+        <input type="text" name="latitude" class="form-control" id="lodge-latitude" form="{{$formId}}"
                value="{{old('latitude', optional($lodge)->latitude)}}">
     </div>
     <div class="col form-group required">
         <label for="lodge-longitude">Longitude</label>
-        <input type="text" name="longitude" class="form-control" id="lodge-longitude"
+        <input type="text" name="longitude" class="form-control" id="lodge-longitude" form="{{$formId}}"
                value="{{old('longitude', optional($lodge)->longitude)}}">
     </div>
     <div class="col form-group">

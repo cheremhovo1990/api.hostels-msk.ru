@@ -15,12 +15,6 @@
         'announce': '#lodge-announce',
         'description-generate': '#js-description-generate',
         'description': '#lodge-description',
-        'lodge-preview-image': '#js-lodge-preview-image',
-        'lodge-image-upload': '#js-lodge-image-upload',
-        'image-button-modal': '#js-image-button-modal',
-        'image-destroy': '.js-image-destroy',
-        'input-lodge-images': '#js-input-lodge-images',
-        'image-main': '.js-image-main',
         'generate-text': '.js-generate-text'
     };
     $(selectors['add-schema-org-opening-hours']).click(function (e) {
@@ -77,36 +71,6 @@
             });
         }
     });
-    $(selectors['lodge-image-upload']).on('show.bs.modal', function () {
-        $(selectors['lodge-preview-image']).html('');
-        renderModalBody();
-    });
-    $(document).on('click', selectors['image-destroy'], function (e) {
-        e.preventDefault();
-        axios.delete(this.href).then(function () {
-            renderModalBody();
-        });
-    });
-    $(document).on('click', selectors['image-main'], function (e) {
-        let self = $(this);
-        axios.post(self.data('url'), {id: self.val()});
-    });
-    $(selectors['input-lodge-images']).on('change', function () {
-        let formData = new FormData();
-        for (let i = 0; i < this.files.length; i++) {
-            formData.append('images[]', this.files.item(i))
-        }
-        axios.post(this.form.action, formData)
-            .then(function () {
-                renderModalBody();
-            });
-    });
-    function renderModalBody() {
-        $.get($(selectors['image-button-modal']).data('url-images'), function (html) {
-            $(selectors['lodge-preview-image']).html(html);
-        });
-    }
-
     $(selectors['generate-text']).click(function (e) {
         let self = $(this);
         e.preventDefault();
@@ -120,4 +84,36 @@
             }
         });
     });
+    (function () {
+        // image
+        let selectors = {
+            'images.store': '#js-input-lodge-images',
+            'tab-image': 'a[href="#tab-image"]',
+            'image-container': '#image-container',
+        };
+
+        function renderImages() {
+            let container = $(selectors['image-container']);
+            axios.get(container.data('url')).then(function (response) {
+                container.html(response.data);
+            });
+        }
+
+        document.querySelector('#js-input-lodge-images').addEventListener('change', function () {
+            let formData = new FormData();
+            for (let i = 0; i < this.files.length; i++) {
+                formData.append('images[]', this.files.item(i))
+            }
+            axios.post(this.form.action, formData)
+                .then(function (response) {
+                    if (response.data.success) {
+                        $.gritter.add('Success');
+                        renderImages();
+                    }
+                });
+        });
+        $(selectors['tab-image']).on('shown.bs.tab', function (e) {
+            renderImages();
+        });
+    })();
 </script>

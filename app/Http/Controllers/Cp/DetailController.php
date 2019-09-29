@@ -10,22 +10,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Cp;
 
-
 use App\Helpers\CityHelper;
 use App\Helpers\LodgeHelper;
 use App\Http\Requests\Cp\LodgeRequest;
 use App\Models\MetroStation;
 use App\Models\Organization\Lodge;
-use App\Models\Organization\LodgeMetroStation;
 use App\Models\Pagination\Detail\Detail;
-use App\Models\Repositories\ImageRepository;
 use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Organization\Repositories\OrganizationRepository;
-use App\Services\LodgeService;
 use App\UseCases\LodgeUseCase;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class DetailController

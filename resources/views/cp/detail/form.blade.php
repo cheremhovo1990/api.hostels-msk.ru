@@ -12,9 +12,10 @@
 /** @var $cityDropDown \Illuminate\Support\Collection */
 
 $title = $detail->name . " " . $detail->title;
-$imageToken = optional($lodge)->image_token ?? uniqid('', true);
 
 $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.details.update', [$lodge]);
+
+$formId = 'form-lodge';
 
 ?>
 @extends('cp')
@@ -26,63 +27,49 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
             <div class="col">
                 @include('cp/parts/error')
 
-
                 <div class="row">
                     <div class="col-12">
 
                     </div>
                 </div>
-                <form action="{{$url}}" method="post">
+                <form action="{{$url}}" method="post" id="{{$formId}}">
                     @csrf
                     @if (!is_null($lodge))
                         @method('PUT')
                     @endif
-                    <ul class="nav nav-tabs mb-4">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="list" href="#tab-main">Main</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="list" href="#tab-address">Address</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="list" href="#tab-properties">Properties</a>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="tab-main">
-                            @include('cp.detail.tab-main')
-                        </div>
-                        <div class="tab-pane fade" id="tab-address">
-                            @include('cp.detail.tab-address')
-                        </div>
-                        <div class="tab-pane fade" id="tab-properties">
-                            @include('cp.detail.tab-properties')
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-3">
-                        <button class="btn btn-primary">Save</button>
-                    </div>
                 </form>
-                <!-- Modal -->
-                <div class="modal fade" id="js-lodge-image-upload" tabindex="-1" role="dialog"
-                     aria-labelledby="lodge-image-upload" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <form action="{{route('cp.api.lodge.images.store', ['token' => $imageToken])}}">
-                                    <input type="file" id="js-input-lodge-images" accept="image/*" multiple>
-                                </form>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" id="js-lodge-preview-image">
+                <ul class="nav nav-tabs mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="list" href="#tab-main">Main</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="list" href="#tab-address">Address</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="list" href="#tab-properties">Properties</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="list" href="#tab-image">Image</a>
+                    </li>
+                </ul>
 
-                            </div>
-                        </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-main">
+                        @include('cp.detail.tab-main')
                     </div>
+                    <div class="tab-pane fade" id="tab-address">
+                        @include('cp.detail.tab-address')
+                    </div>
+                    <div class="tab-pane fade" id="tab-properties">
+                        @include('cp.detail.tab-properties')
+                    </div>
+                    <div class="tab-pane fade" id="tab-image">
+                        @include('cp.detail.tab-image')
+                    </div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <button class="btn btn-primary" form="{{$formId}}">Save</button>
                 </div>
             </div>
             @include('cp.detail.form-right')

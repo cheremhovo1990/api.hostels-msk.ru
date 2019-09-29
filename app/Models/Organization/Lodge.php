@@ -96,7 +96,6 @@ class Lodge extends Model
     public static function newForDetail(array $data): self
     {
         $model = new self();
-        $model->image_token = $data['image_token'];
         $model->edit($data);
         $model->setData([
             'source' => '2gis'
@@ -111,7 +110,6 @@ class Lodge extends Model
     public static function new(array $data): self
     {
         $model = new self();
-        $model->image_token = $data['image_token'];
         $model->edit($data);
         $model->setData([
             'source' => 'site'
