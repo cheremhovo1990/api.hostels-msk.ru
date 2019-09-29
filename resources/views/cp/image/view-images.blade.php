@@ -15,7 +15,7 @@ use App\Models\Image;
 <div class="row">
     <?php foreach ($images as $image): ?>
     <div class="col-md-3">
-        <img src="" alt="">
+        <img src="{{$image->src}}" alt="">
         <div class="d-flex align-items-center justify-content-between">
             <div>
                 <a href="{{route('cp.lodge.image.destroy', [$image])}}" class="js-image-destroy">delete</a>
@@ -24,7 +24,7 @@ use App\Models\Image;
                 <label class="mb-0">
                     <input type="radio" name="main" value="{{$image->id}}"
                            {{$image->isMain()? 'checked':''}} class="js-image-main"
-                           data-url="{{route('cp.lodge.image.main')}}">
+                           data-url="{{route('cp.lodge.image.main', [$image])}}">
                     Main
                 </label>
             </div>

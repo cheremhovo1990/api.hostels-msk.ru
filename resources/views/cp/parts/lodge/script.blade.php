@@ -89,7 +89,9 @@
         let selectors = {
             'images.store': '#js-input-lodge-images',
             'tab-image': 'a[href="#tab-image"]',
+            'image-destroy': '.js-image-destroy',
             'image-container': '#image-container',
+            'image-main': '.js-image-main',
         };
 
         function renderImages() {
@@ -99,6 +101,21 @@
             });
         }
 
+        $(document).on('click', selectors['image-destroy'], function (e) {
+            e.preventDefault();
+            axios.delete(this.href).then(function (response) {
+                if (response.data.success) {
+                    renderImages();
+                }
+            });
+        });
+        $(document).on('change', selectors['image-main'], function (e) {
+            axios.post($(this).data('url')).then(function (response) {
+                if (response.data.success) {
+                    renderImages();
+                }
+            });
+        });
         document.querySelector('#js-input-lodge-images').addEventListener('change', function () {
             let formData = new FormData();
             for (let i = 0; i < this.files.length; i++) {

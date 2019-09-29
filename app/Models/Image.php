@@ -22,11 +22,9 @@ use Illuminate\Notifications\Notifiable;
  * @property $id
  * @property $model_id
  * @property $model_type
- * @property $name
- * @property $extension
  * @property $token
- * @property $folder
  * @property $status
+ * @property $src
  */
 class Image extends Model
 {
@@ -35,11 +33,11 @@ class Image extends Model
     /**
      *
      */
-    const STATUS_NONE = 'none';
+    const STATUS_NONE = 'NONE';
     /**
      *
      */
-    const STATUS_MAIN = 'main';
+    const STATUS_MAIN = 'MAIN';
 
     /**
      * @var string

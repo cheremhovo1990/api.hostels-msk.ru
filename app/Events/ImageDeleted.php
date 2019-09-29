@@ -41,7 +41,7 @@ class ImageDeleted
      */
     public function deleteImage(): void
     {
-        Storage::disk('uploads')->delete($this->image->getPath(Image::WIDTH));
-        Storage::disk('uploads')->delete($this->image->getPathOriginal());
+        /*Storage::disk('uploads')->delete($this->image->getPath(Image::WIDTH));
+        Storage::disk('uploads')->delete($this->image->getPathOriginal());*/
     }
 }

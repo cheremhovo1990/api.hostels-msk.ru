@@ -12,8 +12,8 @@ Route::group(['prefix' => 'lodge', 'as' => 'lodge.'], function () {
     Route::get('images', 'ImageController@viewImages')->name('images');
     Route::post('images', 'ImageController@storeImages')->name('images.store');
     Route::post('image', 'ImageController@storeImage')->name('image.store');
-    Route::post('image/main', 'ImageController@imageMain')->name('image.main');
-    Route::delete('image', 'ImageController@destroyImage')->name('image.destroy');
+    Route::post('image/main/{image}', 'ImageController@imageMain')->name('image.main');
+    Route::delete('image/{image}', 'ImageController@destroyImage')->name('image.destroy');
 });
 
 Route::resource('lodges', 'LodgeController');

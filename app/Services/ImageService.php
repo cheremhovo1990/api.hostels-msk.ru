@@ -24,7 +24,7 @@ class ImageService
      */
     public function createByToken($token, UploadedFile $file): Image
     {
-        $path = 'uploads/lodge/' . Carbon::now()->format('Y-m');
+        $path = '/uploads/lodge/' . Carbon::now()->format('Y-m');
         $name = strtolower(md5(uniqid())) . '.' . $file->extension();
         $file->storeAs($path, $name, ['disk' => 'uploads']);
 
@@ -37,7 +37,7 @@ class ImageService
 
     public function createByLodge(Lodge $lodge, UploadedFile $file)
     {
-        $path = 'uploads/lodge/' . Carbon::now()->format('Y-m');
+        $path = '/uploads/lodge/' . Carbon::now()->format('Y-m');
         $name = strtolower(md5(uniqid())) . '.' . $file->extension();
         $file->storeAs($path, $name, ['disk' => 'uploads']);
         $image = Image::make([

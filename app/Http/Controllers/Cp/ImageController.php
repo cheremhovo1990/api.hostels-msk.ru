@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Cp;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\Organization\Repositories\LodgeRepository;
 use App\Models\Repositories\ImageRepository;
 use App\Services\ImageService;
@@ -97,17 +98,20 @@ class ImageController extends Controller
         return ['success' => true];
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     * @throws \Throwable
-     */
-    public function imageMain(Request $request)
+    public function imageMain(Request $request, Image $image)
     {
-        $image = $this->imageRepository->findOne($request->get('id'));
         $this->toolService->notFound($image);
-        $this->imageRepository->resetMain($image->token);
-        $image->status = \App\Models\Image::STATUS_MAIN;
+        if (is_null($image->token)) {
+            Image::query()
+                ->where('model_id', '=', $image->model_id)
+                ->where('model_type', '=', $image->model_type)
+                ->update(['status' => Image::STATUS_NONE]);
+        } else {
+            Image::query()
+                ->where('token', '=', $image->token)
+                ->update(['status' => Image::STATUS_NONE]);
+        }
+        $image->status = Image::STATUS_MAIN;
         $image->saveOrFail();
         return ['success' => true];
     }
@@ -120,5 +124,6 @@ class ImageController extends Controller
     public function destroyImage(\App\Models\Image $image)
     {
         $image->delete();
+        return ['success' => true];
     }
 }
