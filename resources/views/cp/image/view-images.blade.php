@@ -15,7 +15,7 @@ use App\Models\Image;
 <div class="row">
     <?php foreach ($images as $image): ?>
     <div class="col-md-3">
-        <img src="{{$image->src}}" alt="">
+        <img src="{{$image->getThumbnail('200x150')}}" alt="">
         <div class="d-flex align-items-center justify-content-between">
             <div>
                 <a href="{{route('cp.lodge.image.destroy', [$image])}}" class="js-image-destroy">delete</a>

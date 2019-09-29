@@ -62,4 +62,9 @@ class Image extends Model
     protected $dispatchesEvents = [
         'deleted' => ImageDeleted::class,
     ];
+
+    public function getThumbnail($size)
+    {
+        return preg_replace('~^(?<path>.+)\.(?<extension>\w{3,4})$~', "$1.{$size}.$2", $this->src);
+    }
 }

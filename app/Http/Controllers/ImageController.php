@@ -46,9 +46,4 @@ class ImageController extends Controller
 
         return response()->download(public_path($path), null, [], null);
     }
-
-    protected function getSize(string $size)
-    {
-
-    }
 }
