@@ -26,7 +26,7 @@ class ToolService
     public function notFound(Model $model = null)
     {
         if (is_null($model)) {
-            throw new NotFoundHttpException('The required page does not exist');
+            abort(404);
         }
     }
 }

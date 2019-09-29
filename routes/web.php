@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
+ *
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -11,6 +14,9 @@
 |
 */
 
+
 Route::get('/', function () {
     return redirect()->route('cp.organizations.index');
 });
+
+Route::get('uploads/{path}', 'ImageController@view')->where('path', '.+');
