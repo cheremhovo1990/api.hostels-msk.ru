@@ -43,7 +43,8 @@ class Lodge extends JsonResource
             'address' => $lodge->address,
             'opening_hours' => $lodge->opening_hours,
             'images' => new ImageCollection($lodge->images),
-            'image_main' => new Image($lodge->imageMain)
+            'image_main' => new Image($lodge->imageMain),
+            'property' => new Property($lodge->property)
         ];
     }
 

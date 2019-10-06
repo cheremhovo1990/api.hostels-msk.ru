@@ -49,6 +49,7 @@ use Illuminate\Support\Collection;
  * @property Property[]|Collection $properties
  * @property Image[]|Collection $images
  * @property Image $imageMain
+ * @property Property $property
  */
 class Lodge extends Model
 {
