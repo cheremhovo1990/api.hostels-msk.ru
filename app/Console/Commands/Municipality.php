@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 
-use App\Models\District;
+use App\Models\AdministrativeDistrict;
 use Illuminate\Console\Command;
 
 class Municipality extends Command
@@ -24,7 +24,7 @@ class Municipality extends Command
         foreach ($mulicipalities['features'] as $mulicipal) {
             $name = $mulicipal['properties']['NAME'];
             $nameDistrict = $mulicipal['properties']['NAME_AO'];
-            $district = District::where('name', $nameDistrict)->first();
+            $district = AdministrativeDistrict::where('name', $nameDistrict)->first();
             $geometry = $mulicipal['geometry'];
             \App\Models\Municipality::create([
                 'name' => $name,

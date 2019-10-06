@@ -40,6 +40,7 @@ use Illuminate\Support\Collection;
  * @property string $image_token
  * @property array $schema_org
  * @property array $data
+ *
  * @property Detail $detail
  * @property Municipality $municipality
  * @property District $district

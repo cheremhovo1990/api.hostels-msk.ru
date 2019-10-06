@@ -33,6 +33,8 @@ class Lodge extends JsonResource
             'organization_name' => $lodge->organization->name,
             'title' => $title,
             'announce' => $lodge->announce,
+            'municipality' => optional($lodge->municipality)->name,
+            'administrative_district' => optional($lodge->district)->name,
             'stations' => new MetroStationCollection($lodge->stations),
             'description' => $lodge->description,
             'phone' => $lodge->getPhone(),
