@@ -17,6 +17,12 @@ $url = is_null($lodge) ? route('cp.details.store', [$detail]) : route('cp.detail
 
 $formId = 'form-lodge';
 
+if (isset($lodge)) {
+    $property = $lodge->property;
+} else {
+    $property = null;
+}
+
 ?>
 @extends('cp')
 

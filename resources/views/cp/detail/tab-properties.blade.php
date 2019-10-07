@@ -1,13 +1,3 @@
-<?php
-
-/** @var $lodge \App\Models\Organization\Lodge */
-if (isset($lodge)) {
-    $property = $lodge->property;
-} else {
-    $property = null;
-}
-?>
-
 <div class="row">
 
     @foreach(\App\Helpers\PropertyHelper::getDropDown() as $item)

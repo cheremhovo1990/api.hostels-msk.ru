@@ -70,6 +70,7 @@ class LodgeService
             'bath' => $properties['bath'],
             'shower' => $properties['shower'],
             'washer' => $properties['washer'],
+            'price_min' => $properties['price_min'],
             'drying_machine' => $properties['drying_machine'],
         ]);
         return $property;
@@ -107,6 +108,7 @@ class LodgeService
             'bath' => $properties['bath'],
             'shower' => $properties['shower'],
             'washer' => $properties['washer'],
+            'price_min' => $properties['price_min'],
             'drying_machine' => $properties['drying_machine'],
         ]);
         return $property;

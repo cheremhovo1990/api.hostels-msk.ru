@@ -39,6 +39,7 @@ class LodgeUseCase
             $lodge = Lodge::newForDetail($data);
             $lodge->saveOrFail();
             $lodge->detail()->save($detail);
+            $data['properties']['price_min'] = $data['price_min'];
             $this->lodgeService->createProperty($lodge->id, $data['properties']);
             if (isset($data['stations'])) {
                 foreach ($data['stations'] as $station) {
@@ -56,6 +57,7 @@ class LodgeUseCase
     {
         $lodge->edit($data);
         $lodge->saveOrFail();
+        $data['properties']['price_min'] = $data['price_min'];
         $this->lodgeService->updateProperty($lodge->id, $data['properties']);
         return $lodge;
     }

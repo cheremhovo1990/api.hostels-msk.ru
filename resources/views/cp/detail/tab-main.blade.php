@@ -57,12 +57,25 @@
     >{{old('description', optional($lodge)->description)}}</textarea>
 </div>
 
+<div class="row">
+    <div class="col-6">
+        <div class="form-group required">
+            <label for="lodge-opening-hours">Opening Hours</label>
+            <input type="text" name="opening_hours" id="lodge-opening-hours" class="form-control" form="{{$formId}}"
+                   value="{{old('opening_hours', optional($lodge)->opening_hours)}}">
+        </div>
 
-<div class="form-group required">
-    <label for="lodge-opening-hours">Opening Hours</label>
-    <input type="text" name="opening_hours" id="lodge-opening-hours" class="form-control" form="{{$formId}}"
-           value="{{old('opening_hours', optional($lodge)->opening_hours)}}">
+    </div>
+    <div class="col-6">
+        <div class="form-group required">
+            <label for="lodge-price_min">Price Min</label>
+            <input type="number" name="price_min" class="form-control" id="lodge-price_min" form="{{$formId}}"
+                   value="{{old('price_min', optional($property)->price_min)}}">
+        </div>
+    </div>
 </div>
+
+
 <div class="form-group">
     <button class="btn btn-primary" id="add-input-opening-hours-schema"
             data-html='@include('cp.detail.opening-hours-schema')'>Add Schema.org
