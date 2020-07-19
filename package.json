@@ -16,7 +16,7 @@
         "cross-env": "^5.2.1",
         "jquery": "^3.4.1",
         "laravel-mix": "^2.0",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.19",
         "popper.js": "^1.15.0",
         "select2": "~4.0",
         "typeahead.js": "v0.11.1"
